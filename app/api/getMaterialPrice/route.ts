@@ -9,13 +9,20 @@ export async function GET(req: NextRequest) {
     const db = client.db("loakang");
     const collection = db.collection("materials");
 
-    // id값 제외 가져오기
+    // id과 createdAt 제외 가져오기
     let materials: WithId<Document> | { [key: string]: Material } | null =
-      await collection.findOne({}, { projection: { _id: 0 } });
+      await collection.findOne({}, { projection: { _id: 0, createdAt: 0 } });
+
     if (!materials) {
       materials = await getMaterialPrice();
-      await collection.insertOne(materials);
+      const materialsWithDate = { ...materials, createdAt: new Date() };
+      await collection.insertOne(materialsWithDate);
     }
+
+    // await collection.createIndex(
+    //   { createdAt: 1 },
+    //   { expireAfterSeconds: 7200 }
+    // );
 
     return NextResponse.json(materials, { status: 200 });
   } catch (error) {
