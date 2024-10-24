@@ -9,7 +9,7 @@ const fetchMaterialPrice = async () => {
   return data;
 };
 
-interface Material {
+export interface Material {
   price: number;
   icon: string;
   name?: string;
@@ -22,18 +22,18 @@ export const getMaterialPrice = async () => {
     material[item.Name] = { price: item.RecentPrice, icon: item.Icon };
   }
 
-  material["수호석 결정"].price = material["수호석 결정"].price ?? 0 / 10;
-  material["파괴석 결정"].price = material["파괴석 결정"].price ?? 0 / 10;
-  material["수호강석"].price = material["수호강석"].price ?? 0 / 10;
-  material["파괴강석"].price = material["파괴강석"].price ?? 0 / 10;
+  material["수호석 결정"].price = (material["수호석 결정"].price ?? 0) / 10;
+  material["파괴석 결정"].price = (material["파괴석 결정"].price ?? 0) / 10;
+  material["수호강석"].price = (material["수호강석"].price ?? 0) / 10;
+  material["파괴강석"].price = (material["파괴강석"].price ?? 0) / 10;
   material["정제된 수호강석"].price =
-    material["정제된 수호강석"].price ?? 0 / 10;
+    (material["정제된 수호강석"].price ?? 0) / 10;
   material["정제된 파괴강석"].price =
-    material["정제된 파괴강석"].price ?? 0 / 10;
-  material["운명의 수호석"].price = material["운명의 수호석"].price ?? 0 / 10;
-  material["운명의 파괴석"].price = material["운명의 파괴석"].price ?? 0 / 10;
+    (material["정제된 파괴강석"].price ?? 0) / 10;
+  material["운명의 수호석"].price = (material["운명의 수호석"].price ?? 0) / 10;
+  material["운명의 파괴석"].price = (material["운명의 파괴석"].price ?? 0) / 10;
   material["운명의 파편 주머니(소)"].price =
-    material["운명의 파편 주머니(소)"].price ?? 0 / 1000;
+    (material["운명의 파편 주머니(소)"].price ?? 0) / 1000;
 
   const shardBags = [
     {
@@ -69,3 +69,8 @@ export const getMaterialPrice = async () => {
 
   return material;
 };
+
+// This code is based on or references code from loa-calc.
+// Original code is licensed under the MIT License.
+// Copyright (c) 2021 icepeng
+// https://github.com/icepeng/loa-calc
