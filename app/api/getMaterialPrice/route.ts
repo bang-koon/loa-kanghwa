@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getMaterialPrice, Material } from "./getMaterialPrice";
+import { getMaterialPrice } from "./getMaterialPrice";
 import clientPromise from "../../lib/db";
 import { WithId } from "mongodb";
 
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     const collection = db.collection("materials");
 
     // id과 createdAt 제외 가져오기
-    let materials: WithId<Document> | { [key: string]: Material } | null =
+    let materials: WithId<Document> | Record<string, number> | null =
       await collection.findOne({}, { projection: { _id: 0, createdAt: 0 } });
 
     if (!materials) {
