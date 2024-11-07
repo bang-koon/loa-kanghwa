@@ -136,7 +136,11 @@ const calculator = (
 
     const materialMap = transformMaterialName(materials);
     const result = refine(table, materialMap, bindedMap);
-    totalMaterials = { ...totalMaterials, ...result.materialsUsed };
+
+    for (let key in result.materialsUsed) {
+      totalMaterials[key] =
+        (totalMaterials[key] || 0) + result.materialsUsed[key];
+    }
     totalCost += result.totalCost;
     currentLevel = nextLevel;
   }
