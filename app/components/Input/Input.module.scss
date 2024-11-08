@@ -1,0 +1,35 @@
+.inputField {
+  width: 200px;
+  padding: 8px;
+  border: 1px solid #ccc; // 회색 테두리
+  border-radius: 4px;
+  font-size: 16px;
+  color: #444;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: #0070f3; // 포커스 시 테두리 색상 변경
+  }
+}
+
+.inputContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.submitButton {
+  padding: 8px 16px;
+  border: 1px solid #ccc; // input과 같은 테두리
+  border-radius: 4px;
+  font-size: 16px;
+  color: #666; // 기본 글자 색상
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+
+  &.active {
+    background-color: #0070f3; // 파란색 배경
+    color: #fff; // 흰 글자
+  }
+}
