@@ -1,0 +1,59 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  width: 780px;
+  margin: 20px auto;
+}
+
+.materialContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  & > :first-child {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+}
+
+.materialColumn {
+  flex: 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 50px;
+  border-right: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-radius: 4px;
+
+  & > :last-child {
+    border-bottom: none;
+  }
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #ccc;
+}
+
+.image {
+  height: 50px;
+}
+
+.totalGold {
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.owned {
+  width: 100%;
+  height: 100%;
+  border: none;
+}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import totalCalculator from "./lib/refine/totalCalculator";
 import Input from "./components/Input/Input";
+import Board from "./components/Board/Board";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -14,6 +15,9 @@ export default function Home() {
   const [materials, setMaterials] = useState<Record<string, number> | null>(
     null
   );
+
+  const [owned, setOwned] = useState<Record<string, string>>({});
+  const [result, setResult] = useState({ cost: 0, materials: {} });
 
   useEffect(() => {
     const fetchMaterials = async () => {
@@ -66,15 +70,21 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (materials) {
-      const result = totalCalculator(level.current, level.target, materials);
-      console.log(result);
+      const res = totalCalculator(level.current, level.target, materials);
+      console.log(res, "result");
+      setResult(res);
     }
-    // 폼 제출 시 수행할 작업
   };
 
   return (
     <div className={styles.container}>
       <Input level={level} setLevel={setLevel} onSubmit={handleSubmit} />
+      <Board
+        materials={result.materials}
+        totalGold={result.cost}
+        owned={owned}
+        setOwned={setOwned}
+      />
     </div>
   );
 }
