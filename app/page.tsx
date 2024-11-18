@@ -12,9 +12,7 @@ export default function Home() {
     current: "",
     target: "",
   });
-  const [materials, setMaterials] = useState<Record<string, number> | null>(
-    null
-  );
+  const [materials, setMaterials] = useState<Record<string, number>>({});
 
   const [owned, setOwned] = useState<Record<string, string>>({});
   const [result, setResult] = useState({ cost: 0, materials: {} });
@@ -81,6 +79,7 @@ export default function Home() {
       <Input level={level} setLevel={setLevel} onSubmit={handleSubmit} />
       <Board
         materials={result.materials}
+        materialsPrice={materials}
         totalGold={result.cost}
         owned={owned}
         setOwned={setOwned}
