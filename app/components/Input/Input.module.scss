@@ -34,9 +34,9 @@
   background-color: #dbdbdb;
   border: 1px solid #ccc;
   border-radius: 4px;
-  cursor: pointer;
   &.active {
     background-color: #4287f5;
     color: #fff;
+    cursor: pointer;
   }
 }
