@@ -14,7 +14,7 @@ export default function Home() {
   });
   const [materials, setMaterials] = useState<Record<string, number>>({});
 
-  const [owned, setOwned] = useState<Record<string, string>>({});
+  const [owned, setOwned] = useState<Record<string, number>>({});
   const [result, setResult] = useState({ cost: 0, materials: {} });
 
   useEffect(() => {

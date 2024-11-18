@@ -6,8 +6,8 @@ interface BoardProps {
   materials: Record<string, number>;
   materialsPrice: Record<string, number>;
   totalGold: number;
-  owned: Record<string, string>;
-  setOwned: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  owned: Record<string, number>;
+  setOwned: React.Dispatch<React.SetStateAction<Record<string, number>>>;
 }
 
 const Board = ({
@@ -17,13 +17,19 @@ const Board = ({
   owned,
   setOwned,
 }: BoardProps) => {
-  const onChange = (name: string, value: string) => {
+  const adjustedTotalGold =
+    totalGold -
+    Object.entries(owned).reduce((acc, [name, quantity]) => {
+      const transformedName = reverseTransformMaterialName(name);
+      return acc + (quantity || 0) * (materialsPrice[transformedName] || 0);
+    }, 0);
+
+  const onChange = (name: string, value: number) => {
     setOwned(prevOwned => ({
       ...prevOwned,
       [name]: value,
     }));
   };
-
   return totalGold ? (
     <div className={styles.board}>
       <div className={styles.materialContainer}>
@@ -38,42 +44,44 @@ const Board = ({
           <div className={styles.cell}>소유량</div>
           <div className={styles.cell}>재료별 가격(개당)</div>
         </div>
-        {Object.entries(materials).map(([name, value], index) => (
-          <div key={index} className={styles.materialColumn}>
-            <div className={`${styles.image} ${styles.cell}`}>
-              <Image
-                src={`/images/${name}.png`}
-                alt={name}
-                width={44}
-                height={44}
-              />
-            </div>
-            <div className={styles.cell}>
-              {reverseTransformMaterialName(name)}
-            </div>
-            <div className={styles.cell}>{value.toLocaleString()}</div>
-            <div className={styles.cell}>
-              <input
-                className={styles.owned}
-                type="text"
-                value={owned[name] || ""}
-                onChange={e => onChange(name, e.target.value)}
-              />
-            </div>
-            <div className={styles.materialPriceCell}>
-              {(
-                materialsPrice[reverseTransformMaterialName(name)] * value
-              ).toLocaleString()}
-              <br />
-              <div className={styles.peacePrice}>
-                {` (${materialsPrice[reverseTransformMaterialName(name)]})`}
+        {Object.entries(materials).map(([name, value], index) => {
+          const transformedName = reverseTransformMaterialName(name);
+          return (
+            <div key={index} className={styles.materialColumn}>
+              <div className={`${styles.image} ${styles.cell}`}>
+                <Image
+                  src={`/images/${name}.png`}
+                  alt={name}
+                  width={44}
+                  height={44}
+                />
+              </div>
+              <div className={styles.cell}>{transformedName}</div>
+              <div className={styles.cell}>{value.toLocaleString()}</div>
+              <div className={styles.cell}>
+                <input
+                  className={styles.owned}
+                  type="text"
+                  value={owned[name] || ""}
+                  onChange={e => onChange(name, parseInt(e.target.value))}
+                />
+              </div>
+              <div className={styles.materialPriceCell}>
+                {(
+                  materialsPrice[transformedName] * value -
+                  (owned[name] || 0) * materialsPrice[transformedName]
+                ).toLocaleString()}
+                <br />
+                <div className={styles.peacePrice}>
+                  {` (${materialsPrice[transformedName]})`}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <div className={styles.totalGold}>
-        평균 비용: {totalGold.toLocaleString()}
+        평균 비용: {adjustedTotalGold.toLocaleString()}
       </div>
     </div>
   ) : null;
