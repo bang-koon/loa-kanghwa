@@ -1,6 +1,8 @@
+import React, { useState, useCallback } from "react";
 import Image from "next/image";
 import styles from "./Board.module.scss";
 import { reverseTransformMaterialName } from "@/app/lib/transformMaterialName";
+import debounce from "lodash/debounce";
 
 interface BoardProps {
   materials: Record<string, number>;
@@ -17,6 +19,8 @@ const Board = ({
   owned,
   setOwned,
 }: BoardProps) => {
+  const [inputValues, setInputValues] = useState<Record<string, number>>(owned);
+
   const adjustedTotalGold =
     totalGold -
     Object.entries(owned).reduce((acc, [name, quantity]) => {
@@ -24,12 +28,28 @@ const Board = ({
       return acc + (quantity || 0) * (materialsPrice[transformedName] || 0);
     }, 0);
 
+  const debouncedSetOwned = useCallback(
+    debounce((name: string, value: number) => {
+      setOwned(prevOwned => ({
+        ...prevOwned,
+        [name]: value,
+      }));
+    }, 500),
+    []
+  );
+
   const onChange = (name: string, value: number) => {
-    setOwned(prevOwned => ({
-      ...prevOwned,
+    setInputValues(prevValues => ({
+      ...prevValues,
       [name]: value,
     }));
+    if (value > materials[name]) {
+      debouncedSetOwned(name, materials[name]);
+    } else {
+      debouncedSetOwned(name, value);
+    }
   };
+
   return totalGold ? (
     <div className={styles.board}>
       <div className={styles.materialContainer}>
@@ -62,7 +82,7 @@ const Board = ({
                 <input
                   className={styles.owned}
                   type="text"
-                  value={owned[name] || ""}
+                  value={inputValues[name] || ""}
                   onChange={e => onChange(name, parseInt(e.target.value))}
                 />
               </div>
