@@ -1,9 +1,8 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import styles from "./Board.module.scss";
 import { reverseTransformMaterialName } from "@/app/lib/transformMaterialName";
 import debounce from "lodash/debounce";
-
 interface BoardProps {
   materials: Record<string, number>;
   materialsPrice: Record<string, number>;
@@ -49,6 +48,22 @@ const Board = ({
       debouncedSetOwned(name, value);
     }
   };
+
+  useEffect(() => {
+    Object.entries(inputValues).forEach(([name, value]) => {
+      if (value > materials[name]) {
+        setOwned(prevOwned => ({
+          ...prevOwned,
+          [name]: materials[name],
+        }));
+      } else {
+        setOwned(prevOwned => ({
+          ...prevOwned,
+          [name]: value,
+        }));
+      }
+    });
+  }, [totalGold]);
 
   return totalGold ? (
     <div className={styles.board}>
