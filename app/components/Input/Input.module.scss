@@ -1,0 +1,42 @@
+.inputField {
+  width: 200px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #444;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: #0070f3;
+  }
+
+  &::placeholder {
+    font-size: 14px;
+  }
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 20px;
+}
+
+.submitButton {
+  min-width: 62px;
+  min-height: 36px;
+  padding: 8px 16px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #dbdbdb;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  &.active {
+    background-color: #4287f5;
+    color: #fff;
+    cursor: pointer;
+  }
+}
