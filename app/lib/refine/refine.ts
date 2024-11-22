@@ -47,6 +47,26 @@ const calculateRefine = (
     const successProb = currentProb + additionalProb + breath.prob;
     jangin += successProb * JANGIN_ACCUMULATE_DIVIDER;
 
+    if (jangin > 0.4) {
+      const excessProb = jangin - 0.4;
+      const effectiveProb = successProb - excessProb;
+      const effectiveCost = attemptCost * (effectiveProb / successProb);
+
+      totalCost += effectiveCost;
+
+      for (const [name, amount] of Object.entries(table.amount)) {
+        materialsUsed[name] =
+          (materialsUsed[name] || 0) + amount * (effectiveProb / successProb);
+      }
+
+      for (const [name, amount] of Object.entries(breath.breathes)) {
+        materialsUsed[name] =
+          (materialsUsed[name] || 0) + amount * (effectiveProb / successProb);
+      }
+
+      break;
+    }
+
     totalCost += attemptCost;
     totalAttempts += 1;
 
