@@ -18,51 +18,94 @@ const calculateRefine = (
     baseProb
   );
   let totalCost = 0;
-  let totalAttempts = 0;
-  let currentProb = baseProb;
-  let cumulativeProb = 0;
-  let jangin = 0;
   const materialsUsed: Record<string, number> = {};
 
-  while (jangin < 0.4) {
-    const breath = defaultBreath.reduce((best, current) => {
-      if (current.prob + currentProb + additionalProb > 1) {
-        return best;
+  const calculator = (
+    defaultBreath: Array<{
+      price: number;
+      prob: number;
+      breathes: Record<string, number>;
+    }>,
+    baseProb: number,
+    additionalProb: number,
+    defaultBasePrice: number
+  ): {
+    minCost: number;
+    attempts: number;
+    usedBreathes: Record<string, number>;
+  } => {
+    const maxSuccessRate = 0.86;
+    const dp: number[] = Array(87).fill(Infinity);
+    const attempts: number[] = Array(87).fill(0);
+    const usedBreathes: Record<string, number>[] = Array(87)
+      .fill(null)
+      .map(() => ({}));
+    dp[0] = 0;
+
+    for (let s = 0; s <= 86; s++) {
+      for (const breath of defaultBreath) {
+        const currentProb = Math.min(
+          baseProb + baseProb * 0.1 * attempts[s],
+          baseProb * 2
+        );
+        if (currentProb > maxSuccessRate) continue;
+
+        const calculatedState =
+          s + Math.round((currentProb + breath.prob + additionalProb) * 100);
+        const nextState = Math.min(86, calculatedState);
+        let cost = defaultBasePrice + breath.price;
+        let attemptIncrement = 1;
+
+        if (calculatedState > 86) {
+          const excess = calculatedState - 86;
+          const totalIncrease = calculatedState - s;
+          const increaseRatio = 1 - excess / totalIncrease;
+          cost *= increaseRatio;
+          attemptIncrement *= increaseRatio;
+        }
+
+        if (dp[nextState] > dp[s] + cost) {
+          dp[nextState] = dp[s] + cost;
+          attempts[nextState] = attempts[s] + attemptIncrement;
+
+          usedBreathes[nextState] = { ...usedBreathes[s] };
+          for (const [name, amount] of Object.entries(breath.breathes)) {
+            usedBreathes[nextState][name] =
+              (usedBreathes[nextState][name] || 0) + amount;
+          }
+        }
       }
-      const currentScore =
-        (current.prob + currentProb + additionalProb) /
-        (defaultBasePrice + current.price);
-      const bestScore =
-        (best.prob + currentProb + additionalProb) /
-        (defaultBasePrice + best.price);
-      return currentScore > bestScore ? current : best;
-    });
-
-    if (!breath) {
-      console.log("No suitable breath found");
-      break;
     }
 
-    const attemptCost = defaultBasePrice + breath.price;
-    const successProb = currentProb + additionalProb + breath.prob;
-    jangin += successProb * JANGIN_ACCUMULATE_DIVIDER;
+    return {
+      minCost: dp[86],
+      attempts: attempts[86],
+      usedBreathes: usedBreathes[86],
+    };
+  };
 
-    totalCost += attemptCost;
-    totalAttempts += 1;
+  const result = calculator(
+    defaultBreath,
+    baseProb,
+    additionalProb,
+    defaultBasePrice
+  );
 
-    for (const [name, amount] of Object.entries(table.amount)) {
-      materialsUsed[name] = (materialsUsed[name] || 0) + amount;
+  totalCost = result.minCost;
+
+  for (const [name, amount] of Object.entries(table.amount)) {
+    if (name !== "골드") {
+      materialsUsed[name] = (amount || 0) * result.attempts;
     }
-
-    for (const [name, amount] of Object.entries(breath.breathes)) {
-      materialsUsed[name] = (materialsUsed[name] || 0) + amount;
-    }
-    currentProb = Math.min(currentProb + baseProb * 0.1, baseProb * 2);
-    cumulativeProb += successProb;
   }
 
-  console.log(`평균 강화 비용: ${totalCost} 시도 횟수: ${totalAttempts}`);
-  console.log(materialsUsed, "materialsUsed");
+  for (const [name, amount] of Object.entries(result.usedBreathes)) {
+    materialsUsed[name] = (materialsUsed[name] || 0) + amount;
+  }
+
+  console.log(`시도 횟수: ${result.attempts}`);
+  console.log(`총 비용: ${totalCost}, 사용한 재료:`, materialsUsed);
+
   return { totalCost, materialsUsed };
 };
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCharacterInfo } from "./getCharacterInfo";
 
 export async function GET(req: NextRequest) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { searchParams } = new URL(req.url);
   const characterName = searchParams.get("characterName");
   if (!characterName) {
