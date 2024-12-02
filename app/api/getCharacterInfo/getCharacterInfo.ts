@@ -13,9 +13,18 @@ export const fetchCharacterInfo = async (characterName: string) => {
   return data;
 };
 
+// parsedObj의 타입 정의
+interface ParsedEquipment {
+  type: string;
+  level?: number;
+  tear?: number;
+  enhancement?: number;
+  advancedEnhancement?: number;
+}
+
 export const getCharacterInfo = async (characterName: string) => {
   const data = await fetchCharacterInfo(characterName);
-  const equipments = [];
+  const equipments: ParsedEquipment[] = [];
 
   const ITEM_LEVEL_REGEX = /아이템 레벨 (\d+) \(티어 (\d+)\)/;
   const ENHANCEMENT_REGEX = /\+(\d+)/;
@@ -23,7 +32,7 @@ export const getCharacterInfo = async (characterName: string) => {
 
   for (let i = 0; i < 6; i++) {
     const tooltip = JSON.parse(data.ArmoryEquipment[i].Tooltip);
-    const parsedObj: any = { type: data.ArmoryEquipment[i].Type };
+    const parsedObj: ParsedEquipment = { type: data.ArmoryEquipment[i].Type };
 
     const levelAndTear =
       tooltip.Element_001.value.leftStr2.match(ITEM_LEVEL_REGEX);
