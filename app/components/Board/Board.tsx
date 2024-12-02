@@ -92,7 +92,9 @@ const Board = ({
                 />
               </div>
               <div className={styles.cell}>{transformedName}</div>
-              <div className={styles.cell}>{value.toLocaleString()}</div>
+              <div className={styles.cell}>
+                {value.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              </div>
               <div className={styles.cell}>
                 <input
                   className={styles.owned}
@@ -116,7 +118,10 @@ const Board = ({
         })}
       </div>
       <div className={styles.totalGold}>
-        평균 비용: {adjustedTotalGold.toLocaleString()}
+        평균 비용:{" "}
+        {adjustedTotalGold.toLocaleString(undefined, {
+          maximumFractionDigits: 0,
+        })}
       </div>
     </div>
   ) : null;
