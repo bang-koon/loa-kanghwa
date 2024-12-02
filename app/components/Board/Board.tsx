@@ -107,7 +107,7 @@ const Board = ({
                 {(
                   materialsPrice[transformedName] * value -
                   (owned[name] || 0) * materialsPrice[transformedName]
-                ).toLocaleString()}
+                ).toLocaleString(undefined, { maximumFractionDigits: 0 })}
                 <br />
                 <div className={styles.peacePrice}>
                   {` (${materialsPrice[transformedName]})`}
