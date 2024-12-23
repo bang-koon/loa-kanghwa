@@ -3,8 +3,8 @@ $border-color: #f0f0f0;
 .board {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 780px;
+  width: 62%;
+  min-width: 500px;
   margin: 0 auto;
 }
 
