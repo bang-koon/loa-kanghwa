@@ -1,17 +1,8 @@
-import { useState } from "react";
+import useFilterStore from "@/app/lib/store";
 import styles from "./Filter.module.scss";
 
 const Filter = () => {
-  const [selected, setSelected] = useState<Record<string, boolean>>({
-    weapon: false,
-    armor: false,
-    tier3: false,
-    tier4: false,
-  });
-
-  const handleToggle = (item: string) => {
-    setSelected(prev => ({ ...prev, [item]: !prev[item] }));
-  };
+  const { selected, toggleSelected } = useFilterStore();
 
   return (
     <div className={styles.filterContainer}>
@@ -23,7 +14,7 @@ const Filter = () => {
               selected.weapon ? "/button/clicked.svg" : "/button/default.svg"
             }
             alt="무기"
-            onClick={() => handleToggle("weapon")}
+            onClick={() => toggleSelected("weapon")}
             className={styles.icon}
           />
           <label htmlFor="weapon">무기</label>
@@ -32,7 +23,7 @@ const Filter = () => {
           <img
             src={selected.armor ? "/button/clicked.svg" : "/button/default.svg"}
             alt="방어구"
-            onClick={() => handleToggle("armor")}
+            onClick={() => toggleSelected("armor")}
             className={styles.icon}
           />
           <label htmlFor="armor">방어구</label>
@@ -44,7 +35,7 @@ const Filter = () => {
           <img
             src={selected.tier3 ? "/button/clicked.svg" : "/button/default.svg"}
             alt="3티어"
-            onClick={() => handleToggle("tier3")}
+            onClick={() => toggleSelected("tier3")}
             className={styles.icon}
           />
           <label htmlFor="3tier">3티어</label>
@@ -53,7 +44,7 @@ const Filter = () => {
           <img
             src={selected.tier4 ? "/button/clicked.svg" : "/button/default.svg"}
             alt="4티어"
-            onClick={() => handleToggle("tier4")}
+            onClick={() => toggleSelected("tier4")}
             className={styles.icon}
           />
           <label htmlFor="4tier">4티어</label>
