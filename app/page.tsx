@@ -32,7 +32,7 @@ export default function Home() {
     if (materials) {
       const res = totalCalculator(level.current, level.target, materials);
       console.log(res, "result");
-      setResult(res);
+      setResult(res.total);
     }
   };
 
