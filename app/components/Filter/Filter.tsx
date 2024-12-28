@@ -17,7 +17,13 @@ const Filter = () => {
             onClick={() => toggleSelected("weapon")}
             className={styles.icon}
           />
-          <label htmlFor="weapon">무기</label>
+          <label
+            htmlFor="weapon"
+            className={styles.label}
+            onClick={() => toggleSelected("weapon")}
+          >
+            무기
+          </label>
         </div>
         <div className={styles.filterItem}>
           <img
@@ -26,7 +32,13 @@ const Filter = () => {
             onClick={() => toggleSelected("armor")}
             className={styles.icon}
           />
-          <label htmlFor="armor">방어구</label>
+          <label
+            htmlFor="armor"
+            className={styles.label}
+            onClick={() => toggleSelected("armor")}
+          >
+            방어구
+          </label>
         </div>
       </div>
       <div className={styles.filterGroup}>
@@ -38,7 +50,13 @@ const Filter = () => {
             onClick={() => toggleSelected("tier3")}
             className={styles.icon}
           />
-          <label htmlFor="3tier">3티어</label>
+          <label
+            htmlFor="3tier"
+            className={styles.label}
+            onClick={() => toggleSelected("tier3")}
+          >
+            3티어
+          </label>
         </div>
         <div className={styles.filterItem}>
           <img
@@ -47,7 +65,13 @@ const Filter = () => {
             onClick={() => toggleSelected("tier4")}
             className={styles.icon}
           />
-          <label htmlFor="4tier">4티어</label>
+          <label
+            htmlFor="4tier"
+            className={styles.label}
+            onClick={() => toggleSelected("tier4")}
+          >
+            4티어
+          </label>
         </div>
       </div>
     </div>
