@@ -54,7 +54,7 @@ const Board = ({
         ...prevOwned,
         [name]: value,
       }));
-    }, 500),
+    }, 100),
     []
   );
 
