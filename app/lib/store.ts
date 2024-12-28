@@ -7,8 +7,8 @@ interface FilterState {
 
 const useFilterStore = create<FilterState>(set => ({
   selected: {
-    weapon: false,
-    armor: false,
+    weapon: true,
+    armor: true,
     tier3: false,
     tier4: false,
   },

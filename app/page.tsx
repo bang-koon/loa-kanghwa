@@ -16,7 +16,11 @@ export default function Home() {
   const [materials, setMaterials] = useState<Record<string, number>>({});
 
   const [owned, setOwned] = useState<Record<string, number>>({});
-  const [result, setResult] = useState({ cost: 0, materials: {} });
+  const [calculationResult, setCalculationResult] = useState({
+    total: { cost: 0, materials: {} },
+    weapon: { cost: 0, materials: {} },
+    armor: { cost: 0, materials: {} },
+  });
 
   useEffect(() => {
     const fetchMaterials = async () => {
@@ -32,7 +36,7 @@ export default function Home() {
     if (materials) {
       const res = totalCalculator(level.current, level.target, materials);
       console.log(res, "result");
-      setResult(res.total);
+      setCalculationResult(res);
     }
   };
 
@@ -40,9 +44,8 @@ export default function Home() {
     <div className={styles.container}>
       <Input level={level} setLevel={setLevel} onSubmit={handleSubmit} />
       <Board
-        materials={result.materials}
+        calculationResult={calculationResult}
         materialsPrice={materials}
-        totalGold={result.cost}
         owned={owned}
         setOwned={setOwned}
       />
