@@ -1,21 +1,20 @@
-// app/lib/mongodb.js
-import { MongoClient } from "mongodb";
+import { MongoClient, Db } from "mongodb";
 
 const URI = process.env.DB_URI as string;
 const options = {};
 
-let clientPromise: Promise<MongoClient>;
+let dbPromise: Promise<Db>;
 
 if (!URI) {
   throw new Error("Please add your Mongo URI");
 }
 
-function getClientPromise() {
-  if (!clientPromise) {
+function getDbPromise() {
+  if (!dbPromise) {
     const client = new MongoClient(URI, options);
-    clientPromise = client.connect();
+    dbPromise = client.connect().then(client => client.db("loakang"));
   }
-  return clientPromise;
+  return dbPromise;
 }
 
-export default getClientPromise();
+export default getDbPromise;

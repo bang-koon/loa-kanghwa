@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getMaterialPrice } from "./getMaterialPrice";
-import clientPromise from "../../lib/db";
+import getDbPromise from "../../lib/db";
 import { WithId } from "mongodb";
 
 export async function GET(req: NextRequest) {
   try {
-    const client = await clientPromise;
-    const db = client.db("loakang");
+    const db = await getDbPromise();
     const collection = db.collection("materials");
 
     // id과 createdAt 제외 가져오기
