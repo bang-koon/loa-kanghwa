@@ -5,8 +5,23 @@ import { reverseTransformMaterialName } from "@/app/lib/transformMaterialName";
 import debounce from "lodash/debounce";
 import useFilterStore from "@/app/lib/store";
 
+interface CalculationResult {
+  total: {
+    cost: number;
+    materials: Record<string, number>;
+  };
+  weapon: {
+    materials: Record<string, number>;
+    cost: number;
+  };
+  armor: {
+    materials: Record<string, number>;
+    cost: number;
+  };
+}
+
 interface BoardProps {
-  calculationResult: Record<string, any>;
+  calculationResult: CalculationResult;
   materialsPrice: Record<string, number>;
   owned: Record<string, number>;
   setOwned: React.Dispatch<React.SetStateAction<Record<string, number>>>;
