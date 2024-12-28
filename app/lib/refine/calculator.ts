@@ -145,7 +145,7 @@ const calculator = (
     currentLevel = nextLevel;
   }
 
-  return { totalMaterials, totalCost };
+  return { materials: totalMaterials, cost: totalCost };
 };
 
 export default calculator;
