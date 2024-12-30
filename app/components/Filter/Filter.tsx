@@ -45,32 +45,70 @@ const Filter = () => {
         <div className={styles.filterTitle}>상급재련</div>
         <div className={styles.filterItem}>
           <img
-            src={selected.tier3 ? "/button/clicked.svg" : "/button/default.svg"}
-            alt="3티어"
-            onClick={() => toggleSelected("tier3")}
+            src={
+              selected.tier3_1 ? "/button/clicked.svg" : "/button/default.svg"
+            }
+            alt="3티어 1~10"
+            onClick={() => toggleSelected("tier3_1")}
             className={styles.icon}
           />
           <label
-            htmlFor="3tier"
+            htmlFor="3_1"
             className={styles.label}
-            onClick={() => toggleSelected("tier3")}
+            onClick={() => toggleSelected("tier3_1")}
           >
-            3티어
+            3T 1~10
           </label>
         </div>
         <div className={styles.filterItem}>
           <img
-            src={selected.tier4 ? "/button/clicked.svg" : "/button/default.svg"}
-            alt="4티어"
-            onClick={() => toggleSelected("tier4")}
+            src={
+              selected.tier3_2 ? "/button/clicked.svg" : "/button/default.svg"
+            }
+            alt="3티어 11~20"
+            onClick={() => toggleSelected("tier3_2")}
             className={styles.icon}
           />
           <label
-            htmlFor="4tier"
+            htmlFor="3_2"
             className={styles.label}
-            onClick={() => toggleSelected("tier4")}
+            onClick={() => toggleSelected("tier3_2")}
           >
-            4티어
+            3T 11~20
+          </label>
+        </div>
+        <div className={styles.filterItem}>
+          <img
+            src={
+              selected.tier4_1 ? "/button/clicked.svg" : "/button/default.svg"
+            }
+            alt="4T 1~10"
+            onClick={() => toggleSelected("tier4_1")}
+            className={styles.icon}
+          />
+          <label
+            htmlFor="4_1"
+            className={styles.label}
+            onClick={() => toggleSelected("tier4_1")}
+          >
+            4T 1~10
+          </label>
+        </div>
+        <div className={styles.filterItem}>
+          <img
+            src={
+              selected.tier4_2 ? "/button/clicked.svg" : "/button/default.svg"
+            }
+            alt="4T 11~20"
+            onClick={() => toggleSelected("tier4_2")}
+            className={styles.icon}
+          />
+          <label
+            htmlFor="4_2"
+            className={styles.label}
+            onClick={() => toggleSelected("tier4_2")}
+          >
+            4T 11~20
           </label>
         </div>
       </div>
