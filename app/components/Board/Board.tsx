@@ -16,8 +16,24 @@ interface CalculationResult {
   armor: MaterialCost;
 }
 
+export interface AdvancedRefine {
+  weapon: {
+    tier3_1: MaterialCost;
+    tier3_2: MaterialCost;
+    tier4_1: MaterialCost;
+    tier4_2: MaterialCost;
+  };
+  armor: {
+    tier3_1: MaterialCost;
+    tier3_2: MaterialCost;
+    tier4_1: MaterialCost;
+    tier4_2: MaterialCost;
+  };
+}
+
 interface BoardProps {
   calculationResult: CalculationResult;
+  advancedRefineData: AdvancedRefine;
   materialsPrice: Record<string, number>;
   owned: Record<string, number>;
   setOwned: React.Dispatch<React.SetStateAction<Record<string, number>>>;
@@ -25,6 +41,7 @@ interface BoardProps {
 
 const Board = ({
   calculationResult,
+  advancedRefineData,
   materialsPrice,
   owned,
   setOwned,
@@ -41,17 +58,36 @@ const Board = ({
     let newCost = 0;
     let newMaterials: Record<string, number> = {};
 
-    if (filter.weapon) {
-      newCost += weapon.cost;
-      newMaterials = { ...newMaterials, ...weapon.materials };
-    }
+    const refineKeys = ["tier3_1", "tier3_2", "tier4_1", "tier4_2"] as const;
 
-    if (filter.armor) {
-      newCost += armor.cost;
-      newMaterials = { ...newMaterials, ...armor.materials };
-    }
+    const addMaterials = (
+      category: "weapon" | "armor",
+      key?: (typeof refineKeys)[number]
+    ) => {
+      if (key) {
+        newCost += advancedRefineData[category][key].cost;
+        newMaterials = {
+          ...newMaterials,
+          ...advancedRefineData[category][key].materials,
+        };
+      } else {
+        newCost += calculationResult[category].cost;
+        newMaterials = {
+          ...newMaterials,
+          ...calculationResult[category].materials,
+        };
+      }
+    };
 
-    // 상재 추가
+    if (filter.weapon) addMaterials("weapon");
+    if (filter.armor) addMaterials("armor");
+
+    refineKeys.forEach(key => {
+      if (filter[key]) {
+        if (filter.weapon) addMaterials("weapon", key);
+        if (filter.armor) addMaterials("armor", key);
+      }
+    });
 
     setCurrent({ cost: newCost, materials: newMaterials });
   }, [filter, weapon, armor]);

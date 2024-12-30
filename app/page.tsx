@@ -14,12 +14,25 @@ export default function Home() {
     target: "",
   });
   const [materials, setMaterials] = useState<Record<string, number>>({});
-
   const [owned, setOwned] = useState<Record<string, number>>({});
   const [calculationResult, setCalculationResult] = useState({
     total: { cost: 0, materials: {} },
     weapon: { cost: 0, materials: {} },
     armor: { cost: 0, materials: {} },
+  });
+  const [advancedRefineData, setAdvancedRefineData] = useState({
+    weapon: {
+      tier3_1: { cost: 0, materials: {} },
+      tier3_2: { cost: 0, materials: {} },
+      tier4_1: { cost: 0, materials: {} },
+      tier4_2: { cost: 0, materials: {} },
+    },
+    armor: {
+      tier3_1: { cost: 0, materials: {} },
+      tier3_2: { cost: 0, materials: {} },
+      tier4_1: { cost: 0, materials: {} },
+      tier4_2: { cost: 0, materials: {} },
+    },
   });
 
   useEffect(() => {
@@ -29,6 +42,14 @@ export default function Home() {
     };
 
     fetchMaterials();
+    const fetchAdvancedRefine = async () => {
+      const res = await fetch("/api/getAdvancedRefineData").then(res =>
+        res.json()
+      );
+      setAdvancedRefineData(res);
+    };
+
+    fetchAdvancedRefine();
   }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,6 +66,7 @@ export default function Home() {
       <Input level={level} setLevel={setLevel} onSubmit={handleSubmit} />
       <Board
         calculationResult={calculationResult}
+        advancedRefineData={advancedRefineData}
         materialsPrice={materials}
         owned={owned}
         setOwned={setOwned}
