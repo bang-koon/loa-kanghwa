@@ -9,8 +9,10 @@ const useFilterStore = create<FilterState>(set => ({
   selected: {
     weapon: true,
     armor: true,
-    tier3: false,
-    tier4: false,
+    tier3_1: false,
+    tier3_2: false,
+    tier4_1: false,
+    tier4_2: false,
   },
   toggleSelected: item =>
     set(state => ({

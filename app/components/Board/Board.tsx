@@ -5,23 +5,35 @@ import { reverseTransformMaterialName } from "@/app/lib/transformMaterialName";
 import debounce from "lodash/debounce";
 import useFilterStore from "@/app/lib/store";
 
+interface MaterialCost {
+  materials: Record<string, number>;
+  cost: number;
+}
+
 interface CalculationResult {
-  total: {
-    cost: number;
-    materials: Record<string, number>;
-  };
+  total: MaterialCost;
+  weapon: MaterialCost;
+  armor: MaterialCost;
+}
+
+export interface AdvancedRefine {
   weapon: {
-    materials: Record<string, number>;
-    cost: number;
+    tier3_1: MaterialCost;
+    tier3_2: MaterialCost;
+    tier4_1: MaterialCost;
+    tier4_2: MaterialCost;
   };
   armor: {
-    materials: Record<string, number>;
-    cost: number;
+    tier3_1: MaterialCost;
+    tier3_2: MaterialCost;
+    tier4_1: MaterialCost;
+    tier4_2: MaterialCost;
   };
 }
 
 interface BoardProps {
   calculationResult: CalculationResult;
+  advancedRefineData: AdvancedRefine;
   materialsPrice: Record<string, number>;
   owned: Record<string, number>;
   setOwned: React.Dispatch<React.SetStateAction<Record<string, number>>>;
@@ -29,35 +41,61 @@ interface BoardProps {
 
 const Board = ({
   calculationResult,
+  advancedRefineData,
   materialsPrice,
   owned,
   setOwned,
 }: BoardProps) => {
-  const { total, weapon, armor } = calculationResult;
+  const { weapon, armor } = calculationResult;
   const filter = useFilterStore(state => state.selected);
 
-  const selectedMaterials: Record<string, number> =
-    filter.weapon && filter.armor
-      ? total.materials
-      : filter.weapon
-      ? weapon.materials
-      : filter.armor
-      ? armor.materials
-      : {};
+  const [current, setCurrent] = useState<MaterialCost>({
+    cost: 0,
+    materials: {},
+  });
 
-  const selectedCost =
-    filter.weapon && filter.armor
-      ? total.cost
-      : filter.weapon
-      ? weapon.cost
-      : filter.armor
-      ? armor.cost
-      : 0;
+  useEffect(() => {
+    let newCost = 0;
+    let newMaterials: Record<string, number> = {};
+
+    const refineKeys = ["tier3_1", "tier3_2", "tier4_1", "tier4_2"] as const;
+
+    const addMaterials = (
+      category: "weapon" | "armor",
+      key?: (typeof refineKeys)[number]
+    ) => {
+      if (key) {
+        newCost += advancedRefineData[category][key].cost;
+        newMaterials = {
+          ...newMaterials,
+          ...advancedRefineData[category][key].materials,
+        };
+      } else {
+        newCost += calculationResult[category].cost;
+        newMaterials = {
+          ...newMaterials,
+          ...calculationResult[category].materials,
+        };
+      }
+    };
+
+    if (filter.weapon) addMaterials("weapon");
+    if (filter.armor) addMaterials("armor");
+
+    refineKeys.forEach(key => {
+      if (filter[key]) {
+        if (filter.weapon) addMaterials("weapon", key);
+        if (filter.armor) addMaterials("armor", key);
+      }
+    });
+
+    setCurrent({ cost: newCost, materials: newMaterials });
+  }, [filter, weapon, armor]);
 
   const [inputValues, setInputValues] = useState<Record<string, number>>(owned);
 
   const adjustedTotalGold =
-    selectedCost -
+    current.cost -
     Object.entries(owned).reduce((acc, [name, quantity]) => {
       const transformedName = reverseTransformMaterialName(name);
       return acc + (quantity || 0) * (materialsPrice[transformedName] || 0);
@@ -78,30 +116,14 @@ const Board = ({
       ...prevValues,
       [name]: value,
     }));
-    if (value > selectedMaterials[name]) {
-      debouncedSetOwned(name, selectedMaterials[name]);
+    if (value > current.materials[name]) {
+      debouncedSetOwned(name, current.materials[name]);
     } else {
       debouncedSetOwned(name, value);
     }
   };
 
-  useEffect(() => {
-    Object.entries(inputValues).forEach(([name, value]) => {
-      if (value > selectedMaterials[name]) {
-        setOwned(prevOwned => ({
-          ...prevOwned,
-          [name]: selectedMaterials[name],
-        }));
-      } else {
-        setOwned(prevOwned => ({
-          ...prevOwned,
-          [name]: value,
-        }));
-      }
-    });
-  }, [selectedCost]);
-
-  return selectedCost ? (
+  return current.cost ? (
     <div className={styles.board}>
       <div className={styles.materialContainer}>
         <div className={styles.materialHeader}>
@@ -115,7 +137,7 @@ const Board = ({
           <div className={styles.cell}>소유량</div>
           <div className={styles.cell}>재료별 가격(개당)</div>
         </div>
-        {Object.entries(selectedMaterials).map(([name, value], index) => {
+        {Object.entries(current.materials).map(([name, value], index) => {
           const transformedName = reverseTransformMaterialName(name);
           return (
             <div key={index} className={styles.materialColumn}>
