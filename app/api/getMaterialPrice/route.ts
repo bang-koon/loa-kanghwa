@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(materials, {
       status: 200,
-      headers: { "Cache-Control": "no-store" },
+      headers: { "Cache-Control": "no-store", ETag: "" },
     });
   } catch (error) {
     console.error("Error in GET route:", error);
