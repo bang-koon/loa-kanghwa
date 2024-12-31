@@ -10,8 +10,7 @@ export async function GET(req: NextRequest) {
 
     // id과 createdAt 제외 가져오기
     let materials: WithId<Document> | Record<string, number> | null =
-      await collection.findOne({}, { projection: { _id: 0, createdAt: 0 } });
-
+      await collection.findOne({}, { projection: { _id: 0 } });
     if (!materials) {
       materials = await getMaterialPrice();
       const materialsWithDate = { ...materials, createdAt: new Date() };
@@ -23,7 +22,10 @@ export async function GET(req: NextRequest) {
     //   { expireAfterSeconds: 7200 }
     // );
 
-    return NextResponse.json(materials, { status: 200 });
+    return NextResponse.json(materials, {
+      status: 200,
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch (error) {
     console.error("Error in GET route:", error);
     return NextResponse.json(

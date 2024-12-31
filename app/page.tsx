@@ -56,7 +56,6 @@ export default function Home() {
     e.preventDefault();
     if (materials) {
       const res = totalCalculator(level.current, level.target, materials);
-      console.log(res, "result");
       setCalculationResult(res);
     }
   };
