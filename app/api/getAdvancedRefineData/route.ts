@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import getDbPromise from "@/app/lib/db";
 
-export const revalidate = 0;
-
 export async function GET(req: NextRequest) {
   try {
     const db = await getDbPromise();

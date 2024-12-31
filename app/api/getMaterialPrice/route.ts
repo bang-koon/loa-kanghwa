@@ -3,7 +3,7 @@ import { getMaterialPrice } from "./getMaterialPrice";
 import getDbPromise from "../../lib/db";
 import { WithId } from "mongodb";
 
-export const revalidate = 0;
+export const revalidate = 7500;
 
 export async function GET(req: NextRequest) {
   try {
