@@ -87,3 +87,10 @@ $border-color: #f0f0f0;
   font-size: 14px;
   font-weight: 500;
 }
+
+.filter {
+  cursor: pointer;
+  @media (min-width: 751px) {
+    display: none;
+  }
+}
