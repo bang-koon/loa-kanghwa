@@ -4,7 +4,8 @@ $border-color: #f0f0f0;
   display: flex;
   flex-direction: column;
   width: 62%;
-  min-width: 500px;
+  min-width: 400px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -85,4 +86,11 @@ $border-color: #f0f0f0;
 .peacePrice {
   font-size: 14px;
   font-weight: 500;
+}
+
+.filter {
+  cursor: pointer;
+  @media (min-width: 751px) {
+    display: none;
+  }
 }
