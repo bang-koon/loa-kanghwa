@@ -69,16 +69,18 @@ const Board = ({
     ) => {
       if (key) {
         newCost += advancedRefineData[category][key].cost;
-        newMaterials = {
-          ...newMaterials,
-          ...advancedRefineData[category][key].materials,
-        };
+        const materials = advancedRefineData[category][key].materials;
+        for (const [materialName, quantity] of Object.entries(materials)) {
+          newMaterials[materialName] =
+            (newMaterials[materialName] || 0) + quantity;
+        }
       } else {
         newCost += calculationResult[category].cost;
-        newMaterials = {
-          ...newMaterials,
-          ...calculationResult[category].materials,
-        };
+        const materials = calculationResult[category].materials;
+        for (const [materialName, quantity] of Object.entries(materials)) {
+          newMaterials[materialName] =
+            (newMaterials[materialName] || 0) + quantity;
+        }
       }
     };
 
