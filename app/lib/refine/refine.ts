@@ -94,9 +94,7 @@ const calculateRefine = (
   totalCost = result.minCost;
 
   for (const [name, amount] of Object.entries(table.amount)) {
-    if (name !== "골드") {
-      materialsUsed[name] = (amount || 0) * result.attempts;
-    }
+    materialsUsed[name] = (amount || 0) * result.attempts;
   }
 
   for (const [name, amount] of Object.entries(result.usedBreathes)) {

@@ -24,8 +24,9 @@ export const getMaterialPrice = async () => {
   material["정제된 파괴강석"] = (material["정제된 파괴강석"] ?? 0) / 10;
   material["운명의 수호석"] = (material["운명의 수호석"] ?? 0) / 10;
   material["운명의 파괴석"] = (material["운명의 파괴석"] ?? 0) / 10;
-  material["운명의 파편 주머니(소)"] =
-    (material["운명의 파편 주머니(소)"] ?? 0) / 1000;
+  material["운명의 파편 주머니(소)"] = parseFloat(
+    ((material["운명의 파편 주머니(소)"] ?? 0) / 1000).toFixed(2)
+  );
 
   const shardBags = [
     {
@@ -46,7 +47,7 @@ export const getMaterialPrice = async () => {
     prev.price < curr.price ? prev : curr
   );
 
-  material["명예의 파편"] = cheapestBag.price;
+  material["명예의 파편"] = parseFloat(cheapestBag.price.toFixed(2));
 
   delete material["명예의 파편 주머니(소)"];
   delete material["명예의 파편 주머니(중)"];
