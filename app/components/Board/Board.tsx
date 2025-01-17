@@ -67,18 +67,13 @@ const Board = ({
       category: "weapon" | "armor",
       key?: (typeof refineKeys)[number]
     ) => {
-      if (key) {
-        newCost += advancedRefineData[category][key].cost;
-        newMaterials = {
-          ...newMaterials,
-          ...advancedRefineData[category][key].materials,
-        };
-      } else {
-        newCost += calculationResult[category].cost;
-        newMaterials = {
-          ...newMaterials,
-          ...calculationResult[category].materials,
-        };
+      const data = key
+        ? advancedRefineData[category][key]
+        : calculationResult[category];
+      newCost += data.cost;
+      for (const [materialName, quantity] of Object.entries(data.materials)) {
+        newMaterials[materialName] =
+          (newMaterials[materialName] || 0) + quantity;
       }
     };
 
