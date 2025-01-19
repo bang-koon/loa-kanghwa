@@ -16,6 +16,12 @@ export async function GET(req: NextRequest) {
             refineData[category][tier].materials;
           let totalCost = 0;
 
+          if (category === "armor") {
+            for (const material in materialQuantities) {
+              materialQuantities[material] *= 5;
+            }
+          }
+
           for (const [material, quantity] of Object.entries(
             materialQuantities
           )) {
