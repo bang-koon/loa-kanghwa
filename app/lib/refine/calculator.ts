@@ -1,4 +1,3 @@
-import transformMaterialName from "../transformMaterialName";
 import { getRefineTable } from "./data";
 import refine from "./refine";
 
@@ -134,8 +133,7 @@ const calculator = (
       break;
     }
 
-    const materialMap = transformMaterialName(materials);
-    const result = refine(table, materialMap, bindedMap);
+    const result = refine(table, materials, bindedMap);
 
     for (let key in result.materialsUsed) {
       totalMaterials[key] =

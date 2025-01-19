@@ -95,8 +95,7 @@ const Board = ({
   const adjustedTotalGold =
     current.cost -
     Object.entries(owned).reduce((acc, [name, quantity]) => {
-      const transformedName = reverseTransformMaterialName(name);
-      return acc + (quantity || 0) * (materialsPrice[transformedName] || 0);
+      return acc + (quantity || 0) * (materialsPrice[name] || 0);
     }, 0);
 
   const debouncedSetOwned = useCallback(
@@ -176,12 +175,12 @@ const Board = ({
               </div>
               <div className={styles.materialPriceCell}>
                 {(
-                  materialsPrice[transformedName] * value -
-                  (owned[name] || 0) * materialsPrice[transformedName]
+                  materialsPrice[name] * value -
+                  (owned[name] || 0) * materialsPrice[name]
                 ).toLocaleString(undefined, { maximumFractionDigits: 0 })}
                 <br />
                 <div className={styles.peacePrice}>
-                  {` (${materialsPrice[transformedName]})`}
+                  {` (${materialsPrice[name]})`}
                 </div>
               </div>
             </div>
