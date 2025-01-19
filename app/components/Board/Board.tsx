@@ -130,10 +130,11 @@ const Board = ({
       <div className={styles.materialContainer}>
         <div className={styles.materialHeader}>
           <div
-            className={`${styles.image} ${styles.cell} ${styles.filter}`}
+            className={`${styles.image} ${styles.cell}`}
             onClick={toggleFilter}
           >
             <Image
+              className={styles.filter}
               src="/button/hamburger.svg"
               alt="filter"
               width={34}
