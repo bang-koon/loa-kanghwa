@@ -1,3 +1,5 @@
+import transformMaterialName from "@/app/lib/transformMaterialName";
+
 const fetchMaterialPrice = async () => {
   const url = `${process.env.MARKET_URL}`;
   const data = await fetch(url)
@@ -53,7 +55,7 @@ export const getMaterialPrice = async () => {
   delete material["명예의 파편 주머니(중)"];
   delete material["명예의 파편 주머니(대)"];
 
-  return material;
+  return transformMaterialName(material);
 };
 
 // This code is based on or references code from loa-calc.
