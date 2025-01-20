@@ -31,6 +31,10 @@ export default function RootLayout({
           content="로아쿤 - 로스트아크 재련 비용 계산기"
         />
         <meta name="twitter:description" content="로아 재련 비용 계산기" />
+        <meta
+          name="naver-site-verification"
+          content="0b8d087111be104a550feeb177dcdda71ead5ce8"
+        />
       </Head>
       <body>
         {children}
