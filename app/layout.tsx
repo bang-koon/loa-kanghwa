@@ -1,4 +1,4 @@
-import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Head from "next/head";
@@ -32,9 +32,10 @@ export default function RootLayout({
         />
         <meta name="twitter:description" content="로아 재련 비용 계산기" />
       </Head>
+
       <body>
         {children}
-        <Analytics />
+        <GoogleAnalytics gaId={`${process.env.GA}`} />
         <SpeedInsights />
       </body>
     </html>
