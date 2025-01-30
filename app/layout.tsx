@@ -31,8 +31,8 @@ export default function RootLayout({
           content="로아쿤 - 로스트아크 재련 비용 계산기"
         />
         <meta name="twitter:description" content="로아 재련 비용 계산기" />
+        <GoogleAnalytics gaId={`${process.env.GA}`} />
       </Head>
-      <GoogleAnalytics gaId={`${process.env.GA}`} />
       <body>
         {children}
         <SpeedInsights />
