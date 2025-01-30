@@ -32,9 +32,8 @@ export default function RootLayout({
         />
         <meta name="twitter:description" content="로아 재련 비용 계산기" />
       </Head>
-
+      <GoogleAnalytics gaId={`${process.env.GA}`} />
       <body>
-        <GoogleAnalytics gaId={`${process.env.GA}`} />
         {children}
         <SpeedInsights />
       </body>
