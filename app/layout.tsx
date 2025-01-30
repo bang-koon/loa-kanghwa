@@ -1,4 +1,3 @@
-import { GoogleAnalytics } from "@next/third-parties/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Head from "next/head";
@@ -31,9 +30,25 @@ export default function RootLayout({
           content="로아쿤 - 로스트아크 재련 비용 계산기"
         />
         <meta name="twitter:description" content="로아 재련 비용 계산기" />
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=[${process.env.GA}]`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.GA}', {
+                  page_path: window.location.pathname,
+                });
+                ga('send', 'pageview', location.pathname);
+              `,
+          }}
+        />
       </Head>
       <body>
-        <GoogleAnalytics gaId={`${process.env.GA}`} />
         {children}
         <SpeedInsights />
       </body>
