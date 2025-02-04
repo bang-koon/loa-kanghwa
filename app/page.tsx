@@ -62,7 +62,6 @@ export default function Home() {
     }
   };
 
-  console.log(advancedRefineData);
   return (
     <div className={styles.container}>
       <Input level={level} setLevel={setLevel} onSubmit={handleSubmit} />

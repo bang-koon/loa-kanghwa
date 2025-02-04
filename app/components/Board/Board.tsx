@@ -23,12 +23,14 @@ export interface AdvancedRefine {
     tier3_2: MaterialCost;
     tier4_1: MaterialCost;
     tier4_2: MaterialCost;
+    tier4_3: MaterialCost;
   };
   armor: {
     tier3_1: MaterialCost;
     tier3_2: MaterialCost;
     tier4_1: MaterialCost;
     tier4_2: MaterialCost;
+    tier4_3: MaterialCost;
   };
 }
 
@@ -61,7 +63,13 @@ const Board = ({
     let newCost = 0;
     let newMaterials: Record<string, number> = {};
 
-    const refineKeys = ["tier3_1", "tier3_2", "tier4_1", "tier4_2"] as const;
+    const refineKeys = [
+      "tier3_1",
+      "tier3_2",
+      "tier4_1",
+      "tier4_2",
+      "tier4_3",
+    ] as const;
 
     const addMaterials = (
       category: "weapon" | "armor",
