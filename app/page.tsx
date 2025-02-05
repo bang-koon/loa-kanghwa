@@ -26,12 +26,14 @@ export default function Home() {
       tier3_2: { cost: 0, materials: {} },
       tier4_1: { cost: 0, materials: {} },
       tier4_2: { cost: 0, materials: {} },
+      tier4_3: { cost: 0, materials: {} },
     },
     armor: {
       tier3_1: { cost: 0, materials: {} },
       tier3_2: { cost: 0, materials: {} },
       tier4_1: { cost: 0, materials: {} },
       tier4_2: { cost: 0, materials: {} },
+      tier4_3: { cost: 0, materials: {} },
     },
   });
 

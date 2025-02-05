@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import getDbPromise from "@/app/lib/db";
 import { getMaterialPrice } from "../getMaterialPrice/getMaterialPrice";
+import advancedRefine from "@/app/lib/refine/advancedRefine";
 
 export async function GET(req: NextRequest) {
   const materials = await getMaterialPrice();
@@ -34,6 +35,23 @@ export async function GET(req: NextRequest) {
         }
       }
     }
+
+    // 4t 21~30
+    if (materials && refineData) {
+      const armorAdvancedRefine = advancedRefine(materials, "armor");
+      const weaponAdvancedRefine = advancedRefine(materials, "weapon");
+
+      refineData.armor.tier4_3 = {
+        materials: armorAdvancedRefine.materials,
+        cost: armorAdvancedRefine.cost,
+      };
+
+      refineData.weapon.tier4_3 = {
+        materials: weaponAdvancedRefine.materials,
+        cost: weaponAdvancedRefine.cost,
+      };
+    }
+
     return NextResponse.json(refineData, { status: 200 });
   } catch (error) {
     console.error("advancedRefine:", error);

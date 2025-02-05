@@ -111,6 +111,23 @@ const Filter = () => {
             4T 11~20
           </label>
         </div>
+        <div className={styles.filterItem}>
+          <img
+            src={
+              selected.tier4_3 ? "/button/clicked.svg" : "/button/default.svg"
+            }
+            alt="4T 21~30"
+            onClick={() => toggleSelected("tier4_3")}
+            className={styles.icon}
+          />
+          <label
+            htmlFor="4_3"
+            className={styles.label}
+            onClick={() => toggleSelected("tier4_3")}
+          >
+            4T 21~30
+          </label>
+        </div>
       </div>
     </div>
   );
