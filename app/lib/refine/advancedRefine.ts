@@ -1,4 +1,4 @@
-// 4t 21~30 상재 계산
+// 4t 21~40 상재 계산, 노숨 vs 나베르 숨 가격 비교
 
 interface RefineResult {
   materials: Record<string, number>;
@@ -7,40 +7,67 @@ interface RefineResult {
 
 const advancedRefine = (
   priceMap: Record<string, number>,
-  type: "armor" | "weapon"
+  type: "armor" | "weapon",
+  tier: "4_3" | "4_4"
 ) => {
-  // 노숨 평균 시도 횟수 54(테메릭 정 제외, 57 - 2.85), 선조 턴 8.16
-  // 선조 숨결 평균 횟수 47(테메릭 정 제외, 50.4 - 2.52), 선조 턴 7.2
-
-  // 타입을 확인한 뒤에 노숨 54회와, 일반턴 40 + 선조턴(빙하, 용암)
   const table = {
-    armor: {
-      material: {
-        운명의수호석: 1000,
-        운돌: 18,
-        아비도스: 17,
-        운명파편: 7000,
-        골드: 2000,
+    "4_3": {
+      armor: {
+        material: {
+          운명의수호석: 1000,
+          운돌: 18,
+          아비도스: 17,
+          운명파편: 7000,
+          골드: 2000,
+        },
+        breath: "빙하",
+        maxBreathes: 20,
       },
-      breath: "빙하",
+      weapon: {
+        material: {
+          운명의파괴석: 1200,
+          운돌: 25,
+          아비도스: 28,
+          운명파편: 11500,
+          골드: 3000,
+        },
+        breath: "용암",
+        maxBreathes: 20,
+      },
     },
-    weapon: {
-      material: {
-        운명의파괴석: 1200,
-        운돌: 25,
-        아비도스: 28,
-        운명파편: 11500,
-        골드: 3000,
+    "4_4": {
+      armor: {
+        material: {
+          운명의수호석: 1200,
+          운돌: 23,
+          아비도스: 19,
+          운명파편: 8000,
+          골드: 2400,
+        },
+        breath: "빙하",
+        maxBreathes: 24,
       },
-      breath: "용암",
+      weapon: {
+        material: {
+          운명의파괴석: 1400,
+          운돌: 32,
+          아비도스: 30,
+          운명파편: 11500,
+          골드: 4000,
+        },
+        breath: "용암",
+        maxBreathes: 24,
+      },
     },
   };
 
-  const DEFAULT_ATTEMPTS = 54;
-  const BREATHES_ATTEMPTS = 47;
+  const DEFAULT_ATTEMPTS = 52; // 노숨
+  const NAVER_ATTEMPTS = 1.27; // 50.8 * 0.025
+  const BREATHES_ATTEMPTS = 49.53; // 총 50.8 - 나베르턴 1.27
+  const MAX_BREATHES = table[tier][type].maxBreathes; // 최대 숨결 개수
   let refineCost = 0;
-  const materials: Record<string, number> = table[type].material;
-  const breath = table[type].breath;
+  const materials: Record<string, number> = table[tier][type].material;
+  const breath = table[tier][type].breath;
 
   for (let material in materials) {
     const quantity = materials[material];
@@ -49,7 +76,9 @@ const advancedRefine = (
   }
 
   const noBreathesCost = refineCost * DEFAULT_ATTEMPTS;
-  const breathesCost = refineCost * BREATHES_ATTEMPTS + priceMap[breath] * 7;
+  const breathesCost =
+    refineCost * BREATHES_ATTEMPTS +
+    priceMap[breath] * MAX_BREATHES * NAVER_ATTEMPTS;
   const refineResult: RefineResult = {
     materials: {},
     cost: 0,
@@ -61,17 +90,17 @@ const advancedRefine = (
         materials[material] * BREATHES_ATTEMPTS;
     }
 
-    // 숨결은 한 턴에 20개, 선조 턴이 7,2회
-    refineResult.materials = { ...refineResult.materials, [breath]: 20 * 7.2 };
+    refineResult.materials = {
+      ...refineResult.materials,
+      [breath]: MAX_BREATHES * NAVER_ATTEMPTS,
+    };
     refineResult.cost = breathesCost;
-    refineResult.cost += priceMap[breath] * 7.2;
+    refineResult.cost += priceMap[breath] * MAX_BREATHES * NAVER_ATTEMPTS;
   } else {
     for (let material in materials) {
       refineResult.materials[material] = materials[material] * DEFAULT_ATTEMPTS;
     }
   }
-
   return refineResult;
 };
-
 export default advancedRefine;

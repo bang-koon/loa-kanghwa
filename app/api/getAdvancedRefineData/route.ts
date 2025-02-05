@@ -36,19 +36,38 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // 4t 21~30
+    // 4t 21~40
     if (materials && refineData) {
-      const armorAdvancedRefine = advancedRefine(materials, "armor");
-      const weaponAdvancedRefine = advancedRefine(materials, "weapon");
+      const armorAdvancedRefine4_3 = advancedRefine(materials, "armor", "4_3");
+      const weaponAdvancedRefine4_3 = advancedRefine(
+        materials,
+        "weapon",
+        "4_3"
+      );
+      const armorAdvancedRefine4_4 = advancedRefine(materials, "armor", "4_4");
+      const weaponAdvancedRefine4_4 = advancedRefine(
+        materials,
+        "weapon",
+        "4_4"
+      );
 
       refineData.armor.tier4_3 = {
-        materials: armorAdvancedRefine.materials,
-        cost: armorAdvancedRefine.cost,
+        materials: armorAdvancedRefine4_3.materials,
+        cost: armorAdvancedRefine4_3.cost,
       };
 
       refineData.weapon.tier4_3 = {
-        materials: weaponAdvancedRefine.materials,
-        cost: weaponAdvancedRefine.cost,
+        materials: weaponAdvancedRefine4_3.materials,
+        cost: weaponAdvancedRefine4_3.cost,
+      };
+      refineData.armor.tier4_4 = {
+        materials: armorAdvancedRefine4_4.materials,
+        cost: armorAdvancedRefine4_4.cost,
+      };
+
+      refineData.weapon.tier4_4 = {
+        materials: weaponAdvancedRefine4_4.materials,
+        cost: weaponAdvancedRefine4_4.cost,
       };
     }
 
