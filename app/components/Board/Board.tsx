@@ -6,7 +6,7 @@ import debounce from "lodash/debounce";
 import useFilterStore from "@/app/lib/store";
 import FilterMobile from "@/app/components/Filter/FilterMobile";
 
-interface MaterialCost {
+export interface MaterialCost {
   materials: Record<string, number>;
   cost: number;
 }
@@ -24,6 +24,7 @@ export interface AdvancedRefine {
     tier4_1: MaterialCost;
     tier4_2: MaterialCost;
     tier4_3: MaterialCost;
+    tier4_4: MaterialCost;
   };
   armor: {
     tier3_1: MaterialCost;
@@ -31,6 +32,7 @@ export interface AdvancedRefine {
     tier4_1: MaterialCost;
     tier4_2: MaterialCost;
     tier4_3: MaterialCost;
+    tier4_4: MaterialCost;
   };
 }
 
@@ -69,6 +71,7 @@ const Board = ({
       "tier4_1",
       "tier4_2",
       "tier4_3",
+      "tier4_4",
     ] as const;
 
     const addMaterials = (
