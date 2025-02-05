@@ -14,14 +14,14 @@ const advancedRefine = (
     "4_3": {
       armor: {
         material: {
-          운명의수호석: 1000,
-          운돌: 18,
-          아비도스: 17,
-          운명파편: 7000,
-          골드: 2000,
+          운명의수호석: 1000 * 5,
+          운돌: 18 * 5,
+          아비도스: 17 * 5,
+          운명파편: 7000 * 5,
+          골드: 2000 * 5,
         },
         breath: "빙하",
-        maxBreathes: 20,
+        maxBreathes: 20 * 5,
       },
       weapon: {
         material: {
@@ -38,14 +38,14 @@ const advancedRefine = (
     "4_4": {
       armor: {
         material: {
-          운명의수호석: 1200,
-          운돌: 23,
-          아비도스: 19,
-          운명파편: 8000,
-          골드: 2400,
+          운명의수호석: 1200 * 5,
+          운돌: 23 * 5,
+          아비도스: 19 * 5,
+          운명파편: 8000 * 5,
+          골드: 2400 * 5,
         },
         breath: "빙하",
-        maxBreathes: 24,
+        maxBreathes: 24 * 5,
       },
       weapon: {
         material: {
