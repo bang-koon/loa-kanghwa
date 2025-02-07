@@ -12,7 +12,7 @@ export default function RootLayout({
     <html lang="en">
       <Head>
         <title>로아쿤 - 로스트아크 재련 비용 계산기</title>
-        <meta name="description" content="로아 재련 비용 계산기" />
+        <meta name="description" content="로아쿤 - 로아 재련 비용 계산기" />
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta charSet="utf-8" />

@@ -6,7 +6,7 @@ const FilterItems = () => {
   return (
     <>
       <div className={styles.filterGroup}>
-        <div className={styles.filterTitle}>장비</div>
+        <h2 className={styles.filterTitle}>장비</h2>
         <div className={styles.filterItem}>
           <img
             src={
@@ -81,7 +81,7 @@ const FilterItems = () => {
         </div>
       </div>
       <div className={styles.filterGroup}>
-        <div className={styles.filterTitle}>상급재련</div>
+        <h2 className={styles.filterTitle}>상급재련</h2>
         <div className={styles.filterItem}>
           <img
             src={
