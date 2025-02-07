@@ -76,25 +76,29 @@ const Board = ({
 
     const addMaterials = (
       category: "weapon" | "armor",
-      key?: (typeof refineKeys)[number]
+      key?: (typeof refineKeys)[number],
+      isOnePart: boolean = false
     ) => {
       const data = key
-        ? advancedRefineData[category][key]
-        : calculationResult[category];
+        ? { ...advancedRefineData[category][key] }
+        : { ...calculationResult[category] };
+      if (isOnePart) data.cost = data.cost / 5;
       newCost += data.cost;
-      for (const [materialName, quantity] of Object.entries(data.materials)) {
+      for (let [materialName, quantity] of Object.entries(data.materials)) {
+        if (isOnePart) quantity /= 5;
         newMaterials[materialName] =
           (newMaterials[materialName] || 0) + quantity;
       }
     };
 
     if (filter.weapon) addMaterials("weapon");
-    if (filter.armor) addMaterials("armor");
+
+    if (filter.armor) addMaterials("armor", undefined, filter.onePart);
 
     refineKeys.forEach(key => {
       if (filter[key]) {
         if (filter.weapon) addMaterials("weapon", key);
-        if (filter.armor) addMaterials("armor", key);
+        if (filter.armor) addMaterials("armor", key, filter.onePart);
       }
     });
 
