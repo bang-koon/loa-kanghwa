@@ -15,11 +15,19 @@ const useFilterStore = create<FilterState>(set => ({
     tier4_2: false,
     tier4_3: false,
     tier4_4: false,
+    onePart: false,
+    fiveParts: true,
   },
   toggleSelected: item =>
-    set(state => ({
-      selected: { ...state.selected, [item]: !state.selected[item] },
-    })),
+    set(state => {
+      const newState = { ...state.selected, [item]: !state.selected[item] };
+      if (item === "onePart" && newState.onePart) {
+        newState.fiveParts = false;
+      } else if (item === "fiveParts" && newState.fiveParts) {
+        newState.onePart = false;
+      }
+      return { selected: newState };
+    }),
 }));
 
 export default useFilterStore;

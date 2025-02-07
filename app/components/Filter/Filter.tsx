@@ -40,6 +40,52 @@ const Filter = () => {
             방어구
           </label>
         </div>
+        <div className={styles.radioContainer}>
+          <img
+            src={
+              selected.onePart ? "/button/clicked.svg" : "/button/default.svg"
+            }
+            alt="한 부위"
+            className={styles.icon}
+          />
+          <label
+            htmlFor="onePart"
+            className={styles.radioLabel}
+            onChange={() => toggleSelected("onePart")}
+          >
+            <input
+              type="radio"
+              id="onePart"
+              name="armorParts"
+              className={styles.radioInput}
+              checked={selected.onePart}
+            />
+            <span>한 부위</span>
+          </label>
+        </div>
+        <div className={styles.radioContainer}>
+          <img
+            src={
+              selected.fiveParts ? "/button/clicked.svg" : "/button/default.svg"
+            }
+            className={styles.icon}
+            alt="다섯 부위"
+          />
+          <label
+            htmlFor="fiveParts"
+            className={styles.radioLabel}
+            onChange={() => toggleSelected("fiveParts")}
+          >
+            <input
+              type="radio"
+              id="fiveParts"
+              name="armorParts"
+              className={styles.radioInput}
+              checked={selected.fiveParts}
+            />
+            다섯 부위
+          </label>
+        </div>
       </div>
       <div className={styles.filterGroup}>
         <div className={styles.filterTitle}>상급재련</div>
