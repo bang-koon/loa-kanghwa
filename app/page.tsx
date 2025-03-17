@@ -5,7 +5,7 @@ import totalCalculator from "./lib/refine/totalCalculator";
 import Input from "./components/Input/Input";
 import Board from "./components/Board/Board";
 import Filter from "./components/Filter/Filter";
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 
 export default function Home() {
   const [error, setError] = useState<string | null>(null);
