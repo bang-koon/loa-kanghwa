@@ -1,0 +1,55 @@
+$border-color: #f0f0f0;
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerContainer {
+  @extend .flex;
+  position: fixed;
+  width: 100vw;
+  height: 54px;
+  // border-bottom: 1px solid $border-color;
+  background-color: #fff;
+  z-index: 100;
+}
+
+.headerBox {
+  @extend .flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1000px;
+  height: 30px;
+  margin: 0 40px;
+  h1 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-right: 40px;
+    color: #3c3c3c;
+    line-height: 19px;
+  }
+}
+
+.title {
+  @extend .flex;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    font-size: 15px;
+    font-weight: 300;
+    margin-right: 14px;
+    color: #444;
+    padding: 12px 10px;
+    cursor: pointer;
+  }
+}
+
+.scrolled {
+  border-bottom: 1px solid $border-color;
+}
