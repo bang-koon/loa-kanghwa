@@ -6,6 +6,7 @@ import Input from "./components/Input/Input";
 import Board from "./components/Board/Board";
 import Filter from "./components/Filter/Filter";
 import styles from "./page.module.scss";
+import Reward from "./components/Reward/Reward";
 
 export default function Home() {
   const [error, setError] = useState<string | null>(null);
@@ -67,6 +68,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Input level={level} setLevel={setLevel} onSubmit={handleSubmit} />
+      <Reward />
       <Board
         calculationResult={calculationResult}
         advancedRefineData={advancedRefineData}

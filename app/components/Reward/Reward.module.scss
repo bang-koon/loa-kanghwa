@@ -1,0 +1,140 @@
+.container {
+  width: 100%;
+  width: 800px;
+  padding: 20px;
+  color: #444; /* 기본 텍스트 색상 변경 */
+}
+
+.tabContainer {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  color: #444; /* 기본 탭 텍스트 색상 */
+  font-size: 16px;
+  margin-right: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.tab.active {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.raidSelector {
+  margin-bottom: 20px;
+  padding: 5px;
+}
+
+.raidSlide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px !important;
+  height: 100px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
+  border: 2px solid #eee;
+}
+
+.raidSlide.selected {
+  background-color: #333;
+  color: #fff; /* 선택 시 밝은 텍스트 */
+  border-color: #333;
+  transform: scale(1.05);
+}
+
+.raidImagePlaceholder {
+  width: 50px;
+  height: 50px;
+  background-color: #e0e0e0; /* 밝은 회색 아이콘 배경 */
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.raidSlide.selected .raidImagePlaceholder {
+  background-color: #555; /* 선택 시 아이콘 배경도 어둡게 */
+}
+
+.raidTable {
+  background-color: #fff; /* 흰색 배경 */
+  border: 1px solid #ddd; /* 연한 테두리 */
+  border-radius: 10px;
+  /* padding: 15px; */ /* 패딩 제거 */
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  min-height: 69px;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.headerRow {
+  background-color: #f9f9f9;
+  border-radius: 10px 10px 0 0;
+}
+
+.headerCol,
+.gateCol,
+.materialCol,
+.goldCol {
+  text-align: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.headerCol {
+  color: #333; /* 헤더 텍스트 색상 */
+}
+
+.materialCol {
+  flex-direction: column;
+}
+
+.materialItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 80px;
+  justify-content: flex-start;
+  padding: 2px 0;
+}
+
+.materialIcon,
+.goldIcon {
+  width: 20px;
+  height: 20px;
+  background-color: #e0e0e0; /* 아이콘 배경 */
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.goldContentWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80px;
+}
+
+.goldContentWrapper span {
+  margin-left: 5px;
+}
