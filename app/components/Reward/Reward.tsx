@@ -2,8 +2,10 @@
 
 import { useState, useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Mousewheel } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import styles from "./Reward.module.scss";
 
 // Type Definitions
@@ -41,8 +43,18 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Normal",
       image: "",
       gates: [
-        { gate: 1, gold: 250, bonusGold: 75, materials: [{ count: 1, image: "beast_bone" }] },
-        { gate: 2, gold: 350, bonusGold: 100, materials: [{ count: 1, image: "beast_bone" }] },
+        {
+          gate: 1,
+          gold: 250,
+          bonusGold: 75,
+          materials: [{ count: 1, image: "beast_bone" }],
+        },
+        {
+          gate: 2,
+          gold: 350,
+          bonusGold: 100,
+          materials: [{ count: 1, image: "beast_bone" }],
+        },
       ],
     },
     {
@@ -51,8 +63,18 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Hard",
       image: "",
       gates: [
-        { gate: 1, gold: 350, bonusGold: 175, materials: [{ count: 3, image: "beast_bone" }] },
-        { gate: 2, gold: 550, bonusGold: 275, materials: [{ count: 3, image: "beast_bone" }] },
+        {
+          gate: 1,
+          gold: 350,
+          bonusGold: 175,
+          materials: [{ count: 3, image: "beast_bone" }],
+        },
+        {
+          gate: 2,
+          gold: 550,
+          bonusGold: 275,
+          materials: [{ count: 3, image: "beast_bone" }],
+        },
       ],
     },
     {
@@ -61,8 +83,18 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Normal",
       image: "",
       gates: [
-        { gate: 1, gold: 300, bonusGold: 100, materials: [{ count: 1, image: "demon_wing" }] },
-        { gate: 2, gold: 500, bonusGold: 150, materials: [{ count: 2, image: "demon_wing" }] },
+        {
+          gate: 1,
+          gold: 300,
+          bonusGold: 100,
+          materials: [{ count: 1, image: "demon_wing" }],
+        },
+        {
+          gate: 2,
+          gold: 500,
+          bonusGold: 150,
+          materials: [{ count: 2, image: "demon_wing" }],
+        },
       ],
     },
     {
@@ -71,8 +103,18 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Hard",
       image: "",
       gates: [
-        { gate: 1, gold: 450, bonusGold: 225, materials: [{ count: 3, image: "demon_wing" }] },
-        { gate: 2, gold: 750, bonusGold: 375, materials: [{ count: 3, image: "demon_wing" }] },
+        {
+          gate: 1,
+          gold: 450,
+          bonusGold: 225,
+          materials: [{ count: 3, image: "demon_wing" }],
+        },
+        {
+          gate: 2,
+          gold: 750,
+          bonusGold: 375,
+          materials: [{ count: 3, image: "demon_wing" }],
+        },
       ],
     },
     {
@@ -81,9 +123,24 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: null,
       image: "",
       gates: [
-        { gate: 1, gold: 300, bonusGold: 100, materials: [{ count: 1, image: "clown_horn" }] },
-        { gate: 2, gold: 450, bonusGold: 150, materials: [{ count: 2, image: "clown_horn" }] },
-        { gate: 3, gold: 750, bonusGold: 200, materials: [{ count: 2, image: "clown_horn" }] },
+        {
+          gate: 1,
+          gold: 300,
+          bonusGold: 100,
+          materials: [{ count: 1, image: "clown_horn" }],
+        },
+        {
+          gate: 2,
+          gold: 450,
+          bonusGold: 150,
+          materials: [{ count: 2, image: "clown_horn" }],
+        },
+        {
+          gate: 3,
+          gold: 750,
+          bonusGold: 200,
+          materials: [{ count: 2, image: "clown_horn" }],
+        },
       ],
     },
     {
@@ -92,10 +149,30 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Normal",
       image: "",
       gates: [
-        { gate: 1, gold: 500, bonusGold: 100, materials: [{ count: 4, image: "dream_remnant" }] },
-        { gate: 2, gold: 500, bonusGold: 150, materials: [{ count: 4, image: "dream_remnant" }] },
-        { gate: 3, gold: 500, bonusGold: 200, materials: [{ count: 5, image: "dream_remnant" }] },
-        { gate: 4, gold: 800, bonusGold: 375, materials: [{ count: 7, image: "dream_remnant" }] },
+        {
+          gate: 1,
+          gold: 500,
+          bonusGold: 100,
+          materials: [{ count: 4, image: "dream_remnant" }],
+        },
+        {
+          gate: 2,
+          gold: 500,
+          bonusGold: 150,
+          materials: [{ count: 4, image: "dream_remnant" }],
+        },
+        {
+          gate: 3,
+          gold: 500,
+          bonusGold: 200,
+          materials: [{ count: 5, image: "dream_remnant" }],
+        },
+        {
+          gate: 4,
+          gold: 800,
+          bonusGold: 375,
+          materials: [{ count: 7, image: "dream_remnant" }],
+        },
       ],
     },
     {
@@ -104,10 +181,30 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Hard",
       image: "",
       gates: [
-        { gate: 1, gold: 600, bonusGold: 300, materials: [{ count: 6, image: "dream_remnant" }] },
-        { gate: 2, gold: 600, bonusGold: 300, materials: [{ count: 6, image: "dream_remnant" }] },
-        { gate: 3, gold: 600, bonusGold: 300, materials: [{ count: 7, image: "dream_remnant" }] },
-        { gate: 4, gold: 1000, bonusGold: 500, materials: [{ count: 10, image: "dream_remnant" }] },
+        {
+          gate: 1,
+          gold: 600,
+          bonusGold: 300,
+          materials: [{ count: 6, image: "dream_remnant" }],
+        },
+        {
+          gate: 2,
+          gold: 600,
+          bonusGold: 300,
+          materials: [{ count: 6, image: "dream_remnant" }],
+        },
+        {
+          gate: 3,
+          gold: 600,
+          bonusGold: 300,
+          materials: [{ count: 7, image: "dream_remnant" }],
+        },
+        {
+          gate: 4,
+          gold: 1000,
+          bonusGold: 500,
+          materials: [{ count: 10, image: "dream_remnant" }],
+        },
       ],
     },
     {
@@ -116,9 +213,24 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Normal",
       image: "",
       gates: [
-        { gate: 1, gold: 425, bonusGold: 190, materials: [{ count: 3, image: "decay_eye" }] },
-        { gate: 2, gold: 775, bonusGold: 230, materials: [{ count: 3, image: "decay_eye" }] },
-        { gate: 3, gold: 1150, bonusGold: 330, materials: [{ count: 5, image: "decay_eye" }] },
+        {
+          gate: 1,
+          gold: 425,
+          bonusGold: 190,
+          materials: [{ count: 3, image: "decay_eye" }],
+        },
+        {
+          gate: 2,
+          gold: 775,
+          bonusGold: 230,
+          materials: [{ count: 3, image: "decay_eye" }],
+        },
+        {
+          gate: 3,
+          gold: 1150,
+          bonusGold: 330,
+          materials: [{ count: 5, image: "decay_eye" }],
+        },
       ],
     },
     {
@@ -127,9 +239,24 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Hard",
       image: "",
       gates: [
-        { gate: 1, gold: 600, bonusGold: 300, materials: [{ count: 7, image: "decay_eye" }] },
-        { gate: 2, gold: 1000, bonusGold: 500, materials: [{ count: 7, image: "decay_eye" }] },
-        { gate: 3, gold: 1400, bonusGold: 700, materials: [{ count: 8, image: "decay_eye" }] },
+        {
+          gate: 1,
+          gold: 600,
+          bonusGold: 300,
+          materials: [{ count: 7, image: "decay_eye" }],
+        },
+        {
+          gate: 2,
+          gold: 1000,
+          bonusGold: 500,
+          materials: [{ count: 7, image: "decay_eye" }],
+        },
+        {
+          gate: 3,
+          gold: 1400,
+          bonusGold: 700,
+          materials: [{ count: 8, image: "decay_eye" }],
+        },
       ],
     },
     {
@@ -138,9 +265,24 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Normal",
       image: "",
       gates: [
-        { gate: 1, gold: 375, bonusGold: 180, materials: [{ count: 1, image: "light_of_trial" }] },
-        { gate: 2, gold: 550, bonusGold: 200, materials: [{ count: 1, image: "light_of_trial" }] },
-        { gate: 3, gold: 725, bonusGold: 270, materials: [{ count: 2, image: "light_of_trial" }] },
+        {
+          gate: 1,
+          gold: 375,
+          bonusGold: 180,
+          materials: [{ count: 1, image: "light_of_trial" }],
+        },
+        {
+          gate: 2,
+          gold: 550,
+          bonusGold: 200,
+          materials: [{ count: 1, image: "light_of_trial" }],
+        },
+        {
+          gate: 3,
+          gold: 725,
+          bonusGold: 270,
+          materials: [{ count: 2, image: "light_of_trial" }],
+        },
       ],
     },
     {
@@ -149,9 +291,24 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Hard",
       image: "",
       gates: [
-        { gate: 1, gold: 450, bonusGold: 225, materials: [{ count: 1, image: "light_of_trial" }] },
-        { gate: 2, gold: 700, bonusGold: 350, materials: [{ count: 1, image: "light_of_trial" }] },
-        { gate: 3, gold: 1000, bonusGold: 500, materials: [{ count: 3, image: "light_of_trial" }] },
+        {
+          gate: 1,
+          gold: 450,
+          bonusGold: 225,
+          materials: [{ count: 1, image: "light_of_trial" }],
+        },
+        {
+          gate: 2,
+          gold: 700,
+          bonusGold: 350,
+          materials: [{ count: 1, image: "light_of_trial" }],
+        },
+        {
+          gate: 3,
+          gold: 1000,
+          bonusGold: 500,
+          materials: [{ count: 3, image: "light_of_trial" }],
+        },
       ],
     },
     {
@@ -160,9 +317,24 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Normal",
       image: "",
       gates: [
-        { gate: 1, gold: 600, bonusGold: 180, materials: [{ count: 2, image: "wisdom_energy" }] },
-        { gate: 2, gold: 800, bonusGold: 220, materials: [{ count: 2, image: "wisdom_energy" }] },
-        { gate: 3, gold: 1200, bonusGold: 300, materials: [{ count: 4, image: "wisdom_energy" }] },
+        {
+          gate: 1,
+          gold: 600,
+          bonusGold: 180,
+          materials: [{ count: 2, image: "wisdom_energy" }],
+        },
+        {
+          gate: 2,
+          gold: 800,
+          bonusGold: 220,
+          materials: [{ count: 2, image: "wisdom_energy" }],
+        },
+        {
+          gate: 3,
+          gold: 1200,
+          bonusGold: 300,
+          materials: [{ count: 4, image: "wisdom_energy" }],
+        },
       ],
     },
     {
@@ -171,9 +343,24 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Hard",
       image: "",
       gates: [
-        { gate: 1, gold: 700, bonusGold: 350, materials: [{ count: 4, image: "wisdom_energy" }] },
-        { gate: 2, gold: 1000, bonusGold: 500, materials: [{ count: 4, image: "wisdom_energy" }] },
-        { gate: 3, gold: 1900, bonusGold: 950, materials: [{ count: 8, image: "wisdom_energy" }] },
+        {
+          gate: 1,
+          gold: 700,
+          bonusGold: 350,
+          materials: [{ count: 4, image: "wisdom_energy" }],
+        },
+        {
+          gate: 2,
+          gold: 1000,
+          bonusGold: 500,
+          materials: [{ count: 4, image: "wisdom_energy" }],
+        },
+        {
+          gate: 3,
+          gold: 1900,
+          bonusGold: 950,
+          materials: [{ count: 8, image: "wisdom_energy" }],
+        },
       ],
     },
     {
@@ -182,9 +369,24 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Normal",
       image: "",
       gates: [
-        { gate: 1, gold: 800, bonusGold: 360, materials: [{ count: 6, image: "dark_fire" }] },
-        { gate: 2, gold: 1000, bonusGold: 440, materials: [{ count: 8, image: "dark_fire" }] },
-        { gate: 3, gold: 1400, bonusGold: 640, materials: [{ count: 12, image: "dark_fire" }] },
+        {
+          gate: 1,
+          gold: 800,
+          bonusGold: 360,
+          materials: [{ count: 6, image: "dark_fire" }],
+        },
+        {
+          gate: 2,
+          gold: 1000,
+          bonusGold: 440,
+          materials: [{ count: 8, image: "dark_fire" }],
+        },
+        {
+          gate: 3,
+          gold: 1400,
+          bonusGold: 640,
+          materials: [{ count: 12, image: "dark_fire" }],
+        },
       ],
     },
     {
@@ -193,10 +395,30 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Hard",
       image: "",
       gates: [
-        { gate: 1, gold: 1000, bonusGold: 500, materials: [{ count: 12, image: "dark_fire" }] },
-        { gate: 2, gold: 1200, bonusGold: 600, materials: [{ count: 16, image: "dark_fire" }] },
-        { gate: 3, gold: 1800, bonusGold: 900, materials: [{ count: 24, image: "dark_fire" }] },
-        { gate: 4, gold: 2500, bonusGold: 1250, materials: [{ count: 24, image: "dark_fire" }] },
+        {
+          gate: 1,
+          gold: 1000,
+          bonusGold: 500,
+          materials: [{ count: 12, image: "dark_fire" }],
+        },
+        {
+          gate: 2,
+          gold: 1200,
+          bonusGold: 600,
+          materials: [{ count: 16, image: "dark_fire" }],
+        },
+        {
+          gate: 3,
+          gold: 1800,
+          bonusGold: 900,
+          materials: [{ count: 24, image: "dark_fire" }],
+        },
+        {
+          gate: 4,
+          gold: 2500,
+          bonusGold: 1250,
+          materials: [{ count: 24, image: "dark_fire" }],
+        },
       ],
     },
   ],
@@ -207,8 +429,18 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: null,
       image: "",
       gates: [
-        { gate: 1, gold: 2800, bonusGold: 920, materials: [{ count: 10, image: "behemoth_scale" }] },
-        { gate: 2, gold: 6000, bonusGold: 1960, materials: [{ count: 20, image: "behemoth_scale" }] },
+        {
+          gate: 1,
+          gold: 2800,
+          bonusGold: 920,
+          materials: [{ count: 10, image: "behemoth_scale" }],
+        },
+        {
+          gate: 2,
+          gold: 6000,
+          bonusGold: 1960,
+          materials: [{ count: 20, image: "behemoth_scale" }],
+        },
       ],
     },
     {
@@ -217,8 +449,18 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Normal",
       image: "",
       gates: [
-        { gate: 1, gold: 1150, bonusGold: 500, materials: [{ count: 3, image: "agris_scale" }] },
-        { gate: 2, gold: 2500, bonusGold: 960, materials: [{ count: 6, image: "agris_scale" }] },
+        {
+          gate: 1,
+          gold: 1150,
+          bonusGold: 500,
+          materials: [{ count: 3, image: "agris_scale" }],
+        },
+        {
+          gate: 2,
+          gold: 2500,
+          bonusGold: 960,
+          materials: [{ count: 6, image: "agris_scale" }],
+        },
       ],
     },
     {
@@ -227,8 +469,18 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Hard",
       image: "",
       gates: [
-        { gate: 1, gold: 2800, bonusGold: 920, materials: [{ count: 3, image: "alkyone_eye" }] },
-        { gate: 2, gold: 6000, bonusGold: 1960, materials: [{ count: 6, image: "alkyone_eye" }] },
+        {
+          gate: 1,
+          gold: 2800,
+          bonusGold: 920,
+          materials: [{ count: 3, image: "alkyone_eye" }],
+        },
+        {
+          gate: 2,
+          gold: 6000,
+          bonusGold: 1960,
+          materials: [{ count: 6, image: "alkyone_eye" }],
+        },
       ],
     },
     {
@@ -237,8 +489,18 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Normal",
       image: "",
       gates: [
-        { gate: 1, gold: 4750, bonusGold: 1030, materials: [{ count: 4, image: "flame_spike" }] },
-        { gate: 2, gold: 10750, bonusGold: 2400, materials: [{ count: 6, image: "flame_spike" }] },
+        {
+          gate: 1,
+          gold: 4750,
+          bonusGold: 1030,
+          materials: [{ count: 4, image: "flame_spike" }],
+        },
+        {
+          gate: 2,
+          gold: 10750,
+          bonusGold: 2400,
+          materials: [{ count: 6, image: "flame_spike" }],
+        },
       ],
     },
     {
@@ -247,29 +509,64 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       difficulty: "Hard",
       image: "",
       gates: [
-        { gate: 1, gold: 8000, bonusGold: 3640, materials: [{ count: 8, image: "flame_spike" }] },
-        { gate: 2, gold: 16500, bonusGold: 5880, materials: [{ count: 12, image: "flame_spike" }] },
+        {
+          gate: 1,
+          gold: 8000,
+          bonusGold: 3640,
+          materials: [{ count: 8, image: "flame_spike" }],
+        },
+        {
+          gate: 2,
+          gold: 16500,
+          bonusGold: 5880,
+          materials: [{ count: 12, image: "flame_spike" }],
+        },
       ],
     },
     {
       id: 21,
-      name: "아브렐슈드(Epic)",
+      name: "아브(2막)",
       difficulty: null,
       image: "",
       gates: [
-        { gate: 1, gold: 7250, bonusGold: 4500, materials: [{ count: 4, image: "karma_remnant" }] },
-        { gate: 2, gold: 14250, bonusGold: 7200, materials: [{ count: 6, image: "karma_remnant" }] },
+        {
+          gate: 1,
+          gold: 7250,
+          bonusGold: 4500,
+          materials: [{ count: 4, image: "karma_remnant" }],
+        },
+        {
+          gate: 2,
+          gold: 14250,
+          bonusGold: 7200,
+          materials: [{ count: 6, image: "karma_remnant" }],
+        },
       ],
     },
     {
       id: 22,
-      name: "모르페",
+      name: "모르둠",
       difficulty: null,
       image: "",
       gates: [
-        { gate: 1, gold: 6000, bonusGold: 2700, materials: [{ count: 3, image: "lightning_horn" }] },
-        { gate: 2, gold: 9500, bonusGold: 4100, materials: [{ count: 5, image: "lightning_horn" }] },
-        { gate: 3, gold: 12500, bonusGold: 5800, materials: [{ count: 10, image: "lightning_horn" }] },
+        {
+          gate: 1,
+          gold: 6000,
+          bonusGold: 2700,
+          materials: [{ count: 3, image: "lightning_horn" }],
+        },
+        {
+          gate: 2,
+          gold: 9500,
+          bonusGold: 4100,
+          materials: [{ count: 5, image: "lightning_horn" }],
+        },
+        {
+          gate: 3,
+          gold: 12500,
+          bonusGold: 5800,
+          materials: [{ count: 10, image: "lightning_horn" }],
+        },
       ],
     },
     {
@@ -440,7 +737,8 @@ const Reward = () => {
     () =>
       allRaids.find(
         raid =>
-          raid.name === selectedRaidName && raid.difficulty === selectedDifficulty
+          raid.name === selectedRaidName &&
+          raid.difficulty === selectedDifficulty
       ),
     [selectedRaidName, selectedDifficulty]
   );
@@ -464,8 +762,10 @@ const Reward = () => {
 
       <Swiper
         key={activeTab}
-        spaceBetween={10}
+        modules={[Mousewheel]}
+        spaceBetween={8}
         slidesPerView={"auto"}
+        mousewheel={{ sensitivity: 1.5 }}
         className={styles.raidSelector}
       >
         {raidNamesForCurrentTab.map(name => (
@@ -493,9 +793,7 @@ const Reward = () => {
               className={`${styles.difficultyButton} ${
                 selectedDifficulty === raid.difficulty ? styles.active : ""
               }`}
-              onClick={() =>
-                setSelectedDifficulty(raid.difficulty)
-              }
+              onClick={() => setSelectedDifficulty(raid.difficulty)}
             >
               {raid.difficulty}
             </button>
