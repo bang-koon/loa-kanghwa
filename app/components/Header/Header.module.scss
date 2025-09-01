@@ -42,11 +42,17 @@ $border-color: #f0f0f0;
   align-items: center;
   h2 {
     font-size: 15px;
-    font-weight: 300;
+    font-weight: 400;
     margin-right: 14px;
     color: #444;
     padding: 12px 10px;
     cursor: pointer;
+  }
+
+  h2.active {
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
   }
 }
 

@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
+import ClientProvider from "./lib/ClientProvider";
+import { ViewProvider } from "./lib/ViewContext";
 import Header from "./components/Header/Header";
 
 export const metadata: Metadata = {
@@ -35,11 +37,13 @@ export default function RootLayout({
         <meta name="google-adsense-account" content="ca-pub-7085791456313815" />
       </head>
       <body>
-        <Header />
-        <GoogleTagManager gtmId={`${process.env.GA}`} />
-        <GoogleAnalytics gaId={`${process.env.GT}`} />
-        {children}
-        <SpeedInsights />
+        <ViewProvider>
+          <Header />
+          <GoogleTagManager gtmId={`${process.env.GA}`} />
+          <GoogleAnalytics gaId={`${process.env.GT}`} />
+          {children}
+          <SpeedInsights />
+        </ViewProvider>
       </body>
     </html>
   );
