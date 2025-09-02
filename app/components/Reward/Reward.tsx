@@ -1,6 +1,8 @@
+"use client";
 import { useState, useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel } from "swiper/modules";
+import Image from "next/image";
 import "swiper/css";
 import styles from "./Reward.module.scss";
 
@@ -668,8 +670,8 @@ const Reward = () => {
           <div className={styles.headerCol}>관문</div>
           <div className={styles.headerCol}>기본 재료</div>
           <div className={styles.headerCol}>더보기 재료</div>
-          <div className={styles.headerCol}>골드</div>
           <div className={styles.headerCol}>더보기 골드</div>
+          <div className={styles.headerCol}>골드</div>
         </div>
         {raid.gates.map((g: Gate, index: number) => (
           <div key={index} className={styles.row}>
@@ -682,14 +684,30 @@ const Reward = () => {
             </div>
             <div className={styles.goldCol}>
               <div className={styles.goldContentWrapper}>
-                <div className={styles.goldIcon}></div>
-                <span>{g.gold ? g.gold.toLocaleString() : "-"}</span>
+                <span className={styles.goldText}>
+                  {g.bonusGold ? g.bonusGold.toLocaleString() : "-"}
+                </span>
+                <Image
+                  className={styles.goldIcon}
+                  src="/reward/coin.svg"
+                  alt="골드"
+                  width={20}
+                  height={20}
+                />
               </div>
             </div>
             <div className={styles.goldCol}>
               <div className={styles.goldContentWrapper}>
-                <div className={styles.goldIcon}></div>
-                <span>{g.bonusGold ? g.bonusGold.toLocaleString() : "-"}</span>
+                <span className={styles.goldText}>
+                  {g.gold ? g.gold.toLocaleString() : "-"}
+                </span>
+                <Image
+                  className={styles.goldIcon}
+                  src="/reward/coin.svg"
+                  alt="골드"
+                  width={20}
+                  height={20}
+                />
               </div>
             </div>
           </div>
@@ -704,14 +722,30 @@ const Reward = () => {
           </div>
           <div className={styles.goldCol}>
             <div className={styles.goldContentWrapper}>
-              <div className={styles.goldIcon}></div>
-              <span>{totals.gold.toLocaleString()}</span>
+              <span className={styles.goldText}>
+                {totals.bonusGold.toLocaleString()}
+              </span>
+              <Image
+                className={styles.goldIcon}
+                src="/reward/coin.svg"
+                alt="골드"
+                width={20}
+                height={20}
+              />
             </div>
           </div>
           <div className={styles.goldCol}>
             <div className={styles.goldContentWrapper}>
-              <div className={styles.goldIcon}></div>
-              <span>{totals.bonusGold.toLocaleString()}</span>
+              <span className={styles.goldText}>
+                {totals.gold.toLocaleString()}
+              </span>
+              <Image
+                className={styles.goldIcon}
+                src="/reward/coin.svg"
+                alt="골드"
+                width={20}
+                height={20}
+              />
             </div>
           </div>
         </div>
@@ -725,7 +759,11 @@ const Reward = () => {
   );
 
   const availableDifficulties = useMemo(
-    () => allRaids.filter(raid => raid.name === selectedRaidName),
+    () =>
+      allRaids
+        .filter(raid => raid.name === selectedRaidName)
+        .map(raid => raid.difficulty)
+        .filter((value, index, self) => self.indexOf(value) === index),
     [selectedRaidName]
   );
 
@@ -781,23 +819,55 @@ const Reward = () => {
         ))}
       </Swiper>
 
-      {availableDifficulties.length > 1 && (
-        <div className={styles.difficultySelector}>
-          {availableDifficulties.map(raid => (
-            <button
-              key={raid.difficulty}
-              className={`${styles.difficultyButton} ${
-                selectedDifficulty === raid.difficulty ? styles.active : ""
-              }`}
-              onClick={() => setSelectedDifficulty(raid.difficulty)}
-            >
-              {raid.difficulty}
-            </button>
-          ))}
+      {raidToDisplay && (
+        <div className={styles.raidContentBox}>
+          <div className={styles.raidHeader}>
+            <div className={styles.raidHeaderLeft}>
+              <div className={styles.raidImage}></div>
+              <div className={styles.raidInfo}>
+                <span className={styles.raidName}>{selectedRaidName}</span>
+                <span className={styles.itemLevel}>아이템 레벨 1445+</span>
+              </div>
+            </div>
+            {availableDifficulties.length > 1 && (
+              <div className={styles.difficultyButtons}>
+                <button
+                  className={`${styles.difficultyButton} ${
+                    selectedDifficulty === "Normal" ? styles.active : ""
+                  }`}
+                  onClick={() => setSelectedDifficulty("Normal")}
+                >
+                  노말
+                </button>
+                <button
+                  className={`${styles.difficultyButton} ${
+                    selectedDifficulty === "Hard" ? styles.active : ""
+                  }`}
+                  onClick={() => setSelectedDifficulty("Hard")}
+                >
+                  하드
+                </button>
+              </div>
+            )}
+          </div>
+          {renderRaidTable(raidToDisplay)}
+          <div className={styles.notice}>
+            <div className={styles.noticeHeader}>
+              <Image
+                src="/reward/infoCircle.svg"
+                alt="주의"
+                width={14}
+                height={14}
+              />
+              <span className={styles.noticeTitle}>Notice</span>
+            </div>
+            <div className={styles.noticeContent}>
+              <span>• 귀속 골드 포함입니다.</span>
+              <span> • 데이터 업데이트: 2025.08.20.</span>
+            </div>
+          </div>
         </div>
       )}
-
-      {raidToDisplay && renderRaidTable(raidToDisplay)}
     </div>
   );
 };

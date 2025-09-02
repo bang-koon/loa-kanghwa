@@ -66,6 +66,105 @@
   background-color: #555; /* 선택 시 아이콘 배경도 어둡게 */
 }
 
+.raidHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.raidHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.raidImage {
+  width: 60px;
+  height: 60px;
+  background-color: #ccc; // Placeholder
+  border-radius: 8px;
+}
+
+.raidInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.raidName {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.itemLevel {
+  font-size: 14px;
+  color: #666;
+}
+
+.difficultyButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.difficultyButton {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.difficultyButton.active {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.notice {
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  padding: 15px;
+  font-size: 13px;
+  color: #555;
+}
+
+.noticeHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.noticeHeader img {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(99%) saturate(1355%)
+    hue-rotate(182deg) brightness(93%) contrast(101%);
+}
+
+.noticeTitle {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.noticeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 24px; /* icon + gap */
+}
+
+.raidContentBox {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
 .raidTable {
   background-color: #fff; /* 흰색 배경 */
   border: 1px solid #ddd; /* 연한 테두리 */
@@ -119,8 +218,7 @@
   padding: 2px 0;
 }
 
-.materialIcon,
-.goldIcon {
+.materialIcon {
   width: 20px;
   height: 20px;
   background-color: #e0e0e0; /* 아이콘 배경 */
@@ -133,8 +231,15 @@
   align-items: center;
   justify-content: flex-start;
   width: 80px;
+  gap: 5px;
 }
 
-.goldContentWrapper span {
-  margin-left: 5px;
+.goldText {
+  color: #d4af37;
+  font-weight: 500;
+}
+
+.goldIcon {
+  filter: brightness(0) saturate(100%) invert(84%) sepia(27%) saturate(949%)
+    hue-rotate(344deg) brightness(94%) contrast(88%);
 }
