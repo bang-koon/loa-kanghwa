@@ -6,8 +6,11 @@ import Input from "./components/Input/Input";
 import Board from "./components/Board/Board";
 import Filter from "./components/Filter/Filter";
 import styles from "./page.module.scss";
+import Reward from "./components/Reward/Reward";
+import { useView } from "./lib/ViewContext";
 
 export default function Home() {
+  const { activeView } = useView();
   const [error, setError] = useState<string | null>(null);
   const [level, setLevel] = useState({
     current: "",
@@ -66,15 +69,21 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <Input level={level} setLevel={setLevel} onSubmit={handleSubmit} />
-      <Board
-        calculationResult={calculationResult}
-        advancedRefineData={advancedRefineData}
-        materialsPrice={materials}
-        owned={owned}
-        setOwned={setOwned}
-      />
-      <Filter />
+      {activeView === "reward" ? (
+        <Reward />
+      ) : (
+        <>
+          <Input level={level} setLevel={setLevel} onSubmit={handleSubmit} />
+          <Board
+            calculationResult={calculationResult}
+            advancedRefineData={advancedRefineData}
+            materialsPrice={materials}
+            owned={owned}
+            setOwned={setOwned}
+          />
+          <Filter />
+        </>
+      )}
     </div>
   );
 }
