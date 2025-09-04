@@ -11,37 +11,45 @@ const fetchMaterialPrice = async () => {
   return data;
 };
 
-export const getMaterialPrice = async () => {
-  const data = await fetchMaterialPrice().then(res => res.items);
-  const material: Record<string, number> = { 골드: 1 };
-  for (const item of data) {
-    material[item.Name] = item.RecentPrice;
-  }
+const normalizePrices = (material: Record<string, number>) => {
+  const normalized = { ...material };
 
-  material["수호석 결정"] = (material["수호석 결정"] ?? 0) / 10;
-  material["파괴석 결정"] = (material["파괴석 결정"] ?? 0) / 10;
-  material["수호강석"] = (material["수호강석"] ?? 0) / 10;
-  material["파괴강석"] = (material["파괴강석"] ?? 0) / 10;
-  material["정제된 수호강석"] = (material["정제된 수호강석"] ?? 0) / 10;
-  material["정제된 파괴강석"] = (material["정제된 파괴강석"] ?? 0) / 10;
-  material["운명의 수호석"] = (material["운명의 수호석"] ?? 0) / 10;
-  material["운명의 파괴석"] = (material["운명의 파괴석"] ?? 0) / 10;
-  material["운명의 파편 주머니(소)"] = parseFloat(
-    ((material["운명의 파편 주머니(소)"] ?? 0) / 1000).toFixed(2)
+  const stones = [
+    "수호석 결정",
+    "파괴석 결정",
+    "수호강석",
+    "파괴강석",
+    "정제된 수호강석",
+    "정제된 파괴강석",
+    "운명의 수호석",
+    "운명의 파괴석",
+  ];
+
+  stones.forEach(stone => {
+    normalized[stone] = (normalized[stone] ?? 0) / 100;
+  });
+
+  normalized["운명의 파편 주머니(소)"] = parseFloat(
+    ((normalized["운명의 파편 주머니(소)"] ?? 0) / 1000).toFixed(2)
   );
 
+  return normalized;
+};
+
+const calculateCheapestHonorShard = (material: Record<string, number>) => {
+  const processed = { ...material };
   const shardBags = [
     {
       name: "명예의 파편 주머니(소)",
-      price: material["명예의 파편 주머니(소)"] / 500,
+      price: (processed["명예의 파편 주머니(소)"] ?? 0) / 500,
     },
     {
       name: "명예의 파편 주머니(중)",
-      price: material["명예의 파편 주머니(중)"] / 1000,
+      price: (processed["명예의 파편 주머니(중)"] ?? 0) / 1000,
     },
     {
       name: "명예의 파편 주머니(대)",
-      price: material["명예의 파편 주머니(대)"] / 1500,
+      price: (processed["명예의 파편 주머니(대)"] ?? 0) / 1500,
     },
   ];
 
@@ -49,11 +57,24 @@ export const getMaterialPrice = async () => {
     prev.price < curr.price ? prev : curr
   );
 
-  material["명예의 파편"] = parseFloat(cheapestBag.price.toFixed(2));
+  processed["명예의 파편"] = parseFloat(cheapestBag.price.toFixed(2));
 
-  delete material["명예의 파편 주머니(소)"];
-  delete material["명예의 파편 주머니(중)"];
-  delete material["명예의 파편 주머니(대)"];
+  delete processed["명예의 파편 주머니(소)"];
+  delete processed["명예의 파편 주머니(중)"];
+  delete processed["명예의 파편 주머니(대)"];
+
+  return processed;
+};
+
+export const getMaterialPrice = async () => {
+  const data = await fetchMaterialPrice().then(res => res.items);
+  let material: Record<string, number> = { 골드: 1 };
+  for (const item of data) {
+    material[item.Name] = item.RecentPrice;
+  }
+
+  material = normalizePrices(material);
+  material = calculateCheapestHonorShard(material);
 
   return transformMaterialName(material);
 };
