@@ -24,6 +24,7 @@ interface Raid {
   name: string;
   difficulty: "Normal" | "Hard" | null;
   image: string;
+  itemLevel: string;
   gates: Gate[];
 }
 
@@ -40,6 +41,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "발탄",
       difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1415",
       gates: [
         {
           gate: 1,
@@ -60,6 +62,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "발탄",
       difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1445",
       gates: [
         {
           gate: 1,
@@ -80,6 +83,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "비아키스",
       difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1430",
       gates: [
         {
           gate: 1,
@@ -100,6 +104,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "비아키스",
       difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1460",
       gates: [
         {
           gate: 1,
@@ -120,6 +125,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "쿠크세이튼",
       difficulty: null,
       image: "",
+      itemLevel: "아이템 레벨 1475",
       gates: [
         {
           gate: 1,
@@ -146,6 +152,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "아브렐슈드",
       difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1490",
       gates: [
         {
           gate: 1,
@@ -178,6 +185,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "아브렐슈드",
       difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1540",
       gates: [
         {
           gate: 1,
@@ -210,6 +218,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "일리아칸",
       difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1580",
       gates: [
         {
           gate: 1,
@@ -236,6 +245,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "일리아칸",
       difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1600",
       gates: [
         {
           gate: 1,
@@ -262,6 +272,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "카양겔",
       difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1540",
       gates: [
         {
           gate: 1,
@@ -288,6 +299,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "카양겔",
       difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1580",
       gates: [
         {
           gate: 1,
@@ -314,6 +326,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "상아탑",
       difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1600",
       gates: [
         {
           gate: 1,
@@ -340,6 +353,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "상아탑",
       difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1620",
       gates: [
         {
           gate: 1,
@@ -366,6 +380,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "카멘",
       difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1610",
       gates: [
         {
           gate: 1,
@@ -392,6 +407,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "카멘",
       difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1630",
       gates: [
         {
           gate: 1,
@@ -426,6 +442,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "베히모스",
       difficulty: null,
       image: "",
+      itemLevel: "아이템 레벨 1640",
       gates: [
         {
           gate: 1,
@@ -446,6 +463,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "에키드나",
       difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1620",
       gates: [
         {
           gate: 1,
@@ -466,6 +484,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "에키드나",
       difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1640",
       gates: [
         {
           gate: 1,
@@ -486,6 +505,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "에기르",
       difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1660",
       gates: [
         {
           gate: 1,
@@ -506,6 +526,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       name: "에기르",
       difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1680",
       gates: [
         {
           gate: 1,
@@ -524,67 +545,141 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
     {
       id: 21,
       name: "아브(2막)",
-      difficulty: null,
+      difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1670",
       gates: [
         {
           gate: 1,
           gold: 7250,
-          bonusGold: 4500,
+          bonusGold: 3240,
           materials: [{ count: 4, image: "karma_remnant" }],
         },
         {
           gate: 2,
           gold: 14250,
-          bonusGold: 7200,
+          bonusGold: 4830,
           materials: [{ count: 6, image: "karma_remnant" }],
         },
       ],
     },
     {
       id: 22,
-      name: "모르둠",
-      difficulty: null,
+      name: "아브(2막)",
+      difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1690",
       gates: [
         {
           gate: 1,
-          gold: 6000,
-          bonusGold: 2700,
-          materials: [{ count: 3, image: "lightning_horn" }],
+          gold: 10000,
+          bonusGold: 4500,
+          materials: [{ count: 8, image: "karma_remnant" }],
         },
         {
           gate: 2,
-          gold: 9500,
-          bonusGold: 4100,
-          materials: [{ count: 5, image: "lightning_horn" }],
-        },
-        {
-          gate: 3,
-          gold: 12500,
-          bonusGold: 5800,
-          materials: [{ count: 10, image: "lightning_horn" }],
+          gold: 20500,
+          bonusGold: 7200,
+          materials: [{ count: 12, image: "karma_remnant" }],
         },
       ],
     },
     {
       id: 23,
-      name: "아르모체",
-      difficulty: null,
+      name: "모르둠",
+      difficulty: "Normal",
       image: "",
+      itemLevel: "아이템 레벨 1680",
       gates: [
-        { gate: 1, gold: 12500, bonusGold: 4800, materials: [] },
-        { gate: 2, gold: 20500, bonusGold: 8640, materials: [] },
+        {
+          gate: 1,
+          gold: 6000,
+          bonusGold: 2400,
+          materials: [{ count: 3, image: "lightning_horn" }],
+        },
+        {
+          gate: 2,
+          gold: 9500,
+          bonusGold: 3200,
+          materials: [{ count: 5, image: "lightning_horn" }],
+        },
+        {
+          gate: 3,
+          gold: 12500,
+          bonusGold: 4200,
+          materials: [{ count: 10, image: "lightning_horn" }],
+        },
       ],
     },
     {
       id: 24,
-      name: "카제로스",
-      difficulty: null,
+      name: "모르둠",
+      difficulty: "Hard",
       image: "",
+      itemLevel: "아이템 레벨 1700",
       gates: [
-        { gate: 1, gold: 14000, bonusGold: 5440, materials: [] },
-        { gate: 2, gold: 26000, bonusGold: 11200, materials: [] },
+        {
+          gate: 1,
+          gold: 7000,
+          bonusGold: 2700,
+          materials: [{ count: 3, image: "thunder_prison_orb" }],
+        },
+        {
+          gate: 2,
+          gold: 11000,
+          bonusGold: 4100,
+          materials: [{ count: 5, image: "thunder_prison_orb" }],
+        },
+        {
+          gate: 3,
+          gold: 20000,
+          bonusGold: 5800,
+          materials: [{ count: 10, image: "thunder_prison_orb" }],
+        },
+      ],
+    },
+    {
+      id: 25,
+      name: "아르모체",
+      difficulty: "Normal",
+      image: "",
+      itemLevel: "아이템 레벨 1700",
+      gates: [
+        { gate: 1, gold: 12500, bonusGold: 4000, materials: [] },
+        { gate: 2, gold: 20500, bonusGold: 6560, materials: [] },
+      ],
+    },
+    {
+      id: 26,
+      name: "아르모체",
+      difficulty: "Hard",
+      image: "",
+      itemLevel: "아이템 레벨 1720",
+      gates: [
+        { gate: 1, gold: 15000, bonusGold: 4800, materials: [] },
+        { gate: 2, gold: 27000, bonusGold: 8640, materials: [] },
+      ],
+    },
+    {
+      id: 27,
+      name: "카제로스",
+      difficulty: "Normal",
+      image: "",
+      itemLevel: "아이템 레벨 1710",
+      gates: [
+        { gate: 1, gold: 14000, bonusGold: 4480, materials: [] },
+        { gate: 2, gold: 26000, bonusGold: 8320, materials: [] },
+      ],
+    },
+    {
+      id: 28,
+      name: "카제로스",
+      difficulty: "Hard",
+      image: "",
+      itemLevel: "아이템 레벨 1730",
+      gates: [
+        { gate: 1, gold: 17000, bonusGold: 5440, materials: [] },
+        { gate: 2, gold: 35000, bonusGold: 11200, materials: [] },
       ],
     },
   ],
@@ -826,7 +921,7 @@ const Reward = () => {
               <div className={styles.raidImage}></div>
               <div className={styles.raidInfo}>
                 <span className={styles.raidName}>{selectedRaidName}</span>
-                <span className={styles.itemLevel}>아이템 레벨 1445+</span>
+                <span className={styles.itemLevel}>{raidToDisplay.itemLevel}</span>
               </div>
             </div>
             {availableDifficulties.length > 1 && (
