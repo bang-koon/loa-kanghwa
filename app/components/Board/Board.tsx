@@ -5,36 +5,7 @@ import { reverseTransformMaterialName } from "@/app/lib/transformMaterialName";
 import debounce from "lodash/debounce";
 import useFilterStore from "@/app/lib/store";
 import FilterMobile from "@/app/components/Filter/FilterMobile";
-
-export interface MaterialCost {
-  materials: Record<string, number>;
-  cost: number;
-}
-
-interface CalculationResult {
-  total: MaterialCost;
-  weapon: MaterialCost;
-  armor: MaterialCost;
-}
-
-export interface AdvancedRefine {
-  weapon: {
-    tier3_1: MaterialCost;
-    tier3_2: MaterialCost;
-    tier4_1: MaterialCost;
-    tier4_2: MaterialCost;
-    tier4_3: MaterialCost;
-    tier4_4: MaterialCost;
-  };
-  armor: {
-    tier3_1: MaterialCost;
-    tier3_2: MaterialCost;
-    tier4_1: MaterialCost;
-    tier4_2: MaterialCost;
-    tier4_3: MaterialCost;
-    tier4_4: MaterialCost;
-  };
-}
+import { MaterialCost, CalculationResult, AdvancedRefine } from "@/app/lib/types";
 
 interface BoardProps {
   calculationResult: CalculationResult;

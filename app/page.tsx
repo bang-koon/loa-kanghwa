@@ -1,89 +1,15 @@
-"use client";
+import HomeClient from "@/app/components/HomeClient/HomeClient";
+import { getAdvancedRefineData } from "@/app/lib/data/getAdvancedRefineData";
 
-import { useEffect, useState } from "react";
-import totalCalculator from "./lib/refine/totalCalculator";
-import Input from "./components/Input/Input";
-import Board from "./components/Board/Board";
-import Filter from "./components/Filter/Filter";
-import styles from "./page.module.scss";
-import Reward from "./components/Reward/Reward";
-import { useView } from "./lib/ViewContext";
+export default async function Home() {
+  // 서버에서 데이터 로딩을 모두 처리합니다.
+  const { refineData, materials } = await getAdvancedRefineData();
 
-export default function Home() {
-  const { activeView } = useView();
-  const [error, setError] = useState<string | null>(null);
-  const [level, setLevel] = useState({
-    current: "",
-    target: "",
-  });
-  const [materials, setMaterials] = useState<Record<string, number>>({});
-  const [owned, setOwned] = useState<Record<string, number>>({});
-  const [calculationResult, setCalculationResult] = useState({
-    total: { cost: 0, materials: {} },
-    weapon: { cost: 0, materials: {} },
-    armor: { cost: 0, materials: {} },
-  });
-  const [advancedRefineData, setAdvancedRefineData] = useState({
-    weapon: {
-      tier3_1: { cost: 0, materials: {} },
-      tier3_2: { cost: 0, materials: {} },
-      tier4_1: { cost: 0, materials: {} },
-      tier4_2: { cost: 0, materials: {} },
-      tier4_3: { cost: 0, materials: {} },
-      tier4_4: { cost: 0, materials: {} },
-    },
-    armor: {
-      tier3_1: { cost: 0, materials: {} },
-      tier3_2: { cost: 0, materials: {} },
-      tier4_1: { cost: 0, materials: {} },
-      tier4_2: { cost: 0, materials: {} },
-      tier4_3: { cost: 0, materials: {} },
-      tier4_4: { cost: 0, materials: {} },
-    },
-  });
-
-  useEffect(() => {
-    const fetchMaterials = async () => {
-      const res = await fetch("/api/getMaterialPrice").then(res => res.json());
-      setMaterials(res);
-    };
-
-    fetchMaterials();
-    const fetchAdvancedRefine = async () => {
-      const res = await fetch("/api/getAdvancedRefineData").then(res =>
-        res.json()
-      );
-      setAdvancedRefineData(res);
-    };
-
-    fetchAdvancedRefine();
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (materials) {
-      const res = totalCalculator(level.current, level.target, materials);
-      setCalculationResult(res);
-    }
-  };
-
+  // 데이터 로딩이 완료되면, 클라이언트 컴포넌트에 props로 전달하여 렌더링합니다.
   return (
-    <div className={styles.container}>
-      {activeView === "reward" ? (
-        <Reward />
-      ) : (
-        <>
-          <Input level={level} setLevel={setLevel} onSubmit={handleSubmit} />
-          <Board
-            calculationResult={calculationResult}
-            advancedRefineData={advancedRefineData}
-            materialsPrice={materials}
-            owned={owned}
-            setOwned={setOwned}
-          />
-          <Filter />
-        </>
-      )}
-    </div>
+    <HomeClient 
+      materials={materials} 
+      advancedRefineData={refineData} 
+    />
   );
 }
