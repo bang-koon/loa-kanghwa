@@ -2,7 +2,7 @@ import transformMaterialName from "@/app/lib/transformMaterialName";
 
 const fetchMaterialPrice = async () => {
   const url = `${process.env.MARKET_URL}`;
-  const data = await fetch(url)
+  const data = await fetch(url, { next: { revalidate: 3600 } })
     .then(res => res.json())
     .catch(error => {
       console.error("Error in fetchMaterialPrice:", error);
