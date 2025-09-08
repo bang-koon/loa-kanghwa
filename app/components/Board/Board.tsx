@@ -5,7 +5,11 @@ import { reverseTransformMaterialName } from "@/app/lib/transformMaterialName";
 import debounce from "lodash/debounce";
 import useFilterStore from "@/app/lib/store";
 import FilterMobile from "@/app/components/Filter/FilterMobile";
-import { MaterialCost, CalculationResult, AdvancedRefine } from "@/app/lib/types";
+import {
+  MaterialCost,
+  CalculationResult,
+  AdvancedRefine,
+} from "@/app/lib/types";
 
 interface BoardProps {
   calculationResult: CalculationResult;
@@ -47,16 +51,20 @@ const Board = ({
 
     const addMaterials = (
       category: "weapon" | "armor",
-      key?: (typeof refineKeys)[number],
-      isOnePart: boolean = false
+      key?: (typeof refineKeys)[number]
     ) => {
-      const data = key
-        ? { ...advancedRefineData[category][key] }
-        : { ...calculationResult[category] };
-      if (isOnePart) data.cost = data.cost / 5;
+      const dataContainer = key
+        ? advancedRefineData[category]?.[
+            key as keyof (typeof advancedRefineData)[typeof category]
+          ]
+        : calculationResult[category];
+
+      if (!dataContainer) return;
+
+      const data = { ...dataContainer };
+
       newCost += data.cost;
       for (let [materialName, quantity] of Object.entries(data.materials)) {
-        if (isOnePart) quantity /= 5;
         newMaterials[materialName] =
           (newMaterials[materialName] || 0) + quantity;
       }
@@ -64,14 +72,22 @@ const Board = ({
 
     if (filter.weapon) addMaterials("weapon");
 
-    if (filter.armor) addMaterials("armor", undefined, filter.onePart);
+    if (filter.armor) addMaterials("armor");
 
     refineKeys.forEach(key => {
       if (filter[key]) {
         if (filter.weapon) addMaterials("weapon", key);
-        if (filter.armor) addMaterials("armor", key, filter.onePart);
+        if (filter.armor) addMaterials("armor", key);
       }
     });
+
+    // Handle 5-parts multiplication
+    if (filter.fiveParts) {
+      newCost *= 5;
+      for (const material in newMaterials) {
+        newMaterials[material] *= 5;
+      }
+    }
 
     setCurrent({ cost: newCost, materials: newMaterials });
   }, [filter, weapon, armor]);
