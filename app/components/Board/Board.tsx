@@ -180,7 +180,9 @@ const Board = ({
                 ).toLocaleString(undefined, { maximumFractionDigits: 0 })}
                 <br />
                 <div className={styles.peacePrice}>
-                  {` (${materialsPrice[name]})`}
+                  {` (${(materialsPrice[name] || 0).toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })})`}
                 </div>
               </div>
             </div>

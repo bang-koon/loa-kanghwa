@@ -57,7 +57,7 @@ const calculateCheapestHonorShard = (material: Record<string, number>) => {
     prev.price < curr.price ? prev : curr
   );
 
-  processed["명예의 파편"] = parseFloat(cheapestBag.price.toFixed(2));
+  processed["명예의 파편"] = cheapestBag.price;
 
   delete processed["명예의 파편 주머니(소)"];
   delete processed["명예의 파편 주머니(중)"];
