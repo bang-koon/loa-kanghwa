@@ -1,31 +1,26 @@
-import { advancedRefineTable } from "./data";
+import { advancedRefineTable, AdvancedRefineTable } from "./data";
 import { MaterialCost, RefineTierKey } from "../types";
 
 // --- Types and Interfaces ---
-type TurnChoice =
-  | "normal"
-  | "breath1"
-  | "breath2"
-  | "breath3"
-  | "book"
-  | "breath1book"
-  | "breath2book"
-  | "breath3book";
-interface Strategy {
-  normalTurn: TurnChoice;
-  ancestorTurn: TurnChoice;
-}
+type TurnChoice = "normal" | "breath1" | "breath2" | "breath3" | "book" | "breath1book" | "breath2book" | "breath3book" | "none";
+
 interface TierProbabilities {
   success: Partial<Record<TurnChoice, number[]>>;
   ancestor: { names: string[]; probs: number[] };
   naber: { names: string[]; probs: number[] };
 }
 
+interface OptimalResult {
+  cost: number;
+  materials: Record<string, number>;
+  strategy: TurnChoice[];
+}
+
 // --- Probability & Constant Definitions ---
 const EXP_GAINS = [10, 20, 40];
+const MAX_EXP = 1000;
 
 const T4_HIGH_PROBS: TierProbabilities = {
-  // For tier4_3, tier4_4
   success: {
     normal: [0.8, 0.15, 0.05],
     breath1: [0.5, 0.3, 0.2],
@@ -37,24 +32,23 @@ const T4_HIGH_PROBS: TierProbabilities = {
     probs: [0.125, 0.25, 0.125, 0.25, 0.125, 0.125],
   },
   naber: {
-    names: [
-      "나베르-갈라트루",
-      "나베르-겔라르",
-      "나베르-쿠훔바르",
-      "나베르-테메르",
-      "나베르-에베르",
-    ],
+    names: ["나베르-갈라트루", "나베르-겔라르", "나베르-쿠훔바르", "나베르-테메르", "나베르-에베르"],
     probs: [0.2, 0.2, 0.2, 0.2, 0.2],
   },
 };
 
 const T4_LOW_PROBS: TierProbabilities = {
-  // For tier4_1, tier4_2
   ...T4_HIGH_PROBS,
+  success: {
+    normal: [0.8, 0.15, 0.05],
+    breath1: [0.5, 0.3, 0.2],
+    book: [0.3, 0.45, 0.25],
+    breath1book: [0, 0.6, 0.4],
+  },
   ancestor: {
     names: ["갈라트루", "겔라르", "쿠훔바르", "테메르"],
-    probs: [0.1667, 0.3333, 0.1667, 0.3333],
-  }, // Renormalized
+    probs: [0.15, 0.35, 0.15, 0.35],
+  },
 };
 
 const T3_PROBS: TierProbabilities = {
@@ -64,220 +58,263 @@ const T3_PROBS: TierProbabilities = {
     breath2: [0.6, 0.25, 0.15],
     breath3: [0.5, 0.3, 0.2],
     book: [0.3, 0.45, 0.25],
-    breath1book: [0, 0.6, 0.4],
-    breath2book: [0, 0.6, 0.4],
+    breath1book: [0.2, 0.5, 0.3],
+    breath2book: [0.1, 0.55, 0.35],
     breath3book: [0, 0.6, 0.4],
   },
   ancestor: {
     names: ["갈라트루", "겔라르", "쿠훔바르", "테메르"],
-    probs: [0.1765, 0.4118, 0.1765, 0.4118],
-  }, // Renormalized
+    probs: [0.15, 0.35, 0.15, 0.35],
+  },
   naber: { names: [], probs: [] },
 };
 
-// --- Simulation Core ---
-const getOutcome = (probs: number[]): number => {
-  const roll = Math.random();
-  let cumulativeProb = 0;
-  for (let i = 0; i < probs.length; i++) {
-    cumulativeProb += probs[i];
-    if (roll < cumulativeProb) return i;
-  }
-  return probs.length - 1;
+// --- Memoization Cache ---
+let memo: {
+  [key: string]: {
+    cost: number;
+    materials: Record<string, number>;
+    bestChoice: TurnChoice;
+  };
 };
 
-const runSingleTrial = (
-  strategy: Strategy,
-  target: RefineTierKey,
-  type: "armor" | "weapon",
-  priceMap: Record<string, number>,
-  tierProbs: TierProbabilities
-): MaterialCost => {
-  let totalExp = 0;
-  let totalCost = 0;
+// --- Cost Calculation ---
+const calculateCost = (
+  choice: TurnChoice,
+  table: AdvancedRefineTable,
+  priceMap: Record<string, number>
+): { cost: number; materials: Record<string, number> } => {
   const materials: Record<string, number> = {};
-  let attemptCount = 0;
-  let isFreeRefine = false;
-  let isNaberActive = false;
-  let ancestorCycle = 7;
+  let cost = 0;
 
-  const table = advancedRefineTable[type][target];
+  // Base materials
+  for (const mat in table.amount) {
+    materials[mat] = (materials[mat] || 0) + table.amount[mat];
+    cost += (table.amount[mat] || 0) * (priceMap[mat] || 0);
+  }
 
-  const addMaterials = (choice: TurnChoice) => {
-    for (const mat in table.amount) {
-      materials[mat] = (materials[mat] || 0) + table.amount[mat];
-    }
-    let cost = 0;
-    for (const mat in table.amount)
-      cost += (table.amount[mat] || 0) * (priceMap[mat] || 0);
-
-    if (choice.includes("breath")) {
-      if (target.startsWith("tier4")) {
+  // Breath materials
+  if (choice.includes("breath")) {
+    if (table.breath) {
+      if ("빙하" in table.breath || "용암" in table.breath) {
+        // T4
         for (const breathName in table.breath) {
           const quantity = table.breath[breathName];
           materials[breathName] = (materials[breathName] || 0) + quantity;
           cost += quantity * (priceMap[breathName] || 0);
         }
       } else {
-        const breathNum = parseInt(choice.replace(/[^0-9]/g, ""), 10) as
-          | 1
-          | 2
-          | 3;
-        const breathOrder = ["가호", "축복", "은총"];
-        const breathChoices = {
-          breath1: [breathOrder[0]],
-          breath2: breathOrder.slice(0, 2),
-          breath3: breathOrder.slice(0, 3),
-        };
-        if (breathChoices[`breath${breathNum}`]) {
-          for (const breathName of breathChoices[`breath${breathNum}`]) {
-            if (table.breath[breathName]) {
-              materials[breathName] =
-                (materials[breathName] || 0) + table.breath[breathName];
-              cost += table.breath[breathName] * (priceMap[breathName] || 0);
-            }
-          }
+        // T3
+        const breathNum = parseInt(choice.replace(/[^0-9]/g, ""), 10) as 1 | 2 | 3;
+
+        // Sort breaths by price to ensure we add the cheapest ones first.
+        const sortedBreaths = Object.entries(table.breath)
+          .map(([name, amount]) => ({
+            name,
+            amount,
+            price: (priceMap[name] || 0) * amount,
+          }))
+          .sort((a, b) => a.price - b.price);
+
+        const selectedBreaths = sortedBreaths.slice(0, breathNum);
+
+        for (const breath of selectedBreaths) {
+          materials[breath.name] = (materials[breath.name] || 0) + breath.amount;
+          cost += breath.price;
         }
       }
     }
-    if (choice.includes("book") && table.book) {
-      materials[table.book] = (materials[table.book] || 0) + 1;
-      cost += priceMap[table.book] || 0;
-    }
-    return cost;
-  };
-
-  while (totalExp < 1000) {
-    attemptCount++;
-    ancestorCycle--;
-
-    const isAncestorTurn = ancestorCycle === 0;
-    const choice = isAncestorTurn ? strategy.ancestorTurn : strategy.normalTurn;
-    const currentCost = isFreeRefine ? 0 : addMaterials(choice);
-    if (!isFreeRefine) totalCost += currentCost;
-    isFreeRefine = false;
-
-    const probs = tierProbs.success[choice]!;
-    const baseExpRoll = EXP_GAINS[getOutcome(probs)];
-
-    if (isNaberActive) {
-      isNaberActive = false;
-      const effectName =
-        tierProbs.naber.names[getOutcome(tierProbs.naber.probs)];
-      if (effectName === "나베르-갈라트루") totalExp += baseExpRoll * 7;
-      else if (effectName === "나베르-겔라르") totalExp += baseExpRoll * 5;
-      else if (effectName === "나베르-쿠훔바르") totalExp += 80;
-      else if (effectName === "나베르-테메르") {
-        totalExp += 30;
-        isFreeRefine = true;
-      } else if (effectName === "나베르-에베르") totalExp += baseExpRoll + 200;
-    } else if (isAncestorTurn) {
-      const effectName =
-        tierProbs.ancestor.names[getOutcome(tierProbs.ancestor.probs)];
-      if (effectName === "갈라트루") totalExp += baseExpRoll * 5;
-      else if (effectName === "겔라르") totalExp += baseExpRoll * 3;
-      else if (effectName === "쿠훔바르") {
-        totalExp += 30;
-        ancestorCycle = 1;
-      } else if (effectName === "테메르") {
-        totalExp += 10;
-        isFreeRefine = true;
-      } else if (effectName === "나베르") isNaberActive = true;
-      else if (effectName === "에베르") totalExp += baseExpRoll + 100;
-      if (ancestorCycle === 0) ancestorCycle = 7;
-    } else {
-      totalExp += baseExpRoll;
-    }
   }
-  return { cost: totalCost, materials };
+
+  // Book material
+  if (choice.includes("book") && table.book) {
+    materials[table.book] = (materials[table.book] || 0) + 1;
+    cost += priceMap[table.book] || 0;
+  }
+
+  return { cost, materials };
 };
 
-const simulateStrategyCost = (
-  strategy: Strategy,
+// --- Dynamic Programming Core ---
+const findOptimalRecursive = (
+  currentExp: number,
+  ancestorCycle: number,
+  isNaberActive: boolean,
+  isFreeRefine: boolean,
   target: RefineTierKey,
   type: "armor" | "weapon",
   priceMap: Record<string, number>,
-  numTrials: number = 1000
-): MaterialCost => {
-  const tierProbs = target.startsWith("tier4")
-    ? target === "tier4_3" || target === "tier4_4"
-      ? T4_HIGH_PROBS
-      : T4_LOW_PROBS
-    : T3_PROBS;
-  let totalCost = 0;
-  const totalMaterials: Record<string, number> = {};
+  tierProbs: TierProbabilities
+): {
+  cost: number;
+  materials: Record<string, number>;
+  bestChoice: TurnChoice;
+} => {
+  if (currentExp >= MAX_EXP) {
+    return { cost: 0, materials: {}, bestChoice: "none" };
+  }
 
-  for (let i = 0; i < numTrials; i++) {
-    const result = runSingleTrial(strategy, target, type, priceMap, tierProbs);
-    totalCost += result.cost;
-    for (const mat in result.materials) {
-      totalMaterials[mat] = (totalMaterials[mat] || 0) + result.materials[mat];
+  const memoKey = `${currentExp}-${ancestorCycle}-${isNaberActive}-${isFreeRefine}`;
+  if (memo[memoKey]) {
+    return memo[memoKey];
+  }
+
+  const isAncestorTurn = ancestorCycle === 1;
+  const table = advancedRefineTable[type][target];
+
+  const baseChoices: TurnChoice[] = ["normal"];
+  if (table.book) baseChoices.push("book");
+
+  const t3BreathChoices: TurnChoice[] = ["breath1", "breath2", "breath3"];
+  if (table.book) t3BreathChoices.push("breath1book", "breath2book", "breath3book");
+
+  const t4BreathChoices: TurnChoice[] = ["breath1"];
+  if (table.book) t4BreathChoices.push("breath1book");
+
+  const choices: TurnChoice[] = target.startsWith("tier4")
+    ? [...baseChoices, ...t4BreathChoices]
+    : [...baseChoices, ...t3BreathChoices];
+
+  let bestChoice: TurnChoice = "normal";
+  let minExpectedCost = Infinity;
+  let bestMaterials: Record<string, number> = {};
+
+  for (const choice of choices) {
+    const turnCost = isFreeRefine ? { cost: 0, materials: {} } : calculateCost(choice, table, priceMap);
+    const successProbs = tierProbs.success[choice]!;
+    if (!successProbs) continue;
+
+    let expectedFutureCost = 0;
+    let expectedFutureMaterials: Record<string, number> = {};
+
+    // Calculate expected cost from normal success outcomes
+    for (let i = 0; i < successProbs.length; i++) {
+      const prob = successProbs[i];
+      if (prob === 0) continue;
+
+      const expGain = EXP_GAINS[i];
+      let futureCostResult: { cost: number; materials: Record<string, number> };
+
+      if (isAncestorTurn) {
+        // Calculate expected cost from ancestor outcomes
+        let ancestorExpectedCost = 0;
+        let ancestorExpectedMaterials: Record<string, number> = {};
+
+        for (let j = 0; j < tierProbs.ancestor.probs.length; j++) {
+          const ancestorProb = tierProbs.ancestor.probs[j];
+          const ancestorName = tierProbs.ancestor.names[j];
+          let ancestorResult: {
+            cost: number;
+            materials: Record<string, number>;
+          };
+
+          // Naber logic
+          if (isNaberActive) {
+            let naberExpectedCost = 0;
+            let naberExpectedMaterials: Record<string, number> = {};
+            for (let k = 0; k < tierProbs.naber.probs.length; k++) {
+              const naberProb = tierProbs.naber.probs[k];
+              const naberName = tierProbs.naber.names[k];
+              let naberResult: {
+                cost: number;
+                materials: Record<string, number>;
+              };
+              if (naberName === "나베르-갈라트루")
+                naberResult = findOptimalRecursive(currentExp + expGain * 7, 7, false, false, target, type, priceMap, tierProbs);
+              else if (naberName === "나베르-겔라르")
+                naberResult = findOptimalRecursive(currentExp + expGain * 5, 7, false, false, target, type, priceMap, tierProbs);
+              else if (naberName === "나베르-쿠훔바르")
+                naberResult = findOptimalRecursive(currentExp + 80, 1, false, false, target, type, priceMap, tierProbs);
+              else if (naberName === "나베르-테메르")
+                naberResult = findOptimalRecursive(currentExp + 30, 7, false, true, target, type, priceMap, tierProbs);
+              else naberResult = findOptimalRecursive(currentExp + 200, 7, false, false, target, type, priceMap, tierProbs); // 에베르
+              naberExpectedCost += naberProb * naberResult.cost;
+              for (const mat in naberResult.materials)
+                naberExpectedMaterials[mat] = (naberExpectedMaterials[mat] || 0) + naberProb * naberResult.materials[mat];
+            }
+            ancestorResult = {
+              cost: naberExpectedCost,
+              materials: naberExpectedMaterials,
+            };
+          }
+          // Normal Ancestor logic
+          else if (ancestorName === "갈라트루")
+            ancestorResult = findOptimalRecursive(currentExp + expGain * 5, 7, false, false, target, type, priceMap, tierProbs);
+          else if (ancestorName === "겔라르")
+            ancestorResult = findOptimalRecursive(currentExp + expGain * 3, 7, false, false, target, type, priceMap, tierProbs);
+          else if (ancestorName === "쿠훔바르")
+            ancestorResult = findOptimalRecursive(currentExp + 30, 1, false, false, target, type, priceMap, tierProbs);
+          else if (ancestorName === "테메르")
+            ancestorResult = findOptimalRecursive(currentExp + 10, 7, false, true, target, type, priceMap, tierProbs);
+          else if (ancestorName === "나베르")
+            ancestorResult = findOptimalRecursive(currentExp, 1, true, false, target, type, priceMap, tierProbs);
+          else ancestorResult = findOptimalRecursive(currentExp + 100, 7, false, false, target, type, priceMap, tierProbs); // 에베르
+
+          ancestorExpectedCost += ancestorProb * ancestorResult.cost;
+          for (const mat in ancestorResult.materials) {
+            ancestorExpectedMaterials[mat] = (ancestorExpectedMaterials[mat] || 0) + ancestorProb * ancestorResult.materials[mat];
+          }
+        }
+        futureCostResult = {
+          cost: ancestorExpectedCost,
+          materials: ancestorExpectedMaterials,
+        };
+      } else {
+        futureCostResult = findOptimalRecursive(
+          currentExp + expGain,
+          ancestorCycle - 1,
+          false,
+          false,
+          target,
+          type,
+          priceMap,
+          tierProbs
+        );
+      }
+
+      expectedFutureCost += prob * futureCostResult.cost;
+      for (const mat in futureCostResult.materials) {
+        expectedFutureMaterials[mat] = (expectedFutureMaterials[mat] || 0) + prob * futureCostResult.materials[mat];
+      }
+    }
+
+    const totalExpectedCost = turnCost.cost + expectedFutureCost;
+    if (totalExpectedCost < minExpectedCost) {
+      minExpectedCost = totalExpectedCost;
+      bestChoice = choice;
+
+      bestMaterials = { ...turnCost.materials };
+      for (const mat in expectedFutureMaterials) {
+        bestMaterials[mat] = (bestMaterials[mat] || 0) + expectedFutureMaterials[mat];
+      }
     }
   }
 
-  const avgCost = totalCost / numTrials;
-  const avgMaterials: Record<string, number> = {};
-  for (const mat in totalMaterials) {
-    avgMaterials[mat] = totalMaterials[mat] / numTrials;
-  }
-
-  return { cost: avgCost, materials: avgMaterials };
+  const result = {
+    cost: minExpectedCost,
+    materials: bestMaterials,
+    bestChoice,
+  };
+  memo[memoKey] = result;
+  return result;
 };
 
-// --- Main Optimizer Function ---
 export const findOptimalStrategy = (
   target: RefineTierKey,
   type: "armor" | "weapon",
   priceMap: Record<string, number>
 ): MaterialCost => {
-  const isT4 = target.startsWith("tier4");
-  const baseChoices: TurnChoice[] = ["normal", "book"];
-  const t3BreathChoices: TurnChoice[] = [
-    "breath1",
-    "breath2",
-    "breath3",
-    "breath1book",
-    "breath2book",
-    "breath3book",
-  ];
-  const t4BreathChoices: TurnChoice[] = ["breath1", "breath1book"];
+  memo = {};
+  const tierProbs = target.startsWith("tier3")
+    ? T3_PROBS
+    : target.endsWith("_1") || target.endsWith("_2")
+    ? T4_LOW_PROBS
+    : T4_HIGH_PROBS;
 
-  const choices: TurnChoice[] = isT4
-    ? [...baseChoices, ...t4BreathChoices]
-    : [...baseChoices, ...t3BreathChoices];
+  const result = findOptimalRecursive(0, 7, false, false, target, type, priceMap, tierProbs);
 
-  let bestStrategy: Strategy | null = null;
-  let minCost: MaterialCost = { cost: Infinity, materials: {} };
-
-  for (const normalTurn of choices) {
-    for (const ancestorTurn of choices) {
-      const currentStrategy: Strategy = { normalTurn, ancestorTurn };
-
-      const table = advancedRefineTable[type][target];
-      if (
-        (normalTurn.includes("book") || ancestorTurn.includes("book")) &&
-        !table.book
-      ) {
-        continue;
-      }
-
-      const result = simulateStrategyCost(
-        currentStrategy,
-        target,
-        type,
-        priceMap
-      );
-
-      if (result.cost < minCost.cost) {
-        minCost = result;
-        bestStrategy = currentStrategy;
-      }
-    }
-  }
-
-  console.log(
-    `[Debug] Final best strategy for ${type} ${target}:`,
-    bestStrategy
-  );
-  return minCost;
+  return {
+    cost: result.cost,
+    materials: result.materials,
+  };
 };
