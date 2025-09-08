@@ -11,7 +11,7 @@ export const REFINE_TIER_KEYS = [
   "tier4_2",
   "tier4_3",
   "tier4_4",
-];
+] as const;
 
 // 위 상수 배열로부터 타입을 동적으로 생성합니다.
 export type RefineTierKey = (typeof REFINE_TIER_KEYS)[number];
