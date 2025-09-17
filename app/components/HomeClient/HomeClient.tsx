@@ -24,7 +24,6 @@ export default function HomeClient({ materials, advancedRefineData }: MainConten
   });
   const [owned, setOwned] = useState<Record<string, number>>({});
   const [calculationResult, setCalculationResult] = useState({
-    total: { cost: 0, materials: {} },
     weapon: { cost: 0, materials: {} },
     armor: { cost: 0, materials: {} },
   });

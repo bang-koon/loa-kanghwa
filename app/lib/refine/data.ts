@@ -739,7 +739,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4ArmorBreathTable[0.1],
-          재봉술업화: [1, 0.1],
+          재봉술업화A: [1, 0.1],
         },
       },
       12: {
@@ -753,7 +753,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4ArmorBreathTable[0.1],
-          재봉술업화: [1, 0.1],
+          재봉술업화A: [1, 0.1],
         },
       },
       13: {
@@ -767,7 +767,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4ArmorBreathTable[0.05],
-          재봉술업화: [1, 0.05],
+          재봉술업화A: [1, 0.05],
         },
       },
       14: {
@@ -781,7 +781,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4ArmorBreathTable[0.05],
-          재봉술업화: [1, 0.05],
+          재봉술업화A: [1, 0.05],
         },
       },
       15: {
@@ -795,6 +795,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4ArmorBreathTable[0.04],
+          재봉술업화B: [1, 0.04],
         },
       },
       16: {
@@ -808,6 +809,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4ArmorBreathTable[0.04],
+          재봉술업화B: [1, 0.04],
         },
       },
       17: {
@@ -821,6 +823,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4ArmorBreathTable[0.03],
+          재봉술업화B: [1, 0.03],
         },
       },
       18: {
@@ -834,6 +837,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4ArmorBreathTable[0.03],
+          재봉술업화B: [1, 0.03],
         },
       },
       19: {
@@ -1541,7 +1545,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4WeaponBreathTable[0.1],
-          야금술업화: [1, 0.1],
+          야금술업화A: [1, 0.1],
         },
       },
       12: {
@@ -1555,7 +1559,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4WeaponBreathTable[0.1],
-          야금술업화: [1, 0.1],
+          야금술업화A: [1, 0.1],
         },
       },
       13: {
@@ -1569,7 +1573,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4WeaponBreathTable[0.05],
-          야금술업화: [1, 0.05],
+          야금술업화A: [1, 0.05],
         },
       },
       14: {
@@ -1583,7 +1587,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4WeaponBreathTable[0.05],
-          야금술업화: [1, 0.05],
+          야금술업화A: [1, 0.05],
         },
       },
       15: {
@@ -1597,6 +1601,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4WeaponBreathTable[0.04],
+          야금술업화B: [1, 0.04],
         },
       },
       16: {
@@ -1610,6 +1615,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4WeaponBreathTable[0.04],
+          야금술업화B: [1, 0.04],
         },
       },
       17: {
@@ -1623,6 +1629,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4WeaponBreathTable[0.03],
+          야금술업화B: [1, 0.03],
         },
       },
       18: {
@@ -1636,6 +1643,7 @@ export const refineData: Record<
         },
         breath: {
           ...t4WeaponBreathTable[0.03],
+          야금술업화B: [1, 0.03],
         },
       },
       19: {
@@ -1740,7 +1748,7 @@ export function getTargetList(
   if (!itemType || !itemGrade) {
     return [];
   }
-  return Object.keys(refineData[itemType][itemGrade]).map(x => +x);
+  return Object.keys(refineData[itemType][itemGrade]).map((x) => +x);
 }
 
 export function getRefineTable(
@@ -1760,51 +1768,56 @@ export function getRefineTable(
   let goldReduction = 0;
   let goldCeilUnit = 1;
   let janginMultiplier = 1;
-  if (itemGrade === "t3_1250" && refineTarget <= 12) {
+  if (itemGrade === 't3_1250' && refineTarget <= 12) {
     additionalProb = 0.1;
     costReduction = 0.4;
     goldReduction = 1;
   }
-  if (itemGrade === "t3_1250" && refineTarget >= 13 && refineTarget <= 14) {
+  if (itemGrade === 't3_1250' && refineTarget >= 13 && refineTarget <= 14) {
     additionalProb = 0.05;
     costReduction = 0.4;
     goldReduction = 1;
   }
-  if (itemGrade === "t3_1250" && refineTarget === 15) {
+  if (itemGrade === 't3_1250' && refineTarget === 15) {
     additionalProb = 0.03;
     costReduction = 0.4;
     goldReduction = 1;
   }
-  if (itemGrade === "t3_1390" && refineTarget >= 1 && refineTarget <= 20) {
+  if (itemGrade === 't3_1390' && refineTarget >= 1 && refineTarget <= 19) {
+    additionalProb = data.baseProb;
+    goldReduction = 1;
+    costReduction = 0.6;
+    goldCeilUnit = 10;
+  }
+  if (itemGrade === 't3_1390' && refineTarget === 20) {
     additionalProb = data.baseProb;
     goldReduction = 0.5;
     costReduction = 0.5;
     goldCeilUnit = 10;
   }
+  if (itemGrade === 't3_1525' && refineTarget >= 1 && refineTarget <= 19) {
+    additionalProb = data.baseProb;
+    goldReduction = 0.4;
+    costReduction = 0.2;
+    goldCeilUnit = 1;
+  }
 
   if (applyResearch) {
-    if (itemGrade === "t3_1250" && refineTarget >= 1 && refineTarget <= 10) {
+    if (itemGrade === 't3_1250' && refineTarget >= 1 && refineTarget <= 10) {
       additionalProb += 0.1;
     }
-    if (itemGrade === "t3_1250" && refineTarget >= 11 && refineTarget <= 13) {
+    if (itemGrade === 't3_1250' && refineTarget >= 11 && refineTarget <= 13) {
       additionalProb += 0.05;
     }
-    if (itemGrade === "t3_1250" && refineTarget >= 14 && refineTarget <= 15) {
+    if (itemGrade === 't3_1250' && refineTarget >= 14 && refineTarget <= 15) {
       additionalProb += 0.02;
     }
   }
 
   if (applyHyperExpress) {
     // 2024 Summer, Super Mococo Express
-    if (itemGrade === "t3_1390" && refineTarget >= 13 && refineTarget <= 19) {
+    if (itemGrade === 't3_1525' && refineTarget >= 13 && refineTarget <= 19) {
       additionalProb = data.baseProb;
-      goldReduction = 0.7;
-      costReduction = 0.7;
-      goldCeilUnit = 1;
-    }
-
-    if (itemGrade === "t3_1525" && refineTarget >= 13 && refineTarget <= 15) {
-      additionalProb += data.baseProb / 2;
       goldReduction = 0.4;
       costReduction = 0.4;
       goldCeilUnit = 1;
@@ -1819,18 +1832,13 @@ export function getRefineTable(
     amount: Object.fromEntries(
       Object.entries(data.amount).map(([name, value]) => [
         name,
-        name === "골드"
+        name === '골드'
           ? Math.ceil((value * (1 - goldReduction)) / goldCeilUnit) *
             goldCeilUnit
-          : Math.round(value * (1 - costReduction)),
+          : Math.ceil(value * (1 - costReduction)),
       ])
     ),
     baseProb: data.baseProb,
     breath: data.breath,
   };
 }
-
-// This code is based on or references code from loa-calc.
-// Original code is licensed under the MIT License.
-// Copyright (c) 2021 icepeng
-// https://github.com/icepeng/loa-calc
