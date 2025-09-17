@@ -1,184 +1,172 @@
-import { RefineTable } from "./data";
+import { RefineTable } from './data';
 
-const breathNames = ["은총", "축복", "가호", "용암", "빙하"];
+const JANGIN_ACCUMULATE_DIVIDER = 2.15;
 
-const calculateRefine = (
+// Helper types
+type MaterialChoice = {
+  name: string;
+  price: number;
+  prob: number;
+  amount: number;
+};
+type Combination = {
+  price: number;
+  prob: number;
+  breathes: Record<string, number>;
+};
+
+// Result types
+export interface OptimalResult {
+  cost: number;
+  materials: Record<string, number>;
+  path: { choice: Combination; prob: number }[];
+}
+
+const breathNames = ['은총', '축복', '가호', '용암', '빙하'];
+
+// --- Helper Functions ---
+
+function getPrice(
+  priceMap: Record<string, number>,
+  amountMap: Record<string, number>
+): number {
+  return Object.entries(amountMap)
+    .map(([key, amount]) => (priceMap[key] || 0) * amount)
+    .reduce((sum, x) => sum + x, 0);
+}
+
+// Returns a list of individual supplemental materials
+function getIndividualMaterials(
+  priceMap: Record<string, number>,
+  breathMap: Record<string, [number, number]>
+): MaterialChoice[] {
+  return Object.keys(breathMap)
+    .filter((name) => priceMap[name] > 0)
+    .map((name) => {
+      const [amount, prob] = breathMap[name];
+      return {
+        name,
+        amount,
+        prob,
+        price: (priceMap[name] || 0) * amount,
+      };
+    });
+}
+
+// Generates all 2^n combinations (power set) from the list of materials
+function generateAllCombinations(materials: MaterialChoice[]): Combination[] {
+  const powerSet: Combination[] = [];
+  const numCombinations = 1 << materials.length;
+
+  for (let i = 0; i < numCombinations; i++) {
+    const subset: Combination = { price: 0, prob: 0, breathes: {} };
+    for (let j = 0; j < materials.length; j++) {
+      if ((i & (1 << j)) > 0) {
+        const material = materials[j];
+        subset.price += material.price;
+        subset.prob += material.prob;
+        subset.breathes[material.name] = material.amount;
+      }
+    }
+    powerSet.push(subset);
+  }
+  return powerSet;
+}
+
+// --- DP with Memoization ---
+
+let memo: Record<string, OptimalResult>;
+
+function findOptimalStrategy(
   table: RefineTable,
   priceMap: Record<string, number>,
-  bindedMap: Record<string, number>
-): { totalCost: number; materialsUsed: Record<string, number> } => {
-  const JANGIN_ACCUMULATE_DIVIDER = 0.465;
-  const baseProb = table.baseProb;
-  const additionalProb = table.additionalProb;
-  const defaultBasePrice = getPrice(priceMap, bindedMap, table.amount);
-  const defaultBreath = buildBreath(
-    priceMap,
-    table.breath,
-    bindedMap,
-    baseProb
-  );
-  let totalCost = 0;
-  const materialsUsed: Record<string, number> = {};
+  currentProb: number,
+  currentJangin: number
+): OptimalResult {
+  if (currentJangin >= 1) {
+    return { cost: 0, materials: {}, path: [] };
+  }
 
-  const calculator = (
-    defaultBreath: Array<{
-      price: number;
-      prob: number;
-      breathes: Record<string, number>;
-    }>,
-    baseProb: number,
-    additionalProb: number,
-    defaultBasePrice: number
-  ): {
-    minCost: number;
-    attempts: number;
-    usedBreathes: Record<string, number>;
-  } => {
-    const maxSuccessRate = 0.86;
-    const dp: number[] = Array(87).fill(Infinity);
-    const attempts: number[] = Array(87).fill(0);
-    const usedBreathes: Record<string, number>[] = Array(87)
-      .fill(null)
-      .map(() => ({}));
-    dp[0] = 0;
+  const memoKey = `${Math.round(currentProb * 1000)}-${Math.round(
+    currentJangin * 10000
+  )}`;
+  if (memo[memoKey]) {
+    return memo[memoKey];
+  }
 
-    for (let s = 0; s <= 86; s++) {
-      for (const breath of defaultBreath) {
-        const currentProb = Math.min(
-          baseProb + baseProb * 0.1 * attempts[s],
-          baseProb * 2
-        );
-        if (currentProb > maxSuccessRate) continue;
+  const baseTurnCost = getPrice(priceMap, table.amount);
+  const individualMaterials = getIndividualMaterials(priceMap, table.breath);
+  const allCombinations = generateAllCombinations(individualMaterials);
 
-        const calculatedState =
-          s + Math.round((currentProb + breath.prob + additionalProb) * 100);
-        const nextState = Math.min(86, calculatedState);
-        let cost = defaultBasePrice + breath.price;
-        let attemptIncrement = 1;
+  let minExpectedCost = Infinity;
+  let bestResult: OptimalResult = { cost: Infinity, materials: {}, path: [] };
 
-        if (calculatedState > 86) {
-          const excess = calculatedState - 86;
-          const totalIncrease = calculatedState - s;
-          const increaseRatio = 1 - excess / totalIncrease;
-          cost *= increaseRatio;
-          attemptIncrement *= increaseRatio;
-        }
+  for (const combination of allCombinations) {
+    const turnCost = baseTurnCost + combination.price;
+    const turnMaterials = { ...table.amount, ...combination.breathes };
 
-        if (dp[nextState] > dp[s] + cost) {
-          dp[nextState] = dp[s] + cost;
-          attempts[nextState] = attempts[s] + attemptIncrement;
+    const totalProb = Math.min(
+      currentProb + table.additionalProb + combination.prob,
+      1
+    );
 
-          usedBreathes[nextState] = { ...usedBreathes[s] };
-          for (const [name, amount] of Object.entries(breath.breathes)) {
-            usedBreathes[nextState][name] =
-              (usedBreathes[nextState][name] || 0) + amount;
-          }
-        }
+    let expectedFutureCost = 0;
+    const expectedFutureMaterials: Record<string, number> = {};
+
+    if (totalProb < 1) {
+      const failProb = 1 - totalProb;
+      const nextProb = Math.min(
+        currentProb + table.baseProb * 0.1,
+        table.baseProb * 2
+      );
+      const nextJangin =
+        currentJangin +
+        (totalProb / JANGIN_ACCUMULATE_DIVIDER) * table.janginMultiplier;
+
+      const futureResult = findOptimalStrategy(
+        table,
+        priceMap,
+        nextProb,
+        nextJangin
+      );
+
+      expectedFutureCost = failProb * futureResult.cost;
+      for (const material in futureResult.materials) {
+        expectedFutureMaterials[material] =
+          (expectedFutureMaterials[material] || 0) +
+          failProb * futureResult.materials[material];
       }
     }
 
-    return {
-      minCost: dp[86],
-      attempts: attempts[86],
-      usedBreathes: usedBreathes[86],
-    };
-  };
+    const totalExpectedCost = turnCost + expectedFutureCost;
 
-  const result = calculator(
-    defaultBreath,
-    baseProb,
-    additionalProb,
-    defaultBasePrice
-  );
+    if (totalExpectedCost < minExpectedCost) {
+      minExpectedCost = totalExpectedCost;
 
-  totalCost = result.minCost;
+      const totalExpectedMaterials: Record<string, number> = { ...turnMaterials };
+      for (const material in expectedFutureMaterials) {
+        totalExpectedMaterials[material] =
+          (totalExpectedMaterials[material] || 0) +
+          expectedFutureMaterials[material];
+      }
 
-  for (const [name, amount] of Object.entries(table.amount)) {
-    materialsUsed[name] = (amount || 0) * result.attempts;
-  }
-
-  for (const [name, amount] of Object.entries(result.usedBreathes)) {
-    materialsUsed[name] = (materialsUsed[name] || 0) + amount;
-  }
-
-  console.log(`시도 횟수: ${result.attempts}`);
-  console.log(`총 비용: ${totalCost}, 사용한 재료:`, materialsUsed);
-
-  return { totalCost, materialsUsed };
-};
-
-// Helper functions
-const getPrice = (
-  priceMap: Record<string, number>,
-  bindedMap: Record<string, number>,
-  amountMap: Record<string, number>
-): number => {
-  return Object.entries(amountMap)
-    .map(([key, amount]) => {
-      return priceMap[key] * Math.max(amount - (bindedMap[key] ?? 0), 0);
-    })
-    .reduce((sum, x) => sum + x, 0);
-};
-
-const buildBreath = (
-  priceMap: Record<string, number>,
-  breathMap: Record<string, [number, number]>,
-  bindedMap: Record<string, number>,
-  baseProb: number
-) => {
-  const breathes = Object.keys(breathMap).sort((a, b) => {
-    const comparator =
-      (Math.max(breathMap[a][0] - (bindedMap[a] ?? 0), 0) * priceMap[a]) /
-        (breathMap[a][0] * breathMap[a][1]) -
-      (Math.max(breathMap[b][0] - (bindedMap[b] ?? 0), 0) * priceMap[b]) /
-        (breathMap[b][0] * breathMap[b][1]);
-
-    if (comparator === 0) {
-      return priceMap[a] / breathMap[a][1] - priceMap[b] / breathMap[b][1];
-    }
-
-    return comparator;
-  });
-
-  const adjustedBreathMap: Record<
-    string,
-    { price: number; prob: number; amount: number }
-  > = {};
-  let probLeft = Math.max(baseProb, 0.01);
-
-  breathes.forEach(name => {
-    const [breathAmount, breathProb] = breathMap[name];
-    if (breathNames.includes(name)) {
-      const amount = Math.min(Math.ceil(probLeft / breathProb), breathAmount);
-
-      adjustedBreathMap[name] = {
-        price: Math.max(amount - (bindedMap[name] ?? 0), 0) * priceMap[name],
-        prob: Math.min(amount * breathProb, probLeft),
-        amount,
-      };
-      probLeft -= amount * breathProb;
-    } else {
-      adjustedBreathMap[name] = {
-        price: Math.max(1 - (bindedMap[name] ?? 0), 0) * priceMap[name],
-        prob: breathProb,
-        amount: 1,
+      bestResult = {
+        cost: minExpectedCost,
+        materials: totalExpectedMaterials,
+        path: [{ choice: combination, prob: totalProb }],
       };
     }
-  });
+  }
 
-  return breathes.reduce(
-    (arr, name) => {
-      const prev = arr[arr.length - 1];
-      const current = adjustedBreathMap[name];
-      arr.push({
-        price: prev.price + current.price,
-        prob: prev.prob + current.prob,
-        breathes: { ...prev.breathes, [name]: current.amount },
-      });
-      return arr;
-    },
-    [{ price: 0, prob: 0, breathes: {} as Record<string, number> }]
-  );
-};
+  memo[memoKey] = bestResult;
+  return bestResult;
+}
 
-export default calculateRefine;
+export default function calculateRefine(
+  table: RefineTable,
+  priceMap: Record<string, number>
+): OptimalResult {
+  memo = {}; // Clear memoization cache for each new calculation
+  // Remove debugging logs from the previous version
+  return findOptimalStrategy(table, priceMap, table.baseProb, 0);
+}

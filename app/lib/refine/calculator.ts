@@ -1,5 +1,5 @@
 import { getRefineTable } from "./data";
-import refine from "./refine";
+import calculateRefine from "./refine";
 
 const levelData: Record<
   number,
@@ -54,55 +54,6 @@ const levelData: Record<
   1715: { tier: "t4_1590", grade: 25, next: null },
 };
 
-const bindedMap = {
-  가호: 0,
-  경명돌: 0,
-  골드: 0,
-  "마력석 조각": 0,
-  "명예의 돌파석": 0,
-  빙하: 0,
-  "빛나는 지혜의 정수": 0,
-  상급오레하: 0,
-  "선명한 지혜의 정수": 0,
-  수결: 0,
-  수호강석: 0,
-  아비도스: 0,
-  야금술기본: 0,
-  야금술복합: 0,
-  야금술숙련: 0,
-  야금술심화: 0,
-  야금술업화: 0,
-  야금술응용: 0,
-  야금술전문: 0,
-  야금술특화: 0,
-  "에스더의 기운": 0,
-  용암: 0,
-  운돌: 0,
-  "운명의 파편 주머니(중)": 0,
-  운명의수호석: 0,
-  운명의파괴석: 0,
-  운명파편: 0,
-  위명돌: 0,
-  은총: 0,
-  재봉술기본: 0,
-  재봉술복합: 0,
-  재봉술숙련: 0,
-  재봉술심화: 0,
-  재봉술업화: 0,
-  재봉술응용: 0,
-  재봉술전문: 0,
-  재봉술특화: 0,
-  정제된수호강석: 0,
-  정제된파괴강석: 0,
-  중급오레하: 0,
-  찬명돌: 0,
-  최상급오레하: 0,
-  축복: 0,
-  파결: 0,
-  파괴강석: 0,
-  파편: 0,
-};
-
 const calculator = (
   nowLevel: number,
   targetLevel: number,
@@ -133,13 +84,12 @@ const calculator = (
       break;
     }
 
-    const result = refine(table, materials, bindedMap);
+    const result = calculateRefine(table, materials);
 
-    for (let key in result.materialsUsed) {
-      totalMaterials[key] =
-        (totalMaterials[key] || 0) + result.materialsUsed[key];
+    for (let key in result.materials) {
+      totalMaterials[key] = (totalMaterials[key] || 0) + result.materials[key];
     }
-    totalCost += result.totalCost;
+    totalCost += result.cost;
     currentLevel = nextLevel;
   }
 
