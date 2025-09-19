@@ -37,8 +37,18 @@ const Board = ({
   const [showFilter, setShowFilter] = useState(false);
 
   useEffect(() => {
-    let newCost = 0;
-    let newMaterials: Record<string, number> = {};
+    // 1. 일반 재련 데이터 (필터링되지 않음)
+    const { weapon, armor } = calculationResult;
+    let newCost = weapon.cost + armor.cost;
+    const newMaterials: Record<string, number> = { ...weapon.materials };
+
+    for (const [material, quantity] of Object.entries(armor.materials)) {
+      newMaterials[material] = (newMaterials[material] || 0) + quantity;
+    }
+
+    // 2. 상급 재련 데이터 (필터링됨)
+    let advancedCost = 0;
+    let advancedMaterials: Record<string, number> = {};
 
     const refineKeys = [
       "tier3_1",
@@ -49,48 +59,44 @@ const Board = ({
       "tier4_4",
     ] as const;
 
-    const addMaterials = (
+    const addAdvancedMaterials = (
       category: "weapon" | "armor",
-      key?: (typeof refineKeys)[number]
+      key: (typeof refineKeys)[number]
     ) => {
-      const dataContainer = key
-        ? advancedRefineData[category]?.[
-            key as keyof (typeof advancedRefineData)[typeof category]
-          ]
-        : calculationResult[category];
+      const data = advancedRefineData[category]?.[key];
+      if (!data) return;
 
-      if (!dataContainer) return;
-
-      const data = { ...dataContainer };
-
-      newCost += data.cost;
-      for (let [materialName, quantity] of Object.entries(data.materials)) {
-        newMaterials[materialName] =
-          (newMaterials[materialName] || 0) + quantity;
+      advancedCost += data.cost;
+      for (const [materialName, quantity] of Object.entries(data.materials)) {
+        advancedMaterials[materialName] =
+          (advancedMaterials[materialName] || 0) + quantity;
       }
     };
 
-    if (filter.weapon) addMaterials("weapon");
-
-    if (filter.armor) addMaterials("armor");
-
     refineKeys.forEach(key => {
       if (filter[key]) {
-        if (filter.weapon) addMaterials("weapon", key);
-        if (filter.armor) addMaterials("armor", key);
+        if (filter.weapon) addAdvancedMaterials("weapon", key);
+        if (filter.armor) addAdvancedMaterials("armor", key);
       }
     });
 
-    // Handle 5-parts multiplication
+    // 상급 재련에만 5부위 증폭 처리
     if (filter.fiveParts) {
-      newCost *= 5;
-      for (const material in newMaterials) {
-        newMaterials[material] *= 5;
+      advancedCost *= 5;
+      for (const material in advancedMaterials) {
+        advancedMaterials[material] *= 5;
       }
     }
 
+    // 3. 일반 재련과 상급 재련 데이터 합산
+    newCost += advancedCost;
+    for (const material in advancedMaterials) {
+      newMaterials[material] =
+        (newMaterials[material] || 0) + advancedMaterials[material];
+    }
+
     setCurrent({ cost: newCost, materials: newMaterials });
-  }, [filter, weapon, armor]);
+  }, [filter, calculationResult, advancedRefineData]);
 
   const [inputValues, setInputValues] = useState<Record<string, number>>(owned);
 
