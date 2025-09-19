@@ -44,7 +44,7 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
   const gradesToRender = tierInfo[tier].find(t => t.id === subTier)?.grades || [];
 
   const gridStyles = {
-    gridTemplateColumns: `80px repeat(${gradesToRender.length}, 40px)`,
+    gridTemplateColumns: `60px repeat(${gradesToRender.length}, 40px)`,
   };
 
   const getCellsInRange = (start: Cell, end: Cell): Cell[] => {

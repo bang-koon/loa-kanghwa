@@ -83,6 +83,7 @@
 .partCell,
 .gradeCell,
 .gradeCellHeader {
+  height: 30px;
   border-right: 1px solid #eee;
   border-bottom: 1px solid #eee;
   text-align: center;
@@ -95,12 +96,10 @@
 .partCell {
   font-size: 15px;
   font-weight: bold;
-  height: 40px;
   background-color: #f9f9f9;
 }
 
 .gradeCellHeader {
-  height: 40px;
   background-color: #f9f9f9;
   font-weight: 500;
 }
@@ -112,7 +111,6 @@
 }
 
 .gradeCell {
-  height: 40px;
   cursor: pointer;
   transition: background-color 0.1s ease;
 
