@@ -1,0 +1,140 @@
+.selectorContainer {
+  padding: 20px 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  user-select: none;
+}
+
+.tierControl {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.tierButtons {
+  margin-right: 20px;
+  button {
+    padding: 8px 16px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #444;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px; // Add font size
+    transition: background-color 0.3s, color 0.3s;
+    &.active {
+      background-color: #333;
+      color: white;
+      border-color: #333;
+    }
+  }
+}
+
+.selectWrapper {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #555;
+    pointer-events: none;
+  }
+}
+
+.subTierSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 8px 40px 8px 12px; // Right padding for custom arrow
+  background-color: #fff;
+  color: #444;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.gridContainer {
+  overflow-x: auto;
+  width: fit-content;
+}
+
+.grid {
+  display: grid;
+  width: fit-content;
+  border-left: 1px solid #eee;
+  border-top: 1px solid #eee;
+}
+
+.headerRow,
+.gridRow {
+  display: contents;
+}
+
+.partCell,
+.gradeCell,
+.gradeCellHeader {
+  height: 30px;
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+}
+
+.partCell {
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+
+.gradeCellHeader {
+  background-color: #f9f9f9;
+  font-weight: 500;
+}
+
+.gradeCell,
+.gradeCellHeader {
+  width: 40px;
+  min-width: 40px;
+}
+
+.gradeCell {
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+
+  &.selected {
+    background-color: #337ab7;
+    color: white;
+  }
+
+  &.draggingAdd {
+    background-color: #5bc0de;
+  }
+
+  &.draggingSubtract {
+    background-color: #d9534f;
+    color: white;
+  }
+}
+
+.disabledCell {
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  background-color: #f9f9f9;
+}

@@ -1,25 +1,60 @@
 import calculator from "./calculator";
+import { MaterialCost } from "../types";
+
+// Finds contiguous ranges from a sorted set of numbers
+// e.g., {11, 12, 14, 15} -> [[11, 12], [14, 15]]
+function parseRanges(grades: Set<number>): number[][] {
+  if (!grades || grades.size === 0) return [];
+
+  const sorted = Array.from(grades).sort((a, b) => a - b);
+  const ranges: number[][] = [];
+  if (sorted.length === 0) return ranges;
+
+  let currentRange: number[] = [sorted[0], sorted[0]];
+
+  for (let i = 1; i < sorted.length; i++) {
+    if (sorted[i] === currentRange[1] + 1) {
+      currentRange[1] = sorted[i];
+    } else {
+      ranges.push(currentRange);
+      currentRange = [sorted[i], sorted[i]];
+    }
+  }
+  ranges.push(currentRange);
+
+  return ranges;
+}
 
 export default function totalCalculator(
-  current: string,
-  target: string,
-  materials: Record<string, number>
+  selection: Record<string, Set<number>>,
+  subTierId: string,
+  priceMap: Record<string, number>
 ) {
-  const currentLevel = parseInt(current);
-  const targetLevel = parseInt(target);
+  const result: {
+    weapon: MaterialCost;
+    armor: MaterialCost;
+  } = {
+    weapon: { cost: 0, materials: {} },
+    armor: { cost: 0, materials: {} },
+  };
 
-  const weapon = calculator(currentLevel, targetLevel, "weapon", materials);
-  const armor = calculator(currentLevel, targetLevel, "armor", materials);
+  for (const part in selection) {
+    const grades = selection[part];
+    const ranges = parseRanges(grades);
+    const itemType = part === '무기' ? 'weapon' : 'armor';
+    const category = itemType as 'weapon' | 'armor';
 
-  // UI에서 배수를 조절하도록 곱셈 로직 제거
-  // const total = {
-  //   cost: weapon.cost + armor.cost,
-  //   materials: { ...weapon.materials },
-  // };
+    for (const range of ranges) {
+      const [startGrade, endGrade] = range;
+      const partResult = calculator(subTierId, itemType, startGrade - 1, endGrade, priceMap);
+      
+      result[category].cost += partResult.cost;
+      for (const mat in partResult.materials) {
+        result[category].materials[mat] =
+          (result[category].materials[mat] || 0) + partResult.materials[mat];
+      }
+    }
+  }
 
-  // for (let key in armor.materials) {
-  //   total.materials[key] = (total.materials[key] || 0) + armor.materials[key];
-  // }
-
-  return { weapon, armor };
+  return result;
 }
