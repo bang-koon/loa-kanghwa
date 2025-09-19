@@ -5,6 +5,7 @@ const FilterItems = () => {
   const { selected, toggleSelected } = useFilterStore();
   return (
     <>
+      <h2 className={styles.mainFilterTitle}>상급재련</h2>
       <div className={styles.filterGroup}>
         <h2 className={styles.filterTitle}>장비</h2>
         <div className={styles.filterItem}>
@@ -45,16 +46,23 @@ const FilterItems = () => {
               selected.onePart ? "/button/clicked.svg" : "/button/default.svg"
             }
             alt="한 부위"
-            className={styles.icon}
+            className={`${styles.icon} ${!selected.armor && styles.disabled}`}
+            onClick={() => selected.armor && toggleSelected("onePart")}
           />
-          <label htmlFor="onePart" className={styles.radioLabel}>
+          <label
+            htmlFor="onePart"
+            className={`${styles.radioLabel} ${
+              !selected.armor && styles.disabled
+            }`}
+          >
             <input
               type="radio"
               id="onePart"
               name="armorParts"
               className={styles.radioInput}
               checked={selected.onePart}
-              onChange={() => toggleSelected("onePart")}
+              onChange={() => selected.armor && toggleSelected("onePart")}
+              disabled={!selected.armor}
             />
             <span>한 부위</span>
           </label>
@@ -64,24 +72,31 @@ const FilterItems = () => {
             src={
               selected.fiveParts ? "/button/clicked.svg" : "/button/default.svg"
             }
-            className={styles.icon}
+            className={`${styles.icon} ${!selected.armor && styles.disabled}`}
             alt="다섯 부위"
+            onClick={() => selected.armor && toggleSelected("fiveParts")}
           />
-          <label htmlFor="fiveParts" className={styles.radioLabel}>
+          <label
+            htmlFor="fiveParts"
+            className={`${styles.radioLabel} ${
+              !selected.armor && styles.disabled
+            }`}
+          >
             <input
               type="radio"
               id="fiveParts"
               name="armorParts"
               className={styles.radioInput}
               checked={selected.fiveParts}
-              onChange={() => toggleSelected("fiveParts")}
+              onChange={() => selected.armor && toggleSelected("fiveParts")}
+              disabled={!selected.armor}
             />
             다섯 부위
           </label>
         </div>
       </div>
       <div className={styles.filterGroup}>
-        <h2 className={styles.filterTitle}>상급재련</h2>
+        <h2 className={styles.filterTitle}>등급</h2>
         <div className={styles.filterItem}>
           <img
             src={
