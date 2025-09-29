@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { ViewProvider } from "./lib/ViewContext";
 import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "로아쿤 - 재련 계산기 & 레이드 보상 정보",
@@ -61,18 +62,26 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const currentYear = new Date().getFullYear();
+
   return (
     <html lang="ko">
       <head>
         <meta name="google-adsense-account" content="ca-pub-7085791456313815" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7085791456313815"
+          crossOrigin="anonymous"
+        ></script>
       </head>
-      <body>
+      <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <ViewProvider>
           <Header />
           <GoogleTagManager gtmId={`${process.env.GA}`} />
           <GoogleAnalytics gaId={`${process.env.GT}`} />
           {children}
           <SpeedInsights />
+          <Footer currentYear={currentYear} />
         </ViewProvider>
       </body>
     </html>

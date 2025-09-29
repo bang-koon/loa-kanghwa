@@ -12,7 +12,7 @@ $border-color: #f0f0f0;
   width: 100vw;
   height: 54px;
   // border-bottom: 1px solid $border-color;
-  background-color: #fff;
+  background-color: #fff; /* Reverted to white */
   z-index: 100;
 }
 
@@ -24,10 +24,11 @@ $border-color: #f0f0f0;
   height: 30px;
   margin: 0 40px;
   h1 {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     margin-right: 40px;
-    color: #3c3c3c;
+    padding-left: 5px;
+    color: #3c3c3c; /* Reverted to original dark gray */
     line-height: 19px;
   }
 }
@@ -36,24 +37,37 @@ $border-color: #f0f0f0;
   @extend .flex;
 }
 
+.homeLink {
+  text-decoration: none;
+  color: inherit;
+}
+
 .navigation {
   display: flex;
   justify-content: center;
   align-items: center;
-  h2 {
-    font-size: 15px;
-    font-weight: 400;
-    margin-right: 14px;
-    color: #444;
-    padding: 12px 10px;
-    cursor: pointer;
-  }
+}
 
-  h2.active {
-    color: #000;
-    font-size: 16px;
-    font-weight: 500;
+.navLink {
+  font-size: 15px;
+  font-weight: 400;
+  margin-right: 14px;
+  color: #444; /* Reverted to original dark gray */
+  padding: 12px 10px;
+  cursor: pointer;
+  text-decoration: none; /* Remove underline from links */
+  transition: color 0.2s ease, font-weight 0.2s ease;
+
+  &:hover {
+    color: #000; /* Reverted to original hover color */
   }
+}
+
+.navLink.active {
+  color: #1f1282; /* Reverted to original active link color */
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 2px solid #1f1282; /* Reverted to original active link border */
 }
 
 .scrolled {

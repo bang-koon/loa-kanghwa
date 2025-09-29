@@ -15,7 +15,7 @@ export const ViewProvider = ({ children }: { children: ReactNode }) => {
   const [activeView, setActiveView] = useState<View>("reward");
 
   return (
-    <ViewContext.Provider value={{ activeView, setActiveView }}>
+    <ViewContext.Provider value={{ activeView, setActiveView }} style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       {children}
     </ViewContext.Provider>
   );

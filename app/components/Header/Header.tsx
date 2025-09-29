@@ -2,11 +2,12 @@
 import { useEffect, useState } from "react";
 import styles from "./Header.module.scss";
 import Image from "next/image";
-import { useView } from "../../lib/ViewContext";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { activeView, setActiveView } = useView();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () =>
@@ -24,21 +25,21 @@ const Header = () => {
       <div className={styles.headerBox}>
         <div className={styles.title}>
           <Image src="/logo.png" width={22} height={22} alt="logo" />
-          <h1>로아쿤</h1>
+          <Link href="/" className={styles.homeLink}><h1>로아쿤</h1></Link>
         </div>
         <div className={styles.navigation}>
-          <h2
-            className={activeView === "reward" ? styles.active : ""}
-            onClick={() => setActiveView("reward")}
-          >
-            레이드 보상
-          </h2>
-          <h2
-            className={activeView === "calculator" ? styles.active : ""}
-            onClick={() => setActiveView("calculator")}
+          <Link
+            href="/refine"
+            className={`${styles.navLink} ${pathname === "/refine" ? styles.active : ""}`}
           >
             재련 계산기
-          </h2>
+          </Link>
+          <Link
+            href="/raid"
+            className={`${styles.navLink} ${pathname === "/raid" ? styles.active : ""}`}
+          >
+            레이드 보상
+          </Link>
         </div>
       </div>
     </div>
