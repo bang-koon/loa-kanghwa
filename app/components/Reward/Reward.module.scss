@@ -137,8 +137,7 @@
 }
 
 .noticeHeader img {
-  filter: brightness(0) saturate(100%) invert(27%) sepia(99%) saturate(1355%)
-    hue-rotate(182deg) brightness(93%) contrast(101%);
+  filter: brightness(0) saturate(100%) invert(27%) sepia(99%) saturate(1355%) hue-rotate(182deg) brightness(93%) contrast(101%);
 }
 
 .noticeTitle {
@@ -235,11 +234,10 @@
 }
 
 .goldText {
-  color: #d4af37;
+  color: #ffda06; /* Adjusted to a more readable gold */
   font-weight: 500;
 }
 
 .goldIcon {
-  filter: brightness(0) saturate(100%) invert(84%) sepia(27%) saturate(949%)
-    hue-rotate(344deg) brightness(94%) contrast(88%);
+  filter: brightness(0) saturate(100%) invert(80%) sepia(100%) saturate(2000%) hue-rotate(350deg) brightness(100%) contrast(100%);
 }

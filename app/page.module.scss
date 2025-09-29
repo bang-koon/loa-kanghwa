@@ -16,15 +16,15 @@
 .heroSection {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Vertically center content */
+  justify-content: flex-start; /* Align content to the start */
   align-items: center;
   text-align: center;
   margin-bottom: 0; /* Remove margin-bottom as it will be full height */
   padding: 20px;
-  padding-top: 0; /* Reverted padding-top from heroSection */
+  padding-top: 200px; /* Push content down from the top */
   background-color: #333; /* Changed to #333 */
   width: 100%;
-  height: calc(100vh - 54px); /* Reverted height to fill remaining viewport height */
+  height: calc(100vh - 54px); /* Full viewport height minus header height */
 }
 
 .mainTitle {
@@ -38,13 +38,13 @@
   font-size: 1.3em; /* Font size for subtitle */
   font-weight: 300;
   color: white; /* Changed to white for contrast */
-  margin-bottom: 40px; /* Add more space below subtitle */
+  margin-bottom: 220px; /* Increased margin-bottom to push buttons down */
 }
 
 .selectionButtonsSection {
   width: 100%;
   max-width: 800px;
-  margin-top: 20px; /* Add margin-top to separate from subtitle */
+  margin-top: 0; /* Remove margin-top */
   margin-bottom: 0; /* Remove margin-bottom as it's inside heroSection */
   padding: 0; /* Remove padding as it's inside heroSection */
   text-align: center;
@@ -102,11 +102,13 @@
 .infoSection {
   width: 100%;
   max-width: 800px;
-  margin: 30px 0;
+  margin-top: 60px; /* Added margin-top for separation */
+  margin-bottom: 30px;
   padding: 20px;
-  background-color: transparent; /* Changed to transparent */
+  background-color: transparent; /* Keep transparent */
+  border: 1px solid #eee; /* Add a light border */
   border-radius: 8px;
-  box-shadow: none; /* Remove box-shadow as background is transparent */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Add subtle box-shadow */
   text-align: left;
 }
 

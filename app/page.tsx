@@ -33,7 +33,7 @@ export default async function Home() {
       </section>
 
       <section className={styles.infoSection}>
-        <h2> 최근 패치내역</h2>
+        <h2>ㅤ최근 패치내역</h2>
         <p>
           <span className={styles.patchDate}>ㅤ • 2025년 9월 29일</span> UI 변경
         </p>

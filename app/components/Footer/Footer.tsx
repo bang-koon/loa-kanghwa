@@ -13,7 +13,7 @@ const Footer = ({ currentYear }: FooterProps) => {
           이용약관
         </Link>
         <Link href="/privacy" className={styles.link}>
-          개인정보 처리방침
+          개인정보처리방침
         </Link>
         <Link href="/patch-notes" className={styles.link}>
           패치내역
