@@ -9,7 +9,13 @@ export default function PatchNotesPage() {
           <span className={styles.patchDate}>ㅤ • 2025년 9월 29일</span> UI 변경
         </p>
         <p>
-          <span className={styles.patchDate}>ㅤ • 2025년 9월 20일</span> 재련 계산기 최적화 알고리즘 개선
+          <span className={styles.patchDate}>ㅤ • 2025년 9월 17일</span> 재련 정상화
+        </p>
+        <p>
+          <span className={styles.patchDate}>ㅤ • 2025년 9월 8일</span> 상재 정상화
+        </p>
+        <p>
+          <span className={styles.patchDate}>ㅤ • 2025년 9월 4일</span> 최신 레이드 데이터 추가
         </p>
       </>
     </PageLayout>
