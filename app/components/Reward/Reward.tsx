@@ -688,7 +688,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
 const allRaids = [...mockRaidData["3t"], ...mockRaidData["4t"]];
 
 const Reward = () => {
-  const [activeTab, setActiveTab] = useState<"3t" | "4t">("3t");
+  const [activeTab, setActiveTab] = useState<"3t" | "4t">("4t");
 
   const initialRaid = mockRaidData[activeTab][0];
   const [selectedRaidName, setSelectedRaidName] = useState<string>(initialRaid.name);
