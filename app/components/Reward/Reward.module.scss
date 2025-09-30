@@ -224,11 +224,13 @@
 }
 
 .materialIcon {
-  width: 20px;
-  height: 20px;
-  background-color: #e0e0e0; /* 아이콘 배경 */
+  width: 28px;
+  height: 28px;
   border-radius: 3px;
   flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .goldContentWrapper {
@@ -240,10 +242,6 @@
 }
 
 .goldText {
-  color: #ffda06; /* Adjusted to a more readable gold */
+  color: #ffc941; /* Adjusted to a more readable gold */
   font-weight: 500;
-}
-
-.goldIcon {
-  filter: brightness(0) saturate(100%) invert(80%) sepia(100%) saturate(2000%) hue-rotate(350deg) brightness(100%) contrast(100%);
 }
