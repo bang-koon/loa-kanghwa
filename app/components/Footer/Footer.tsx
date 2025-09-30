@@ -9,14 +9,14 @@ const Footer = ({ currentYear }: FooterProps) => {
   return (
     <footer className={styles.footer}>
       <nav className={styles.nav}>
-        <Link href="/terms" className={styles.link}>
+        {/* <Link href="/terms" className={styles.link}>
           이용약관
+        </Link> */}
+        <Link href="/patch-notes" className={styles.link}>
+          패치내역
         </Link>
         <Link href="/privacy" className={styles.link}>
           개인정보처리방침
-        </Link>
-        <Link href="/patch-notes" className={styles.link}>
-          패치내역
         </Link>
         <Link href="/contact" className={styles.link}>
           문의하기
