@@ -60,6 +60,9 @@
   background-color: #e0e0e0; /* 밝은 회색 아이콘 배경 */
   border-radius: 5px;
   margin-bottom: 10px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .raidSlide.selected .raidImagePlaceholder {
@@ -84,6 +87,9 @@
   height: 60px;
   background-color: #ccc; // Placeholder
   border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .raidInfo {
