@@ -8,6 +8,7 @@
   margin-right: auto;
   padding-top: 54px; /* Reverted padding-top for fixed header */
   width: 100%;
+  min-width: 850px;
   min-height: 100vh; /* Reverted min-height to accommodate more content */
   color: #333;
   flex-grow: 1; /* Make main content grow to fill space */
@@ -17,14 +18,21 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Align content to the start */
-  align-items: center;
-  text-align: center;
+  align-items: center; /* Center-align children */
+  text-align: center; /* Center-align text */
   margin-bottom: 0; /* Remove margin-bottom as it will be full height */
   padding: 20px;
-  padding-top: 200px; /* Push content down from the top */
+  padding-top: 150px; /* Push content down from the top */
   background-color: #333; /* Changed to #333 */
   width: 100%;
   height: calc(100vh - 54px); /* Full viewport height minus header height */
+}
+
+.heroTextWrapper {
+  width: 100%;
+  max-width: 960px; /* Limit width of the text wrapper */
+  margin-bottom: 60px; /* Space between text and buttons */
+  text-align: start; /* Center text within its wrapper */
 }
 
 .mainTitle {
@@ -38,13 +46,15 @@
   font-size: 1.3em; /* Font size for subtitle */
   font-weight: 300;
   color: white; /* Changed to white for contrast */
-  margin-bottom: 220px; /* Increased margin-bottom to push buttons down */
+  margin-bottom: 0; /* No margin-bottom here, handled by wrapper */
 }
 
 .selectionButtonsSection {
+  display: flex;
+  justify-content: flex-end;
   width: 100%;
-  max-width: 800px;
-  margin-top: 0; /* Remove margin-top */
+  max-width: 960px;
+  margin-top: 20vh;
   margin-bottom: 0; /* Remove margin-bottom as it's inside heroSection */
   padding: 0; /* Remove padding as it's inside heroSection */
   text-align: center;
@@ -52,19 +62,18 @@
 
 .selectionButtons {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   justify-content: center;
-  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
 }
 
 .button {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 250px; /* Fixed width for larger buttons */
-  height: 150px; /* Increased height for taller buttons */
-  padding: 15px;
+  align-items: flex-start; /* Left-align children */
+  justify-content: flex-start;
+  width: 300px; /* Fixed width for larger buttons */
+  height: 250px; /* Increased height for taller buttons */
+  padding: 30px;
   background-color: #333; /* Default: Dark background */
   border: 2px solid #333; /* Default: Dark border */
   color: white; /* Default: White text */
@@ -73,7 +82,7 @@
   font-size: 1.1em;
   transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Default shadow */
-  text-align: center;
+  text-align: left; /* Left-align text */
 
   &:hover {
     background-color: transparent; /* Hover: Transparent background */
@@ -116,7 +125,7 @@
   font-size: 1.8em;
   color: #2c3e50;
   margin-bottom: 15px;
-  border-bottom: 2px solid #007bff; /* Changed back to #007bff */
+  border-bottom: 2px solid #ddd; /* Changed back to #007bff */
   padding-bottom: 5px;
 }
 

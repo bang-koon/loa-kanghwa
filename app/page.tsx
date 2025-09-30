@@ -5,17 +5,21 @@ export default async function Home() {
   return (
     <main className={styles.container}>
       <section className={styles.heroSection}>
-        <h1 className={styles.mainTitle}>loa-koon</h1>
-        <p className={styles.subTitle}>로스트아크 재련, 상재 계산기 & 레이드 보상 정보</p>
+        <div className={styles.heroTextWrapper}>
+          <h1 className={styles.mainTitle}>loa-koon</h1>
+          <p className={styles.subTitle}>로스트아크 재련, 상재 계산기 & 레이드 보상 정보</p>
+        </div>
         <section className={styles.selectionButtonsSection}>
           <div className={styles.selectionButtons}>
             <Link href="/refine" className={styles.button}>
               <span className={styles.buttonTitle}>재련 계산기</span>
-              <span className={styles.buttonDescription}>목표 레벨까지 필요한 재료와 골드를 계산합니다.</span>
+              <span className={styles.buttonDescription}>
+                현재 시세를 기준으로 목표 레벨까지의 최적 재료와 골드를 계산합니다.
+              </span>
             </Link>
             <Link href="/raid" className={styles.button}>
-              <span className={styles.buttonTitle}>레이드 보상 정보</span>
-              <span className={styles.buttonDescription}>최신 레이드 보상 목록과 획득 정보를 확인합니다.</span>
+              <span className={styles.buttonTitle}>레이드 보상</span>
+              <span className={styles.buttonDescription}>레이드 보상 목록을 확인합니다.</span>
             </Link>
           </div>
         </section>
