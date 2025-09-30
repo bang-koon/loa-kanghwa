@@ -11,9 +11,34 @@ $border-color: #f0f0f0;
   position: fixed;
   width: 100vw;
   height: 54px;
-  // border-bottom: 1px solid $border-color;
-  background-color: #fff; /* Reverted to white */
   z-index: 100;
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.homeInitialState {
+  background-color: #333; /* Initial background for home page */
+  .headerBox h1,
+  .navLink {
+    color: white; /* Initial text color for home page */
+  }
+  .navLink.active {
+    color: white; /* Active link color for home page */
+    border-bottom: 2px solid white; /* Underline for active link */
+  }
+}
+
+.otherPageState {
+  background-color: #fff; /* Default background for other pages */
+  .headerBox h1 {
+    color: #3c3c3c; /* Default text color for other pages */
+  }
+  .navLink {
+    color: #444; /* Default text color for other pages */
+  }
+  .navLink.active {
+    color: #1f1282; /* Active link color for other pages */
+    border-bottom: 2px solid #1f1282; /* Underline for active link */
+  }
 }
 
 .headerBox {
@@ -28,8 +53,8 @@ $border-color: #f0f0f0;
     font-weight: 600;
     margin-right: 40px;
     padding-left: 5px;
-    color: #3c3c3c; /* Reverted to original dark gray */
     line-height: 19px;
+    transition: color 0.3s ease; /* Smooth transition */
   }
 }
 
@@ -52,24 +77,36 @@ $border-color: #f0f0f0;
   font-size: 15px;
   font-weight: 400;
   margin-right: 14px;
-  color: #444; /* Reverted to original dark gray */
+  color: white; /* Initial text color */
   padding: 12px 10px;
   cursor: pointer;
   text-decoration: none; /* Remove underline from links */
-  transition: color 0.2s ease, font-weight 0.2s ease;
+  transition: color 0.3s ease, font-weight 0.2s ease; /* Smooth transition */
 
   &:hover {
-    color: #000; /* Reverted to original hover color */
+    color: #eee; /* Lighter white on hover */
   }
 }
 
 .navLink.active {
-  color: #1f1282; /* Reverted to original active link color */
+  color: white; /* Active link color */
   font-size: 16px;
   font-weight: 500;
-  border-bottom: 2px solid #1f1282; /* Reverted to original active link border */
+  border-bottom: 2px solid white; /* Underline for active link */
 }
 
 .scrolled {
-  border-bottom: 1px solid $border-color;
+  background-color: #fff; /* White background on scroll */
+  border-bottom: 1px solid $border-color; /* Add border on scroll */
+
+  .headerBox h1 {
+    color: #3c3c3c; /* Dark text color on scroll */
+  }
+  .navLink {
+    color: #444; /* Dark text color on scroll */
+  }
+  .navLink.active {
+    color: #1f1282; /* Active link color on scroll */
+    border-bottom: 2px solid #1f1282; /* Active link border on scroll */
+  }
 }
