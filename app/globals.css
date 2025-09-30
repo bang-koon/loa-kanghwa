@@ -2,6 +2,8 @@ html,
 body {
   font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh; /* Ensure body can expand */
+  display: flex;
+  flex-direction: column;
 }
 
 * {

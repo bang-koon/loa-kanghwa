@@ -74,7 +74,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         ></script>
       </head>
-      <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <body>
         <ViewProvider>
           <Header />
           <GoogleTagManager gtmId={`${process.env.GA}`} />
