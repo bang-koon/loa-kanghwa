@@ -42,7 +42,7 @@ export default async function Home() {
           <span className={styles.patchDate}>ㅤ • 2025년 9월 29일</span> UI 변경
         </p>
         <p>
-          <span className={styles.patchDate}>ㅤ • 2025년 9월 20일</span> 재련 계산기 최적화 알고리즘 개선
+          <span className={styles.patchDate}>ㅤ • 2025년 9월 17일</span> 재련 정상화
         </p>
         <Link href="/patch-notes" className={styles.moreLink}>
           더 많은 패치내역 보기
