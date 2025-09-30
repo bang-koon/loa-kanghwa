@@ -39,17 +39,14 @@ const Board = ({
   useEffect(() => {
     // 1. 일반 재련 데이터 (필터링되지 않음)
     const { weapon, armor } = calculationResult;
-    let newCost = weapon.cost + armor.cost;
-    const newMaterials: Record<string, number> = { ...weapon.materials };
+    let totalCost = weapon.cost + armor.cost;
+    const totalMaterials: Record<string, number> = { ...weapon.materials };
 
     for (const [material, quantity] of Object.entries(armor.materials)) {
-      newMaterials[material] = (newMaterials[material] || 0) + quantity;
+      totalMaterials[material] = (totalMaterials[material] || 0) + quantity;
     }
 
     // 2. 상급 재련 데이터 (필터링됨)
-    let advancedCost = 0;
-    let advancedMaterials: Record<string, number> = {};
-
     const refineKeys = [
       "tier3_1",
       "tier3_2",
@@ -59,43 +56,68 @@ const Board = ({
       "tier4_4",
     ] as const;
 
-    const addAdvancedMaterials = (
-      category: "weapon" | "armor",
-      key: (typeof refineKeys)[number]
-    ) => {
-      const data = advancedRefineData[category]?.[key];
-      if (!data) return;
+    let advancedWeaponCost = 0;
+    const advancedWeaponMaterials: Record<string, number> = {};
 
-      advancedCost += data.cost;
-      for (const [materialName, quantity] of Object.entries(data.materials)) {
-        advancedMaterials[materialName] =
-          (advancedMaterials[materialName] || 0) + quantity;
-      }
+    let advancedArmorCost = 0;
+    const advancedArmorMaterials: Record<string, number> = {};
+
+    const addAdvancedMaterials = (category: "weapon" | "armor") => {
+      refineKeys.forEach(key => {
+        if (filter[key]) {
+          const data = advancedRefineData[category]?.[key];
+          if (!data) return;
+
+          if (category === "weapon") {
+            advancedWeaponCost += data.cost;
+            for (const [materialName, quantity] of Object.entries(
+              data.materials
+            )) {
+              advancedWeaponMaterials[materialName] =
+                (advancedWeaponMaterials[materialName] || 0) + quantity;
+            }
+          } else {
+            // category === 'armor'
+            advancedArmorCost += data.cost;
+            for (const [materialName, quantity] of Object.entries(
+              data.materials
+            )) {
+              advancedArmorMaterials[materialName] =
+                (advancedArmorMaterials[materialName] || 0) + quantity;
+            }
+          }
+        }
+      });
     };
 
-    refineKeys.forEach(key => {
-      if (filter[key]) {
-        if (filter.weapon) addAdvancedMaterials("weapon", key);
-        if (filter.armor) addAdvancedMaterials("armor", key);
-      }
-    });
+    if (filter.weapon) {
+      addAdvancedMaterials("weapon");
+    }
+    if (filter.armor) {
+      addAdvancedMaterials("armor");
+    }
 
-    // 상급 재련에만 5부위 증폭 처리
-    if (filter.fiveParts) {
-      advancedCost *= 5;
-      for (const material in advancedMaterials) {
-        advancedMaterials[material] *= 5;
+    // 5부위 증폭은 방어구에만 적용
+    if (filter.fiveParts && filter.armor) {
+      advancedArmorCost *= 5;
+      for (const material in advancedArmorMaterials) {
+        advancedArmorMaterials[material] *= 5;
       }
     }
 
-    // 3. 일반 재련과 상급 재련 데이터 합산
-    newCost += advancedCost;
-    for (const material in advancedMaterials) {
-      newMaterials[material] =
-        (newMaterials[material] || 0) + advancedMaterials[material];
+    // 3. 모든 비용과 재료 합산
+    totalCost += advancedWeaponCost + advancedArmorCost;
+
+    for (const material in advancedWeaponMaterials) {
+      totalMaterials[material] =
+        (totalMaterials[material] || 0) + advancedWeaponMaterials[material];
+    }
+    for (const material in advancedArmorMaterials) {
+      totalMaterials[material] =
+        (totalMaterials[material] || 0) + advancedArmorMaterials[material];
     }
 
-    setCurrent({ cost: newCost, materials: newMaterials });
+    setCurrent({ cost: totalCost, materials: totalMaterials });
   }, [filter, calculationResult, advancedRefineData]);
 
   const [inputValues, setInputValues] = useState<Record<string, number>>(owned);

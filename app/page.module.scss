@@ -6,8 +6,185 @@
   align-items: center;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 60px;
+  padding-top: 54px; /* Reverted padding-top for fixed header */
   width: 100%;
-  height: 100vh;
+  min-width: 850px;
+  min-height: 100vh; /* Reverted min-height to accommodate more content */
   color: #333;
+  flex-grow: 1; /* Make main content grow to fill space */
+}
+
+.heroSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Push title to top, buttons to bottom */
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0;
+  padding: 60px 20px; /* Adjust vertical padding */
+  background-color: #333;
+  width: 100%;
+  min-height: calc(100vh - 54px);
+}
+
+.heroTextWrapper {
+  width: 100%;
+  max-width: 960px; /* Limit width of the text wrapper */
+  margin-top: 80px;
+  margin-bottom: 0; /* Remove margin, space-between will handle it */
+  text-align: start; /* Center text within its wrapper */
+}
+
+.mainTitle {
+  font-size: 3.5em; /* Larger font size for main title */
+  font-weight: 550;
+  color: white; /* Changed to white for contrast */
+  margin-bottom: 10px;
+}
+
+.subTitle {
+  font-size: 1.3em; /* Font size for subtitle */
+  font-weight: 300;
+  color: white; /* Changed to white for contrast */
+  margin-bottom: 0; /* No margin-bottom here, handled by wrapper */
+}
+
+.selectionButtonsSection {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 960px;
+  margin-top: 0; /* Remove margin */
+  margin-bottom: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.selectionButtons {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Left-align children */
+  justify-content: flex-start;
+  width: 300px; /* Fixed width for larger buttons */
+  height: 250px; /* Increased height for taller buttons */
+  padding: 30px;
+  background-color: #333; /* Default: Dark background */
+  border: 2px solid #333; /* Default: Dark border */
+  color: white; /* Default: White text */
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Default shadow */
+  text-align: left; /* Left-align text */
+  position: relative; /* For pseudo-element positioning */
+  overflow: hidden; /* Hide overflowing pseudo-element */
+
+  &:hover {
+    background-color: #333; /* Keep dark background */
+    border: 2px solid #333; /* Keep dark border */
+    color: white; /* Keep white text */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Darker shadow on hover */
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%; /* Start further off-screen to the left */
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 70%
+    ); /* Diagonal light gradient */
+    transition: all 0.7s ease, opacity 0.7s ease; /* Animation duration, include opacity */
+    transform: skewX(-20deg); /* Diagonal slant */
+    opacity: 1; /* Initial opacity */
+  }
+
+  &:hover::before {
+    left: 100%; /* Move across to the right */
+    opacity: 0; /* Fade out completely */
+  }
+}
+
+.buttonTitle {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.buttonDescription {
+  font-size: 0.9em;
+  color: white; /* Default: White description text */
+}
+
+.button:hover .buttonDescription {
+  color: white; /* Hover: White description text */
+}
+
+.infoSection {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 60px; /* Added margin-top for separation */
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: transparent; /* Keep transparent */
+  border: 1px solid #eee; /* Add a light border */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Add subtle box-shadow */
+  text-align: left;
+}
+
+.infoSection h2 {
+  font-size: 1.8em;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ddd; /* Changed back to #007bff */
+  padding-bottom: 5px;
+}
+
+.infoSection p {
+  font-size: 1em;
+  line-height: 1.6;
+  color: #333; /* Consistent dark color */
+  margin-bottom: 10px;
+}
+
+.infoSection ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  color: #333; /* Consistent dark color */
+}
+
+.infoSection li {
+  margin-bottom: 5px;
+}
+
+.moreLink {
+  display: inline-block;
+  margin-top: 10px;
+  color: #007bff; /* Changed back to #007bff */
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.patchDate {
+  color: #666; /* Date text color */
+  font-size: 0.9em;
+  margin-right: 5px;
 }

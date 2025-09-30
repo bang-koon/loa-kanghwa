@@ -2,44 +2,46 @@
 import { useEffect, useState } from "react";
 import styles from "./Header.module.scss";
 import Image from "next/image";
-import { useView } from "../../lib/ViewContext";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { activeView, setActiveView } = useView();
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
-    const handleScroll = () =>
-      window.scrollY > 0 ? setIsScrolled(true) : setIsScrolled(false);
+    const handleScroll = () => (window.scrollY > 0 ? setIsScrolled(true) : setIsScrolled(false));
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const headerClass = `${styles.headerContainer} ${isHomePage && !isScrolled ? styles.homeInitialState : styles.otherPageState} ${
+    isScrolled ? styles.scrolled : ""
+  }`;
+
   return (
-    <div
-      className={`${styles.headerContainer} ${
-        isScrolled ? styles.scrolled : ""
-      }`}
-    >
+    <div className={headerClass}>
       <div className={styles.headerBox}>
         <div className={styles.title}>
-          <Image src="/logo.png" width={22} height={22} alt="logo" />
-          <h1>로아쿤</h1>
+          <Image src="/logo.png" width={30} height={30} alt="logo" />
+          {!(isHomePage && !isScrolled) && (
+            <Link href="/" className={styles.homeLink}>
+              <h1>로아쿤</h1>
+            </Link>
+          )}
         </div>
-        <div className={styles.navigation}>
-          <h2
-            className={activeView === "reward" ? styles.active : ""}
-            onClick={() => setActiveView("reward")}
-          >
-            레이드 보상
-          </h2>
-          <h2
-            className={activeView === "calculator" ? styles.active : ""}
-            onClick={() => setActiveView("calculator")}
-          >
-            재련 계산기
-          </h2>
-        </div>
+        {!(isHomePage && !isScrolled) && (
+          <div className={styles.navigation}>
+            <Link href="/refine" className={`${styles.navLink} ${pathname === "/refine" ? styles.active : ""}`}>
+              재련 계산기
+            </Link>
+            <Link href="/raid" className={`${styles.navLink} ${pathname === "/raid" ? styles.active : ""}`}>
+              레이드 보상
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

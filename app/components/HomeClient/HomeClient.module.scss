@@ -1,0 +1,9 @@
+.homeClientContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* 요소들 간의 간격 */
+  width: 100%;
+  max-width: 1200px; /* HomeClient가 차지할 최대 너비 */
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 20px 0; /* 상하 패딩 */
+}

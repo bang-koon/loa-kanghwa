@@ -60,6 +60,9 @@
   background-color: #e0e0e0; /* 밝은 회색 아이콘 배경 */
   border-radius: 5px;
   margin-bottom: 10px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .raidSlide.selected .raidImagePlaceholder {
@@ -84,6 +87,9 @@
   height: 60px;
   background-color: #ccc; // Placeholder
   border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .raidInfo {
@@ -137,8 +143,7 @@
 }
 
 .noticeHeader img {
-  filter: brightness(0) saturate(100%) invert(27%) sepia(99%) saturate(1355%)
-    hue-rotate(182deg) brightness(93%) contrast(101%);
+  filter: brightness(0) saturate(100%) invert(27%) sepia(99%) saturate(1355%) hue-rotate(182deg) brightness(93%) contrast(101%);
 }
 
 .noticeTitle {
@@ -219,11 +224,13 @@
 }
 
 .materialIcon {
-  width: 20px;
-  height: 20px;
-  background-color: #e0e0e0; /* 아이콘 배경 */
+  width: 28px;
+  height: 28px;
   border-radius: 3px;
   flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .goldContentWrapper {
@@ -235,11 +242,6 @@
 }
 
 .goldText {
-  color: #d4af37;
+  color: #ffc941; /* Adjusted to a more readable gold */
   font-weight: 500;
-}
-
-.goldIcon {
-  filter: brightness(0) saturate(100%) invert(84%) sepia(27%) saturate(949%)
-    hue-rotate(344deg) brightness(94%) contrast(88%);
 }
