@@ -17,21 +17,21 @@
 .heroSection {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align content to the start */
-  align-items: center; /* Center-align children */
-  text-align: center; /* Center-align text */
-  margin-bottom: 0; /* Remove margin-bottom as it will be full height */
-  padding: 20px;
-  padding-top: 150px; /* Push content down from the top */
-  background-color: #333; /* Changed to #333 */
+  justify-content: space-between; /* Push title to top, buttons to bottom */
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0;
+  padding: 60px 20px; /* Adjust vertical padding */
+  background-color: #333;
   width: 100%;
-  height: calc(100vh - 54px); /* Full viewport height minus header height */
+  min-height: calc(100vh - 54px);
 }
 
 .heroTextWrapper {
   width: 100%;
   max-width: 960px; /* Limit width of the text wrapper */
-  margin-bottom: 60px; /* Space between text and buttons */
+  margin-top: 80px;
+  margin-bottom: 0; /* Remove margin, space-between will handle it */
   text-align: start; /* Center text within its wrapper */
 }
 
@@ -54,9 +54,9 @@
   justify-content: flex-end;
   width: 100%;
   max-width: 960px;
-  margin-top: 20vh;
-  margin-bottom: 0; /* Remove margin-bottom as it's inside heroSection */
-  padding: 0; /* Remove padding as it's inside heroSection */
+  margin-top: 0; /* Remove margin */
+  margin-bottom: 0;
+  padding: 0;
   text-align: center;
 }
 
@@ -95,7 +95,7 @@
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -150%; /* Start further off-screen to the left */
