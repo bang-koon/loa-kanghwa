@@ -24,14 +24,10 @@ const Header = () => {
   return (
     <div className={headerClass}>
       <div className={styles.headerBox}>
-        <div className={styles.title}>
+        <Link href="/" className={styles.title}>
           <Image src="/logo.png" width={30} height={30} alt="logo" />
-          {!(isHomePage && !isScrolled) && (
-            <Link href="/" className={styles.homeLink}>
-              <h1>로아쿤</h1>
-            </Link>
-          )}
-        </div>
+          {!(isHomePage && !isScrolled) && <h1>로아쿤</h1>}
+        </Link>
         {!(isHomePage && !isScrolled) && (
           <div className={styles.navigation}>
             <Link href="/refine" className={`${styles.navLink} ${pathname === "/refine" ? styles.active : ""}`}>
