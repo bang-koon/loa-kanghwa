@@ -30,7 +30,6 @@ export default async function Home() {
         <p>ㅤ • 재련값은 평균값 기준이며 숨결, 책등의 모든 조합을 테스트하여 가장 저렴한 방법으로 보여드립니다.</p>
         <p>ㅤ • 재료의 가격은 약 한 시간마다 갱신됩니다.</p>
         <p>ㅤ • 여러 구간별 재련 비용에 특화됐기에 단계별 세세한 강화 방법을 보고 싶다면 icepeng 을 추천합니다!</p>
-        <p>ㅤ • 광고가 추가될 수 있습니다.</p>
         {/* <Link href="/notices" className={styles.moreLink}>
           더 많은 공지 보기
         </Link> */}
