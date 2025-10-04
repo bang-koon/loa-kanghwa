@@ -82,15 +82,18 @@ let memo: {
 const calculateCost = (
   choice: TurnChoice,
   table: AdvancedRefineTable,
-  priceMap: Record<string, number>
+  priceMap: Record<string, number>,
+  isFreeRefine: boolean
 ): { cost: number; materials: Record<string, number> } => {
   const materials: Record<string, number> = {};
   let cost = 0;
 
-  // Base materials
-  for (const mat in table.amount) {
-    materials[mat] = (materials[mat] || 0) + table.amount[mat];
-    cost += (table.amount[mat] || 0) * (priceMap[mat] || 0);
+  // Base materials - Conditionally add cost and materials
+  if (!isFreeRefine) {
+    for (const mat in table.amount) {
+      materials[mat] = (materials[mat] || 0) + table.amount[mat];
+      cost += (table.amount[mat] || 0) * (priceMap[mat] || 0);
+    }
   }
 
   // Breath materials
@@ -180,7 +183,10 @@ const findOptimalRecursive = (
   let bestMaterials: Record<string, number> = {};
 
   for (const choice of choices) {
-    const turnCost = isFreeRefine ? { cost: 0, materials: {} } : calculateCost(choice, table, priceMap);
+    const turnCostResult = calculateCost(choice, table, priceMap, isFreeRefine);
+    const turnCost = turnCostResult.cost;
+    const turnMaterials = turnCostResult.materials;
+
     const successProbs = tierProbs.success[choice]!;
     if (!successProbs) continue;
 
@@ -224,10 +230,10 @@ const findOptimalRecursive = (
               else if (naberName === "나베르-겔라르")
                 naberResult = findOptimalRecursive(currentExp + expGain * 5, 7, false, false, target, type, priceMap, tierProbs);
               else if (naberName === "나베르-쿠훔바르")
-                naberResult = findOptimalRecursive(currentExp + 80, 1, false, false, target, type, priceMap, tierProbs);
+                naberResult = findOptimalRecursive(currentExp + expGain + 80, 1, false, false, target, type, priceMap, tierProbs);
               else if (naberName === "나베르-테메르")
-                naberResult = findOptimalRecursive(currentExp + 30, 7, false, true, target, type, priceMap, tierProbs);
-              else naberResult = findOptimalRecursive(currentExp + 200, 7, false, false, target, type, priceMap, tierProbs); // 에베르
+                naberResult = findOptimalRecursive(currentExp + expGain + 30, 7, false, true, target, type, priceMap, tierProbs);
+              else naberResult = findOptimalRecursive(Math.floor((currentExp + expGain) / 100) * 100 + 200, 7, false, false, target, type, priceMap, tierProbs); // 에베르
               naberExpectedCost += naberProb * naberResult.cost;
               for (const mat in naberResult.materials)
                 naberExpectedMaterials[mat] = (naberExpectedMaterials[mat] || 0) + naberProb * naberResult.materials[mat];
@@ -243,12 +249,12 @@ const findOptimalRecursive = (
           else if (ancestorName === "겔라르")
             ancestorResult = findOptimalRecursive(currentExp + expGain * 3, 7, false, false, target, type, priceMap, tierProbs);
           else if (ancestorName === "쿠훔바르")
-            ancestorResult = findOptimalRecursive(currentExp + 30, 1, false, false, target, type, priceMap, tierProbs);
+            ancestorResult = findOptimalRecursive(currentExp + expGain + 30, 1, false, false, target, type, priceMap, tierProbs);
           else if (ancestorName === "테메르")
-            ancestorResult = findOptimalRecursive(currentExp + 10, 7, false, true, target, type, priceMap, tierProbs);
+            ancestorResult = findOptimalRecursive(currentExp + expGain + 10, 7, false, true, target, type, priceMap, tierProbs);
           else if (ancestorName === "나베르")
-            ancestorResult = findOptimalRecursive(currentExp, 1, true, false, target, type, priceMap, tierProbs);
-          else ancestorResult = findOptimalRecursive(currentExp + 100, 7, false, false, target, type, priceMap, tierProbs); // 에베르
+            ancestorResult = findOptimalRecursive(currentExp + expGain, 1, true, false, target, type, priceMap, tierProbs);
+          else ancestorResult = findOptimalRecursive(Math.floor((currentExp + expGain) / 100) * 100 + 100, 7, false, false, target, type, priceMap, tierProbs); // 에베르
 
           ancestorExpectedCost += ancestorProb * ancestorResult.cost;
           for (const mat in ancestorResult.materials) {
@@ -274,16 +280,21 @@ const findOptimalRecursive = (
 
       expectedFutureCost += prob * futureCostResult.cost;
       for (const mat in futureCostResult.materials) {
-        expectedFutureMaterials[mat] = (expectedFutureMaterials[mat] || 0) + prob * futureCostResult.materials[mat];
+        if (turnMaterials[mat]) {
+          expectedFutureMaterials[mat] = (expectedFutureMaterials[mat] || 0) + prob * futureCostResult.materials[mat];
+        }
       }
     }
 
-    const totalExpectedCost = turnCost.cost + expectedFutureCost;
+    const totalExpectedCost = turnCost + expectedFutureCost;
     if (totalExpectedCost < minExpectedCost) {
       minExpectedCost = totalExpectedCost;
       bestChoice = choice;
 
-      bestMaterials = { ...turnCost.materials };
+      bestMaterials = {};
+      for (const mat in turnMaterials) {
+        bestMaterials[mat] = (bestMaterials[mat] || 0) + turnMaterials[mat];
+      }
       for (const mat in expectedFutureMaterials) {
         bestMaterials[mat] = (bestMaterials[mat] || 0) + expectedFutureMaterials[mat];
       }
