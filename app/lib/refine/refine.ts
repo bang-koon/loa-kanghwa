@@ -22,10 +22,7 @@ export interface OptimalResult {
   path: { choice: Combination; prob: number }[];
 }
 
-const breathNames = ['은총', '축복', '가호', '용암', '빙하'];
-
 // --- Helper Functions ---
-
 function getPrice(
   priceMap: Record<string, number>,
   amountMap: Record<string, number>
@@ -47,7 +44,7 @@ function getIndividualMaterials(
       return {
         name,
         amount,
-        prob,
+        prob: prob * amount,
         price: (priceMap[name] || 0) * amount,
       };
     });
@@ -74,7 +71,6 @@ function generateAllCombinations(materials: MaterialChoice[]): Combination[] {
 }
 
 // --- DP with Memoization ---
-
 let memo: Record<string, OptimalResult>;
 
 function findOptimalStrategy(
@@ -132,9 +128,11 @@ function findOptimalStrategy(
 
       expectedFutureCost = failProb * futureResult.cost;
       for (const material in futureResult.materials) {
-        expectedFutureMaterials[material] =
-          (expectedFutureMaterials[material] || 0) +
-          failProb * futureResult.materials[material];
+        if (table.amount[material] || combination.breathes[material]) {
+            expectedFutureMaterials[material] =
+                (expectedFutureMaterials[material] || 0) +
+                failProb * futureResult.materials[material];
+        }
       }
     }
 
@@ -143,11 +141,12 @@ function findOptimalStrategy(
     if (totalExpectedCost < minExpectedCost) {
       minExpectedCost = totalExpectedCost;
 
-      const totalExpectedMaterials: Record<string, number> = { ...turnMaterials };
-      for (const material in expectedFutureMaterials) {
-        totalExpectedMaterials[material] =
-          (totalExpectedMaterials[material] || 0) +
-          expectedFutureMaterials[material];
+      const totalExpectedMaterials: Record<string, number> = {};
+      for (const mat in turnMaterials) {
+        totalExpectedMaterials[mat] = (totalExpectedMaterials[mat] || 0) + turnMaterials[mat];
+      }
+      for (const mat in expectedFutureMaterials) {
+        totalExpectedMaterials[mat] = (totalExpectedMaterials[mat] || 0) + expectedFutureMaterials[mat];
       }
 
       bestResult = {
@@ -167,6 +166,5 @@ export default function calculateRefine(
   priceMap: Record<string, number>
 ): OptimalResult {
   memo = {}; // Clear memoization cache for each new calculation
-  // Remove debugging logs from the previous version
   return findOptimalStrategy(table, priceMap, table.baseProb, 0);
 }
