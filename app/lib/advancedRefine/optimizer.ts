@@ -280,7 +280,11 @@ const findOptimalRecursive = (
 
       expectedFutureCost += prob * futureCostResult.cost;
       for (const mat in futureCostResult.materials) {
-        if (turnMaterials[mat]) {
+        const isBaseMaterial = !!table.amount[mat];
+        const isBookInChoice = choice.includes('book') && mat === table.book;
+        const isBreathInChoice = choice.includes('breath') && !!table.breath[mat];
+
+        if (isBaseMaterial || isBookInChoice || isBreathInChoice) {
           expectedFutureMaterials[mat] = (expectedFutureMaterials[mat] || 0) + prob * futureCostResult.materials[mat];
         }
       }
