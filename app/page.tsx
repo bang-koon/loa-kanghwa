@@ -38,10 +38,10 @@ export default async function Home() {
       <section className={styles.infoSection}>
         <h2>ㅤ최근 패치내역</h2>
         <p>
-          <span className={styles.patchDate}>ㅤ • 2025년 9월 29일</span> UI 변경
+          <span className={styles.patchDate}>ㅤ • 2025년 10월 5일</span> 상재 재료 버그 수정
         </p>
         <p>
-          <span className={styles.patchDate}>ㅤ • 2025년 9월 17일</span> 재련 정상화
+          <span className={styles.patchDate}>ㅤ • 2025년 10월 5일</span> 19-20 책 추가
         </p>
         <Link href="/patch-notes" className={styles.moreLink}>
           더 많은 패치내역 보기

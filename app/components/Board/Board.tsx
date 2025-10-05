@@ -125,7 +125,12 @@ const Board = ({
   const adjustedTotalGold =
     current.cost -
     Object.entries(owned).reduce((acc, [name, quantity]) => {
-      return acc + (quantity || 0) * (materialsPrice[name] || 0);
+      if (current.materials[name]) {
+        // 소유량이 필요량보다 많아도 필요량만큼만 차감
+        const appliedQuantity = Math.min(quantity, current.materials[name]);
+        return acc + (appliedQuantity || 0) * (materialsPrice[name] || 0);
+      }
+      return acc;
     }, 0);
 
   const debouncedSetOwned = useCallback(
@@ -143,11 +148,7 @@ const Board = ({
       ...prevValues,
       [name]: value,
     }));
-    if (value > current.materials[name]) {
-      debouncedSetOwned(name, current.materials[name]);
-    } else {
-      debouncedSetOwned(name, value);
-    }
+    debouncedSetOwned(name, value);
   };
 
   const toggleFilter = () => {
@@ -203,8 +204,7 @@ const Board = ({
               </div>
               <div className={styles.materialPriceCell}>
                 {(
-                  materialsPrice[name] * value -
-                  (owned[name] || 0) * materialsPrice[name]
+                  Math.max(0, value - (owned[name] || 0)) * materialsPrice[name]
                 ).toLocaleString(undefined, { maximumFractionDigits: 0 })}
                 <br />
                 <div className={styles.peacePrice}>

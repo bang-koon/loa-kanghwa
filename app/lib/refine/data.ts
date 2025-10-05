@@ -848,6 +848,7 @@ export const refineData: Record<string, Record<string, Record<number, RefineTabl
         },
         breath: {
           ...t4ArmorBreathTable[0.03],
+          재봉술업화C: [1, 0.03],
         },
       },
       20: {
@@ -861,6 +862,7 @@ export const refineData: Record<string, Record<string, Record<number, RefineTabl
         },
         breath: {
           ...t4ArmorBreathTable[0.015],
+          재봉술업화C: [1, 0.015],
         },
       },
       21: {
@@ -1654,6 +1656,7 @@ export const refineData: Record<string, Record<string, Record<number, RefineTabl
         },
         breath: {
           ...t4WeaponBreathTable[0.03],
+          야금술업화C: [1, 0.03],
         },
       },
       20: {
@@ -1667,6 +1670,7 @@ export const refineData: Record<string, Record<string, Record<number, RefineTabl
         },
         breath: {
           ...t4WeaponBreathTable[0.015],
+          야금술업화C: [1, 0.015],
         },
       },
       21: {
