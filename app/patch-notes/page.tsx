@@ -6,6 +6,9 @@ export default function PatchNotesPage() {
     <PageLayout title="패치내역">
       <>
         <p>
+          <span className={styles.patchDate}>ㅤ • 2025년 10월 12일</span> 레이드 선택 UI 수정
+        </p>
+        <p>
           <span className={styles.patchDate}>ㅤ • 2025년 10월 5일</span> 상재 재료 버그 수정
         </p>
         <p>
