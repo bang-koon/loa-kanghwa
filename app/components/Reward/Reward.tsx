@@ -847,7 +847,7 @@ const Reward = () => {
                   backgroundImage: raidForName ? `url(/raid/${raidForName.image})` : "none",
                 }}
               ></div>
-              <span>{name}</span>
+              <span className={styles.raidNameInSlide}>{name}</span>
             </SwiperSlide>
           );
         })}
