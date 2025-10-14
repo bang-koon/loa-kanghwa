@@ -1,5 +1,13 @@
 import PageLayout from "../components/PageLayout/PageLayout";
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 
 export default function SponsorPage() {
   return (
