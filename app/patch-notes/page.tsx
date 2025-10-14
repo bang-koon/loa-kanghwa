@@ -1,5 +1,11 @@
 import PageLayout from "../components/PageLayout/PageLayout";
 import styles from "../page.module.scss";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "패치노트 - 로아쿤",
+  description: "로아쿤 패치노트",
+};
 
 export default function PatchNotesPage() {
   return (
