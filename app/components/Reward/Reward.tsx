@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Mousewheel } from "swiper/modules";
+import { Mousewheel, FreeMode } from "swiper/modules";
 import Image from "next/image";
 import "swiper/css";
 import styles from "./Reward.module.scss";
@@ -352,7 +352,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       id: 13,
       name: "상아탑",
       difficulty: "Hard",
-      image: "상아탑.webp",
+      image: "상아탑.jpg",
       itemLevel: "아이템 레벨 1620",
       gates: [
         {
@@ -827,9 +827,10 @@ const Reward = () => {
 
       <Swiper
         key={activeTab}
-        modules={[Mousewheel]}
+        modules={[Mousewheel, FreeMode]}
         spaceBetween={8}
         slidesPerView={"auto"}
+        freeMode={true}
         mousewheel={{ sensitivity: 1.5 }}
         className={styles.raidSelector}
       >
@@ -885,7 +886,9 @@ const Reward = () => {
               </div>
             )}
           </div>
-          {renderRaidTable(raidToDisplay)}
+          <div className={styles.tableContainer}>
+            {renderRaidTable(raidToDisplay)}
+          </div>
           <div className={styles.notice}>
             <div className={styles.noticeHeader}>
               <Image src="/reward/infoCircle.svg" alt="주의" width={14} height={14} />

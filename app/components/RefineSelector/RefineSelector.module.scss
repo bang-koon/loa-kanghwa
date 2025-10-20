@@ -1,5 +1,7 @@
 .selectorContainer {
-  padding: 20px 40px;
+  width: 90vw;
+  max-width: 750px;
+  padding: 20px 5%;
   border: 1px solid #ddd;
   border-radius: 8px;
   margin: 20px 0;
@@ -65,7 +67,7 @@
 
 .gridContainer {
   overflow-x: auto;
-  width: fit-content;
+  width: 100%;
 }
 
 .grid {
@@ -107,7 +109,6 @@
 .gradeCell,
 .gradeCellHeader {
   width: 40px;
-  min-width: 40px;
 }
 
 .gradeCell {
