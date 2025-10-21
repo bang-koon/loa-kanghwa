@@ -18,9 +18,10 @@ interface RefineSelectorProps {
   setTier: React.Dispatch<React.SetStateAction<"T3" | "T4">>;
   subTier: string;
   setSubTier: React.Dispatch<React.SetStateAction<string>>;
+  toggleFilter: () => void;
 }
 
-const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSubTier }: RefineSelectorProps) => {
+const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSubTier, toggleFilter }: RefineSelectorProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragMode, setDragMode] = useState<"add" | "subtract" | null>(null);
   const [startCell, setStartCell] = useState<Cell | null>(null);
@@ -146,6 +147,11 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
             </select>
           </div>
         )}
+      </div>
+      <div className={styles.buttonContainer}>
+        <button className={styles.advancedRefineButton} onClick={toggleFilter}>
+          상급 재련
+        </button>
       </div>
       <div className={styles.gridContainer}>
         <div className={styles.grid} style={gridStyles}>
