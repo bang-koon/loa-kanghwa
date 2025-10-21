@@ -4,7 +4,6 @@ import styles from "./Board.module.scss";
 import { reverseTransformMaterialName } from "@/app/lib/transformMaterialName";
 import debounce from "lodash/debounce";
 import useFilterStore from "@/app/lib/store";
-import FilterMobile from "@/app/components/Filter/FilterMobile";
 import {
   MaterialCost,
   CalculationResult,
@@ -33,8 +32,6 @@ const Board = ({
     cost: 0,
     materials: {},
   });
-
-  const [showFilter, setShowFilter] = useState(false);
 
   useEffect(() => {
     // 1. 일반 재련 데이터 (필터링되지 않음)
@@ -151,23 +148,11 @@ const Board = ({
     debouncedSetOwned(name, value);
   };
 
-  const toggleFilter = () => {
-    setShowFilter(prev => !prev);
-  };
-
   return current.cost ? (
     <div className={styles.board}>
       <div className={styles.materialContainer}>
         <div className={styles.materialHeader}>
           <div className={`${styles.image} ${styles.cell}`}>
-            <Image
-              className={styles.filter}
-              src="/button/hamburger.svg"
-              alt="filter"
-              width={34}
-              height={34}
-              onClick={toggleFilter}
-            />
           </div>
           <div className={`${styles.cell} ${styles.materialNameCell}`}>
             재료명
@@ -223,7 +208,6 @@ const Board = ({
           maximumFractionDigits: 0,
         })}
       </div>
-      {showFilter && <FilterMobile setShowFilter={setShowFilter} />}
     </div>
   ) : null;
 };

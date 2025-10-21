@@ -13,7 +13,7 @@ export default async function RefinePage() {
   const advancedRefineData = getOptimalRefineData(materialsPrice);
 
   return (
-    <main style={{ padding: "20px", paddingTop: "54px", maxWidth: "1200px", margin: "0 auto", flexGrow: 1 }}>
+    <main style={{ paddingTop: "54px", maxWidth: "1200px", margin: "0 auto", flexGrow: 1 }}>
       <HomeClient materials={materialsPrice} advancedRefineData={advancedRefineData} activeView="calculator" />
     </main>
   );

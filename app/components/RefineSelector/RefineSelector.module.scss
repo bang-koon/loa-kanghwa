@@ -1,5 +1,7 @@
 .selectorContainer {
-  padding: 20px 40px;
+  width: 90vw;
+  max-width: 750px;
+  padding: 20px 5%;
   border: 1px solid #ddd;
   border-radius: 8px;
   margin: 20px 0;
@@ -9,7 +11,6 @@
 .tierControl {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
 }
 
 .tierButtons {
@@ -22,12 +23,11 @@
     color: #444;
     cursor: pointer;
     border-radius: 4px;
-    font-size: 16px; // Add font size
+    font-size: 16px;
     transition: background-color 0.3s, color 0.3s;
     &.active {
       background-color: #333;
       color: white;
-      border-color: #333;
     }
   }
 }
@@ -65,7 +65,8 @@
 
 .gridContainer {
   overflow-x: auto;
-  width: fit-content;
+  width: 100%;
+  margin-top: 15px;
 }
 
 .grid {
@@ -107,7 +108,6 @@
 .gradeCell,
 .gradeCellHeader {
   width: 40px;
-  min-width: 40px;
 }
 
 .gradeCell {
@@ -137,4 +137,35 @@
   border-right: 1px solid #eee;
   border-bottom: 1px solid #eee;
   background-color: #f9f9f9;
+}
+
+.buttonContainer {
+  display: none; /* Hide by default */
+
+  @media (max-width: 1055px) {
+    display: flex; /* Show on mobile */
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+}
+
+.advancedRefineButton {
+  padding: 6px 20px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+  /* Normal state (like inactive tier button) */
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #444;
+
+  &:hover {
+    /* Hover state (like active tier button) */
+    background-color: #333;
+    color: white;
+    border-color: #333;
+  }
 }

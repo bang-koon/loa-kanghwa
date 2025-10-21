@@ -8,6 +8,7 @@ import Board from "../Board/Board";
 import Filter from "../Filter/Filter";
 import styles from "./HomeClient.module.scss";
 import { tierInfo } from "@/app/lib/refine/data";
+import FilterMobile from "@/app/components/Filter/FilterMobile";
 
 import { AdvancedRefine } from "@/app/lib/types";
 
@@ -22,11 +23,16 @@ export default function HomeClient({ materials, advancedRefineData, activeView }
   const [refineSelection, setRefineSelection] = useState<Record<string, Set<number>>>({});
   const [tier, setTier] = useState<"T3" | "T4">("T4");
   const [subTier, setSubTier] = useState(tierInfo.T4[0].id);
+  const [showFilter, setShowFilter] = useState(false);
 
   const [calculationResult, setCalculationResult] = useState({
     weapon: { cost: 0, materials: {} },
     armor: { cost: 0, materials: {} },
   });
+
+  const toggleFilter = () => {
+    setShowFilter(prev => !prev);
+  };
 
   useEffect(() => {
     if (materials && Object.keys(refineSelection).length > 0) {
@@ -53,6 +59,7 @@ export default function HomeClient({ materials, advancedRefineData, activeView }
             setTier={setTier}
             subTier={subTier}
             setSubTier={setSubTier}
+            toggleFilter={toggleFilter}
           />
           <Board
             calculationResult={calculationResult}
@@ -64,6 +71,7 @@ export default function HomeClient({ materials, advancedRefineData, activeView }
           <Filter />
         </>
       )}
+      {showFilter && <FilterMobile setShowFilter={setShowFilter} />}
     </div>
   );
 }
