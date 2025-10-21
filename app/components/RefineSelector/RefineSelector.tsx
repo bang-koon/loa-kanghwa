@@ -3,6 +3,7 @@
 import React, { useState, MouseEvent } from "react";
 import styles from "./RefineSelector.module.scss";
 import { tierInfo } from "@/app/lib/refine/data";
+import CustomSelect from './CustomSelect';
 
 const equipmentParts = ["투구", "견갑", "상의", "하의", "장갑", "무기"];
 
@@ -37,8 +38,8 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
     setSelection({}); // Clear selection when tier changes
   };
 
-  const handleSubTierChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSubTier(e.target.value);
+  const handleSubTierChange = (value: string) => {
+    setSubTier(value);
     setSelection({}); // Clear selection when sub-tier changes
   };
 
@@ -138,13 +139,11 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
         </div>
         {tier === "T3" && (
           <div className={styles.selectWrapper}>
-            <select className={styles.subTierSelect} value={subTier} onChange={handleSubTierChange}>
-              {tierInfo.T3.map(t => (
-                <option key={t.id} value={t.id}>
-                  {t.name}
-                </option>
-              ))}
-            </select>
+            <CustomSelect
+              value={subTier}
+              options={tierInfo.T3.map(t => ({ value: t.id, label: t.name }))}
+              onChange={setSubTier}
+            />
           </div>
         )}
       </div>
