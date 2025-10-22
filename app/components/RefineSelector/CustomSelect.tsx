@@ -44,7 +44,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ value, options, onChange })
 
   return (
     <div className={styles.customSelect} ref={selectRef}>
-      <div className={styles.selectedOption} onClick={handleToggle}>
+      <div
+        className={`${styles.selectedOption} ${isOpen ? styles.selectActive : ""}`}
+        onClick={handleToggle}
+      >
         {selectedOptionLabel}
         <span className={styles.dropdownArrow}></span>
       </div>

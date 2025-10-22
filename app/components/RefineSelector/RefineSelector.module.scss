@@ -21,12 +21,15 @@
 .tierControl {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
 }
 
 .tierButtons {
+  display: flex;
+  gap: 6px;
   button {
     padding: 8px 16px;
-    margin-right: 10px;
     border: 1px solid #ddd;
     background-color: #fff;
     color: #444;
@@ -182,9 +185,16 @@
 .customSelect {
   position: relative;
   display: inline-block;
-  width: 185px; /* Example width, can be adjusted */
+  width: 175px;
   font-size: 14px;
   user-select: none;
+}
+
+@keyframes selectFlash {
+  50% {
+    border-color: #1f1282;
+    box-shadow: 0 0 0 2px rgba(51, 122, 183, 0.2);
+  }
 }
 
 .selectedOption {
@@ -192,7 +202,7 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding: 8px 40px 8px 12px;
+  padding: 8px 30px 8px 12px;
   background-color: #fff;
   color: #444;
   border: 1px solid #ddd;
@@ -201,6 +211,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  &.selectActive {
+    animation: selectFlash 0.4s ease-out;
+  }
 }
 
 .dropdownArrow {
