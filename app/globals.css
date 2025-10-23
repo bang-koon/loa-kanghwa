@@ -5,7 +5,6 @@ body {
   min-height: 100vh; /* Ensure body can expand */
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
 }
 
 * {
