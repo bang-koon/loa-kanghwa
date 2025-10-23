@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbild": "next-sitemap"
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@next/third-parties": "^14.2.23",
