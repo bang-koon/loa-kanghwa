@@ -1,5 +1,5 @@
 .container {
-  width: 90vw;
+  width: 90%;
   max-width: 750px;
   color: #444; /* 기본 텍스트 색상 변경 */
   margin: 20px 0;
@@ -29,13 +29,19 @@
 }
 
 .raidSelector {
-  width: 90vw;
+  width: 100%;
   margin-bottom: 20px;
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .raidSlide {
@@ -120,6 +126,7 @@
 }
 
 .difficultyButton {
+  font-size: 16px;
   padding: 8px 16px;
   border: 1px solid #ddd;
   background-color: #fff;
