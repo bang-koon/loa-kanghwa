@@ -38,13 +38,14 @@ export default async function Home() {
       <section className={styles.infoSection}>
         <h2>ㅤ최근 패치내역</h2>
         <p>
+          <span className={styles.patchDate}>ㅤ • 2025년 10월 30일</span> 일반재련 성능 개선, 3티어 하위 티어 선택 시 에러 사항
+          수정
+        </p>
+        <p>
           <span className={styles.patchDate}>ㅤ • 2025년 10월 20일</span> 모바일 UI 수정
         </p>
         <p>
           <span className={styles.patchDate}>ㅤ • 2025년 10월 12일</span> 레이드 선택 UI 수정
-        </p>
-        <p>
-          <span className={styles.patchDate}>ㅤ • 2025년 10월 5일</span> 상재 재료 버그 수정
         </p>
         <Link href="/patch-notes" className={styles.moreLink}>
           더 많은 패치내역 보기

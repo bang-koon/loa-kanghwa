@@ -44,7 +44,7 @@ export default function HomeClient({ materials, advancedRefineData, activeView }
         armor: { cost: 0, materials: {} },
       });
     }
-  }, [refineSelection, subTier, materials, owned]);
+  }, [refineSelection, subTier, materials]);
 
   return (
     <div className={styles.homeClientContainer}>

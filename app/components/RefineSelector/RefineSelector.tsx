@@ -142,7 +142,7 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
             <CustomSelect
               value={subTier}
               options={tierInfo.T3.map(t => ({ value: t.id, label: t.name }))}
-              onChange={setSubTier}
+              onChange={handleSubTierChange}
             />
           </div>
         )}
