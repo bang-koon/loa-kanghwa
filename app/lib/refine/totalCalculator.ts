@@ -38,20 +38,27 @@ export default function totalCalculator(
     armor: { cost: 0, materials: {} },
   };
 
+  const memo: Record<string, { cost: number; materials: Record<string, number> }> = {};
+
   for (const part in selection) {
     const grades = selection[part];
     const ranges = parseRanges(grades);
-    const itemType = part === '무기' ? 'weapon' : 'armor';
-    const category = itemType as 'weapon' | 'armor';
+    const itemType = part === "무기" ? "weapon" : "armor";
+    const category = itemType as "weapon" | "armor";
 
     for (const range of ranges) {
       const [startGrade, endGrade] = range;
-      const partResult = calculator(subTierId, itemType, startGrade - 1, endGrade, priceMap);
-      
+      const cacheKey = `${itemType}-${subTierId}-${startGrade}-${endGrade}`;
+
+      let partResult = memo[cacheKey];
+      if (!partResult) {
+        partResult = calculator(subTierId, itemType, startGrade - 1, endGrade, priceMap);
+        memo[cacheKey] = partResult;
+      }
+
       result[category].cost += partResult.cost;
       for (const mat in partResult.materials) {
-        result[category].materials[mat] =
-          (result[category].materials[mat] || 0) + partResult.materials[mat];
+        result[category].materials[mat] = (result[category].materials[mat] || 0) + partResult.materials[mat];
       }
     }
   }
