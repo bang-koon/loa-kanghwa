@@ -1,0 +1,47 @@
+.controlsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  font-size: 14px;
+  color: #555;
+  margin-right: 8px;
+  font-weight: 500;
+}
+
+.toggleButton {
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  /* Inactive state */
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #888;
+
+  &:hover {
+    border-color: #bbb;
+    background-color: #f5f5f5;
+    color: #555;
+  }
+
+  /* Active state */
+  &.active {
+    background-color: #333;
+    color: white;
+    border-color: #333;
+
+    &:hover {
+      background-color: #222;
+      border-color: #222;
+    }
+  }
+}
