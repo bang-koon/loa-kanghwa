@@ -24,9 +24,12 @@ const EfficiencyGraph = ({ title, data }: EfficiencyGraphProps) => {
       <h2>{title}</h2>
       <div className={styles.scrollWrapper}>
         <div className={styles.chartArea}>
-          {data.map(item => {
+          {data.map((item, index) => {
             const heightPercent = maxCost > 0 ? (item.filteredCost / maxCost) * 100 : 0;
             const barHeight = Math.max(heightPercent, 2);
+            const isFirst = index === 0;
+            const isLast = index === data.length - 1;
+            const tooltipClass = `${styles.tooltip} ${isFirst ? styles.tooltipFirst : ""} ${isLast ? styles.tooltipLast : ""}`;
 
             return (
               <div key={item.id} className={styles.barWrapper}>
@@ -38,7 +41,7 @@ const EfficiencyGraph = ({ title, data }: EfficiencyGraphProps) => {
                 />
 
                 {/* Tooltip - barWrapper 기준으로 위치 */}
-                <div className={styles.tooltip}>
+                <div className={tooltipClass}>
                   <div className={styles.tooltipTitle}>{item.name}</div>
 
                   {/* Material List */}

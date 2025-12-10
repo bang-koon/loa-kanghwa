@@ -121,6 +121,23 @@
   opacity: 0;
   transition: opacity 0.2s;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+
+  &.tooltipFirst {
+    left: 0;
+    transform: none;
+    &::after {
+      left: 15%; // 화살표 위치 조정 (선택사항)
+    }
+  }
+
+  &.tooltipLast {
+    left: auto;
+    right: 0;
+    transform: none;
+    &::after {
+      left: 85%; // 화살표 위치 조정 (선택사항)
+    }
+  }
 }
 
 .tooltipTitle {
