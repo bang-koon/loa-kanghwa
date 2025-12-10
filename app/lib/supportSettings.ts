@@ -57,6 +57,12 @@ export const getSupportEffect = (itemTierId: string, grade: number, mode: Suppor
       effect.costMultiplier.gold = 0; // 골드 100% 감소 (무료)
       effect.costMultiplier.materials = 0.6; // 재료 60%만 소모
       effect.costMultiplier.shard = 0.6;
+
+      // 상급 재련 지원 추가 (T3)
+      effect.advancedRefineBeadGain = 2;
+      effect.advancedRefineCostMultiplier.materials = 0.3;
+      effect.advancedRefineCostMultiplier.shard = 0.1;
+      effect.advancedRefineCostMultiplier.gold = 0.5;
     }
 
     return effect; // 모챌익은 상시 지원 중복 적용 안됨
