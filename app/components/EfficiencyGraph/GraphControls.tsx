@@ -14,9 +14,11 @@ export interface Toggles {
 interface GraphControlsProps {
   toggles: Toggles;
   setToggles: React.Dispatch<React.SetStateAction<Toggles>>;
+  isMokoko?: boolean;
+  setIsMokoko?: (value: boolean) => void;
 }
 
-const GraphControls = ({ toggles, setToggles }: GraphControlsProps) => {
+const GraphControls = ({ toggles, setToggles, isMokoko, setIsMokoko }: GraphControlsProps) => {
   const toggleItem = (key: keyof Toggles) => {
     setToggles(prev => ({
       ...prev,
@@ -35,16 +37,30 @@ const GraphControls = ({ toggles, setToggles }: GraphControlsProps) => {
 
   return (
     <div className={styles.controlsContainer}>
-      <span className={styles.label}>포함 재료:</span>
-      {buttons.map(({ key, label }) => (
-        <button
-          key={key}
-          className={`${styles.toggleButton} ${toggles[key] ? styles.active : ""}`}
-          onClick={() => toggleItem(key)}
-        >
-          {label}
-        </button>
-      ))}
+      <div className={styles.section}>
+        <span className={styles.label}>포함 재료:</span>
+        {buttons.map(({ key, label }) => (
+          <button
+            key={key}
+            className={`${styles.toggleButton} ${toggles[key] ? styles.active : ""}`}
+            onClick={() => toggleItem(key)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {isMokoko !== undefined && setIsMokoko && (
+        <div className={styles.section}>
+          <span className={styles.label}>기타:</span>
+          <button
+            className={`${styles.toggleButton} ${styles.mokokoButton} ${isMokoko ? styles.active : ""}`}
+            onClick={() => setIsMokoko(!isMokoko)}
+          >
+            모코코 챌린지
+          </button>
+        </div>
+      )}
     </div>
   );
 };

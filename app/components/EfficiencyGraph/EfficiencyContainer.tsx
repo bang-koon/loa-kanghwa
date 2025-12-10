@@ -7,7 +7,8 @@ import { EfficiencyData, EfficiencyDataItem, CostCategory } from "@/app/lib/effi
 import styles from "./EfficiencyContainer.module.scss";
 
 interface EfficiencyContainerProps {
-  data: EfficiencyData;
+  permanentData: EfficiencyData;
+  mokokoData: EfficiencyData;
 }
 
 // 토글별 카테고리 매핑
@@ -20,7 +21,7 @@ const TOGGLE_CATEGORY_MAP: Record<keyof Toggles, CostCategory[]> = {
   book: ["book"],
 };
 
-const EfficiencyContainer = ({ data }: EfficiencyContainerProps) => {
+const EfficiencyContainer = ({ permanentData, mokokoData }: EfficiencyContainerProps) => {
   const [toggles, setToggles] = useState<Toggles>({
     stones: true,
     shard: true,
@@ -29,6 +30,10 @@ const EfficiencyContainer = ({ data }: EfficiencyContainerProps) => {
     breath: true,
     book: true,
   });
+  const [isMokoko, setIsMokoko] = useState(false);
+
+  // 현재 모드에 따라 데이터 선택
+  const currentData = isMokoko ? mokokoData : permanentData;
 
   // 토글 상태에 따라 비용 계산
   const getFilteredCost = (item: EfficiencyDataItem): number => {
@@ -47,11 +52,11 @@ const EfficiencyContainer = ({ data }: EfficiencyContainerProps) => {
 
   // 정렬된 데이터 (비용 오름차순)
   const sortedData = useMemo(() => {
-    const weaponWithCost = data.weapon.map(item => ({
+    const weaponWithCost = currentData.weapon.map(item => ({
       ...item,
       filteredCost: getFilteredCost(item),
     }));
-    const armorWithCost = data.armor.map(item => ({
+    const armorWithCost = currentData.armor.map(item => ({
       ...item,
       filteredCost: getFilteredCost(item),
     }));
@@ -60,11 +65,11 @@ const EfficiencyContainer = ({ data }: EfficiencyContainerProps) => {
       weapon: weaponWithCost.sort((a, b) => a.filteredCost - b.filteredCost),
       armor: armorWithCost.sort((a, b) => a.filteredCost - b.filteredCost),
     };
-  }, [data, toggles]);
+  }, [currentData, toggles]); // Depend on currentData
 
   return (
     <div className={styles.container}>
-      <GraphControls toggles={toggles} setToggles={setToggles} />
+      <GraphControls toggles={toggles} setToggles={setToggles} isMokoko={isMokoko} setIsMokoko={setIsMokoko} />
 
       <EfficiencyGraph title="무기 효율 (Weapon)" data={sortedData.weapon} />
 
