@@ -15,9 +15,9 @@ import { AdvancedRefine } from "@/app/lib/types";
 import useFilterStore from "../../lib/store";
 
 interface MainContentProps {
-  materials: Record<string, number>;
-  permanentAdvancedRefineData: AdvancedRefine;
-  mokokoAdvancedRefineData: AdvancedRefine;
+  materials?: Record<string, number>;
+  permanentAdvancedRefineData?: AdvancedRefine;
+  mokokoAdvancedRefineData?: AdvancedRefine;
   activeView: "reward" | "calculator";
 }
 
@@ -64,7 +64,7 @@ export default function HomeClient({
     <div className={styles.homeClientContainer}>
       {activeView === "reward" ? (
         <Reward />
-      ) : (
+      ) : materials && currentAdvancedRefineData ? (
         <>
           <RefineSelector
             selection={refineSelection}
@@ -84,7 +84,7 @@ export default function HomeClient({
           />
           <Filter />
         </>
-      )}
+      ) : null}
       {showFilter && <FilterMobile setShowFilter={setShowFilter} />}
     </div>
   );

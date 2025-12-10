@@ -5,7 +5,7 @@ import EfficiencyContainer from "@/app/components/EfficiencyGraph/EfficiencyCont
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "상급 재련 효율 | 로아 강화 계산기",
+  title: "로아쿤 - 상급 재련 효율",
   description: "일반 재련과 상급 재련의 비용 효율을 비교하여 최적의 강화 경로를 확인하세요.",
 };
 

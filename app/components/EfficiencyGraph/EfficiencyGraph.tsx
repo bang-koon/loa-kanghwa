@@ -70,22 +70,6 @@ const EfficiencyGraph = ({ title, data }: EfficiencyGraphProps) => {
                     );
                   })}
 
-                  <div className={styles.totalDivider} />
-
-                  {/* Cost Breakdown */}
-                  <div className={styles.costBreakdown}>
-                    <div className={styles.breakdownRow}>
-                      <span>기본 골드</span>
-                      <span>{Math.round(item.costs.gold).toLocaleString()}G</span>
-                    </div>
-                    <div className={styles.breakdownRow}>
-                      <span>강석</span>
-                      <span>{Math.round(item.costs.stones).toLocaleString()}G</span>
-                    </div>
-                  </div>
-
-                  <div className={styles.totalDivider} />
-
                   <div className={styles.totalRow}>
                     <span>선택 비용</span>
                     <span>{Math.round(item.filteredCost).toLocaleString()}G</span>
