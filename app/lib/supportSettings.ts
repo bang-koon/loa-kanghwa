@@ -27,7 +27,7 @@ export const getSupportEffect = (itemTierId: string, grade: number, mode: Suppor
   // 모코코 챌린지 익스프레스 (T4 전용)
   if (mode === "mokoko") {
     // T4 장비
-    if (itemTierId.includes("tier4")) {
+    if (itemTierId.includes("tier4") || itemTierId.includes("t4")) {
       // 일반 재련
       if (grade <= 18) {
         effect.successRateMultiplier = 2.0; // 성공률 2배
@@ -53,7 +53,7 @@ export const getSupportEffect = (itemTierId: string, grade: number, mode: Suppor
     }
 
     // T3 장비 (모코코 모드에서도 상시 완화 효과 적용)
-    if (itemTierId.startsWith("tier3")) {
+    if (itemTierId.startsWith("tier3") || itemTierId.startsWith("t3")) {
       effect.costMultiplier.gold = 0; // 골드 100% 감소 (무료)
       effect.costMultiplier.materials = 0.6; // 재료 60%만 소모
       effect.costMultiplier.shard = 0.6;
@@ -65,7 +65,7 @@ export const getSupportEffect = (itemTierId: string, grade: number, mode: Suppor
   // 상시 지원 (Permanent Support)
   if (mode === "permanent") {
     // T3 장비
-    if (itemTierId.startsWith("tier3")) {
+    if (itemTierId.startsWith("tier3") || itemTierId.startsWith("t3")) {
       // 1525 (12강) 까지는 무료지만, 계산 시작 지점을 UI에서 조절할 예정
       // 13강 이상 구간에 대해 재료 할인 적용
       effect.costMultiplier.gold = 0; // 골드 100% 감소 (무료)
@@ -76,7 +76,7 @@ export const getSupportEffect = (itemTierId: string, grade: number, mode: Suppor
     }
 
     // T4 장비
-    if (itemTierId.includes("tier4")) {
+    if (itemTierId.includes("tier4") || itemTierId.includes("t4")) {
       // 18단계까지 골드 20% 감소
       if (grade <= 18) {
         effect.costMultiplier.gold = 0.8;
