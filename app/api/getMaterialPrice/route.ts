@@ -3,7 +3,7 @@ import { getMaterialPrice } from "./getMaterialPrice";
 import getDbPromise from "../../lib/db";
 import { WithId } from "mongodb";
 
-export const revalidate = 7500;
+export const revalidate = 1800;
 
 export async function GET(req: NextRequest) {
   try {
@@ -11,8 +11,7 @@ export async function GET(req: NextRequest) {
     const collection = db.collection("materials");
 
     // id과 createdAt 제외 가져오기
-    let materials: WithId<Document> | Record<string, number> | null =
-      await collection.findOne({}, { projection: { _id: 0 } });
+    let materials: WithId<Document> | Record<string, number> | null = await collection.findOne({}, { projection: { _id: 0 } });
     if (!materials) {
       materials = await getMaterialPrice();
       const materialsWithDate = { ...materials, createdAt: new Date() };
@@ -30,9 +29,6 @@ export async function GET(req: NextRequest) {
     });
   } catch (error) {
     console.error("Error in GET route:", error);
-    return NextResponse.json(
-      { error: "가격 정보를 얻을 수 없습니다." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "가격 정보를 얻을 수 없습니다." }, { status: 500 });
   }
 }

@@ -77,10 +77,57 @@ const calculateCostsByMaterials = (materials: MaterialInfo[]): CostBreakdown => 
   return costs;
 };
 
+// Helper function to zero out book prices for boundBook mode
+const zeroBoundBookPrices = (priceMap: Record<string, number>): Record<string, number> => {
+  const modified = { ...priceMap };
+
+  // 일반 재련 책 (Normal Refine books)
+  const normalRefineBooks = [
+    "야금술기본",
+    "야금술응용",
+    "야금술심화",
+    "야금술숙련",
+    "야금술특화",
+    "야금술복합",
+    "야금술전문",
+    "재봉술기본",
+    "재봉술응용",
+    "재봉술심화",
+    "재봉술숙련",
+    "재봉술특화",
+    "재봉술복합",
+    "재봉술전문",
+    "야금술업화A",
+    "야금술업화B",
+    "야금술업화C",
+    "재봉술업화A",
+    "재봉술업화B",
+    "재봉술업화C",
+  ];
+
+  // 상급 재련 책 (Advanced Refine books)
+  const advancedRefineBooks = [
+    "장인의 야금술 : 1단계",
+    "장인의 야금술 : 2단계",
+    "장인의 재봉술 : 1단계",
+    "장인의 재봉술 : 2단계",
+  ];
+
+  [...normalRefineBooks, ...advancedRefineBooks].forEach(book => {
+    modified[book] = 0;
+  });
+
+  return modified;
+};
+
 export const calculateEfficiencyData = async (
   priceMap: Record<string, number>,
-  supportMode: SupportMode = "permanent" // 기본값 설정
+  supportMode: SupportMode = "permanent",
+  boundBook: boolean = false
 ): Promise<EfficiencyData> => {
+  // Apply boundBook price modification if enabled
+  const effectivePriceMap = boundBook ? zeroBoundBookPrices(priceMap) : priceMap;
+
   const categories = ["weapon", "armor"] as const;
   const efficiencyData: EfficiencyData = {
     weapon: [],
@@ -94,7 +141,7 @@ export const calculateEfficiencyData = async (
     for (let fromGrade = 12; fromGrade < 23; fromGrade++) {
       const toGrade = fromGrade + 1;
       // calculator now accepts supportMode
-      const result = calculator("t4_1590", cat, fromGrade, toGrade, priceMap, supportMode);
+      const result = calculator("t4_1590", cat, fromGrade, toGrade, effectivePriceMap, supportMode);
 
       const item: EfficiencyDataItem = {
         id: `normal_${cat}_${toGrade}`,
@@ -104,7 +151,7 @@ export const calculateEfficiencyData = async (
           name,
           amount: Math.round(amount * 100) / 100, // 소수점 2자리
           category: getMaterialCategory(name),
-          price: name === "골드" ? 1 : priceMap[name] || 0,
+          price: name === "골드" ? 1 : effectivePriceMap[name] || 0,
         })),
         costs: {
           gold: 0,
@@ -136,7 +183,7 @@ export const calculateEfficiencyData = async (
 
     // Get advanced refine data with support mode
     // Note: getOptimalRefineData returns ALL categories, so we access result[cat][range.key]
-    const advancedRefineData = getOptimalRefineData(priceMap, supportMode);
+    const advancedRefineData = getOptimalRefineData(effectivePriceMap, supportMode);
 
     for (const range of advancedRanges) {
       const result = advancedRefineData[cat][range.key];
@@ -149,7 +196,7 @@ export const calculateEfficiencyData = async (
           name,
           amount: Math.round(amount * 100) / 100, // 소수점 2자리
           category: getMaterialCategory(name),
-          price: name === "골드" ? 1 : priceMap[name] || 0,
+          price: name === "골드" ? 1 : effectivePriceMap[name] || 0,
         })),
         costs: {
           gold: 0,

@@ -16,9 +16,11 @@ interface GraphControlsProps {
   setToggles: React.Dispatch<React.SetStateAction<Toggles>>;
   isMokoko?: boolean;
   setIsMokoko?: (value: boolean) => void;
+  isBoundBook?: boolean;
+  setIsBoundBook?: (value: boolean) => void;
 }
 
-const GraphControls = ({ toggles, setToggles, isMokoko, setIsMokoko }: GraphControlsProps) => {
+const GraphControls = ({ toggles, setToggles, isMokoko, setIsMokoko, isBoundBook, setIsBoundBook }: GraphControlsProps) => {
   const toggleItem = (key: keyof Toggles) => {
     setToggles(prev => ({
       ...prev,
@@ -37,16 +39,25 @@ const GraphControls = ({ toggles, setToggles, isMokoko, setIsMokoko }: GraphCont
 
   return (
     <div className={styles.controlsContainer}>
-      {isMokoko !== undefined && setIsMokoko && (
-        <div className={styles.section}>
+      {/* 모코코/귀속책 토글 그룹 */}
+      <div className={styles.section}>
+        {isMokoko !== undefined && setIsMokoko && (
           <button
             className={`${styles.toggleButton} ${styles.mokokoButton} ${isMokoko ? styles.active : ""}`}
             onClick={() => setIsMokoko(!isMokoko)}
           >
             모코코 챌린지
           </button>
-        </div>
-      )}
+        )}
+        {isBoundBook !== undefined && setIsBoundBook && (
+          <button
+            className={`${styles.toggleButton} ${styles.boundBookButton} ${isBoundBook ? styles.active : ""}`}
+            onClick={() => setIsBoundBook(!isBoundBook)}
+          >
+            귀속책
+          </button>
+        )}
+      </div>
       <div className={styles.section}>
         {buttons.map(({ key, label }) => (
           <button

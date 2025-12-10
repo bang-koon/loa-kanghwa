@@ -14,13 +14,20 @@ export const revalidate = 1800; // 30분마다 페이지 재생성 (ISR)
 export default async function EfficiencyPage() {
   const materialsPrice = await getMaterialPrice();
 
-  // 두 가지 모드 데이터 모두 계산
-  const permanentData = await calculateEfficiencyData(materialsPrice, "permanent");
-  const mokokoData = await calculateEfficiencyData(materialsPrice, "mokoko");
+  // 4가지 모드 데이터 계산 (supportMode x boundBook)
+  const permanentData = await calculateEfficiencyData(materialsPrice, "permanent", false);
+  const permanentBoundBookData = await calculateEfficiencyData(materialsPrice, "permanent", true);
+  const mokokoData = await calculateEfficiencyData(materialsPrice, "mokoko", false);
+  const mokokoBoundBookData = await calculateEfficiencyData(materialsPrice, "mokoko", true);
 
   return (
     <PageLayout title="상급 재련 효율" maxWidth="1100px">
-      <EfficiencyContainer permanentData={permanentData} mokokoData={mokokoData} />
+      <EfficiencyContainer
+        permanentData={permanentData}
+        permanentBoundBookData={permanentBoundBookData}
+        mokokoData={mokokoData}
+        mokokoBoundBookData={mokokoBoundBookData}
+      />
     </PageLayout>
   );
 }

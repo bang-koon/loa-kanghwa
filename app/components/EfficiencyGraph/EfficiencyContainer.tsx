@@ -8,7 +8,9 @@ import styles from "./EfficiencyContainer.module.scss";
 
 interface EfficiencyContainerProps {
   permanentData: EfficiencyData;
+  permanentBoundBookData: EfficiencyData;
   mokokoData: EfficiencyData;
+  mokokoBoundBookData: EfficiencyData;
 }
 
 // 토글별 카테고리 매핑
@@ -21,7 +23,12 @@ const TOGGLE_CATEGORY_MAP: Record<keyof Toggles, CostCategory[]> = {
   book: ["book"],
 };
 
-const EfficiencyContainer = ({ permanentData, mokokoData }: EfficiencyContainerProps) => {
+const EfficiencyContainer = ({
+  permanentData,
+  permanentBoundBookData,
+  mokokoData,
+  mokokoBoundBookData,
+}: EfficiencyContainerProps) => {
   const [toggles, setToggles] = useState<Toggles>({
     stones: true,
     shard: true,
@@ -31,9 +38,15 @@ const EfficiencyContainer = ({ permanentData, mokokoData }: EfficiencyContainerP
     book: true,
   });
   const [isMokoko, setIsMokoko] = useState(false);
+  const [isBoundBook, setIsBoundBook] = useState(false);
 
-  // 현재 모드에 따라 데이터 선택
-  const currentData = isMokoko ? mokokoData : permanentData;
+  // 현재 모드에 따라 데이터 선택 (mokoko x boundBook 조합)
+  const currentData = useMemo(() => {
+    if (isMokoko) {
+      return isBoundBook ? mokokoBoundBookData : mokokoData;
+    }
+    return isBoundBook ? permanentBoundBookData : permanentData;
+  }, [isMokoko, isBoundBook, permanentData, permanentBoundBookData, mokokoData, mokokoBoundBookData]);
 
   // 토글 상태에 따라 비용 계산
   const getFilteredCost = (item: EfficiencyDataItem): number => {
@@ -69,7 +82,14 @@ const EfficiencyContainer = ({ permanentData, mokokoData }: EfficiencyContainerP
 
   return (
     <div className={styles.container}>
-      <GraphControls toggles={toggles} setToggles={setToggles} isMokoko={isMokoko} setIsMokoko={setIsMokoko} />
+      <GraphControls
+        toggles={toggles}
+        setToggles={setToggles}
+        isMokoko={isMokoko}
+        setIsMokoko={setIsMokoko}
+        isBoundBook={isBoundBook}
+        setIsBoundBook={setIsBoundBook}
+      />
 
       <EfficiencyGraph title="무기 효율 (Weapon)" data={sortedData.weapon} />
 

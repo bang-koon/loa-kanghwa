@@ -153,6 +153,17 @@ const FilterItems = () => {
             모챌익
           </label>
         </div>
+        <div className={styles.filterItem}>
+          <img
+            src={selected.boundBook ? "/button/clicked.svg" : "/button/default.svg"}
+            alt="귀속책"
+            onClick={() => toggleSelected("boundBook")}
+            className={styles.icon}
+          />
+          <label htmlFor="boundBook" className={styles.label} onClick={() => toggleSelected("boundBook")}>
+            귀속 책
+          </label>
+        </div>
       </div>
     </>
   );

@@ -18,6 +18,7 @@ const useFilterStore = create<FilterState>(set => ({
     onePart: false,
     fiveParts: true,
     mokoko: false,
+    boundBook: false,
   },
   toggleSelected: item =>
     set(state => {

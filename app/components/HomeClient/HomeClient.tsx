@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import totalCalculator from "../../lib/refine/totalCalculator";
 import RefineSelector from "../RefineSelector/RefineSelector";
 import Reward from "../Reward/Reward";
@@ -9,6 +9,7 @@ import Filter from "../Filter/Filter";
 import styles from "./HomeClient.module.scss";
 import { tierInfo } from "@/app/lib/refine/data";
 import FilterMobile from "@/app/components/Filter/FilterMobile";
+import { zeroBoundBookPrices } from "@/app/lib/utils";
 
 import { AdvancedRefine } from "@/app/lib/types";
 
@@ -17,14 +18,18 @@ import useFilterStore from "../../lib/store";
 interface MainContentProps {
   materials?: Record<string, number>;
   permanentAdvancedRefineData?: AdvancedRefine;
+  permanentBoundBookAdvancedRefineData?: AdvancedRefine;
   mokokoAdvancedRefineData?: AdvancedRefine;
+  mokokoBoundBookAdvancedRefineData?: AdvancedRefine;
   activeView: "reward" | "calculator";
 }
 
 export default function HomeClient({
   materials,
   permanentAdvancedRefineData,
+  permanentBoundBookAdvancedRefineData,
   mokokoAdvancedRefineData,
+  mokokoBoundBookAdvancedRefineData,
   activeView,
 }: MainContentProps) {
   const [owned, setOwned] = useState<Record<string, number>>({});
@@ -33,11 +38,32 @@ export default function HomeClient({
   const [subTier, setSubTier] = useState(tierInfo.T4[0].id);
   const [showFilter, setShowFilter] = useState(false);
 
-  // Filter Store에서 모코코 상태 가져오기
+  // Filter Store에서 모코코 및 귀속책 상태 가져오기
   const { selected } = useFilterStore();
   const isMokoko = selected.mokoko;
+  const isBoundBook = selected.boundBook;
   const supportMode = isMokoko ? "mokoko" : "permanent";
-  const currentAdvancedRefineData = isMokoko ? mokokoAdvancedRefineData : permanentAdvancedRefineData;
+
+  // 4가지 시나리오에서 적절한 advancedRefineData 선택
+  const currentAdvancedRefineData = useMemo(() => {
+    if (isMokoko) {
+      return isBoundBook ? mokokoBoundBookAdvancedRefineData : mokokoAdvancedRefineData;
+    }
+    return isBoundBook ? permanentBoundBookAdvancedRefineData : permanentAdvancedRefineData;
+  }, [
+    isMokoko,
+    isBoundBook,
+    permanentAdvancedRefineData,
+    permanentBoundBookAdvancedRefineData,
+    mokokoAdvancedRefineData,
+    mokokoBoundBookAdvancedRefineData,
+  ]);
+
+  // 귀속책 필터 적용된 priceMap
+  const effectivePriceMap = useMemo(() => {
+    if (!materials) return materials;
+    return isBoundBook ? zeroBoundBookPrices(materials) : materials;
+  }, [materials, isBoundBook]);
 
   const [calculationResult, setCalculationResult] = useState({
     weapon: { cost: 0, materials: {} },
@@ -49,8 +75,8 @@ export default function HomeClient({
   };
 
   useEffect(() => {
-    if (materials && Object.keys(refineSelection).length > 0) {
-      const res = totalCalculator(refineSelection, subTier, materials, supportMode);
+    if (effectivePriceMap && Object.keys(refineSelection).length > 0) {
+      const res = totalCalculator(refineSelection, subTier, effectivePriceMap, supportMode);
       setCalculationResult(res);
     } else {
       setCalculationResult({
@@ -58,7 +84,7 @@ export default function HomeClient({
         armor: { cost: 0, materials: {} },
       });
     }
-  }, [refineSelection, subTier, materials, supportMode]);
+  }, [refineSelection, subTier, effectivePriceMap, supportMode]);
 
   return (
     <div className={styles.homeClientContainer}>
@@ -78,7 +104,7 @@ export default function HomeClient({
           <Board
             calculationResult={calculationResult}
             advancedRefineData={currentAdvancedRefineData}
-            materialsPrice={materials}
+            materialsPrice={effectivePriceMap!}
             owned={owned}
             setOwned={setOwned}
           />

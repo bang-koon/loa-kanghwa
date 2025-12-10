@@ -73,3 +73,16 @@
     }
   }
 }
+
+.boundBookButton {
+  &.active {
+    background-color: #9b59b6; /* Purple for Bound Book */
+    border-color: #9b59b6;
+    color: white;
+
+    &:hover {
+      background-color: #8e44ad;
+      border-color: #8e44ad;
+    }
+  }
+}
