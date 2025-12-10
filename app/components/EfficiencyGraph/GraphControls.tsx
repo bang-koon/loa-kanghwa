@@ -37,8 +37,17 @@ const GraphControls = ({ toggles, setToggles, isMokoko, setIsMokoko }: GraphCont
 
   return (
     <div className={styles.controlsContainer}>
+      {isMokoko !== undefined && setIsMokoko && (
+        <div className={styles.section}>
+          <button
+            className={`${styles.toggleButton} ${styles.mokokoButton} ${isMokoko ? styles.active : ""}`}
+            onClick={() => setIsMokoko(!isMokoko)}
+          >
+            모코코 챌린지
+          </button>
+        </div>
+      )}
       <div className={styles.section}>
-        <span className={styles.label}>포함 재료:</span>
         {buttons.map(({ key, label }) => (
           <button
             key={key}
@@ -49,18 +58,6 @@ const GraphControls = ({ toggles, setToggles, isMokoko, setIsMokoko }: GraphCont
           </button>
         ))}
       </div>
-
-      {isMokoko !== undefined && setIsMokoko && (
-        <div className={styles.section}>
-          <span className={styles.label}>기타:</span>
-          <button
-            className={`${styles.toggleButton} ${styles.mokokoButton} ${isMokoko ? styles.active : ""}`}
-            onClick={() => setIsMokoko(!isMokoko)}
-          >
-            모코코 챌린지
-          </button>
-        </div>
-      )}
     </div>
   );
 };
