@@ -27,9 +27,9 @@ export default async function Home() {
 
       <section className={styles.infoSection}>
         <h2>ㅤ공지</h2>
-        <p>ㅤ • 재련값은 평균값 기준이며 숨결, 책등의 모든 조합을 테스트하여 가장 저렴한 방법으로 보여드립니다.</p>
-        <p>ㅤ • 재료의 가격은 약 한 시간마다 갱신됩니다.</p>
-        <p>ㅤ • 여러 구간별 재련 비용에 특화됐기에 단계별 세세한 강화 방법을 보고 싶다면 icepeng 을 추천합니다!</p>
+        <p>ㅤ • 모든 경우의 수(숨결, 책 포함) 비교 후 최적 재련의 평균값을 도출합니다.</p>
+        <p>ㅤ • DP 알고리즘으로 최적화되며 재료의 가격은 30분마다 갱신됩니다.</p>
+        <p>ㅤ • 구간별 재련 비용에 특화됐기에 단계별 강화 방법을 보고 싶다면 icepeng 을 추천합니다!</p>
         {/* <Link href="/notices" className={styles.moreLink}>
           더 많은 공지 보기
         </Link> */}
@@ -37,6 +37,13 @@ export default async function Home() {
 
       <section className={styles.infoSection}>
         <h2>ㅤ최근 패치내역</h2>
+        <p>
+          <span className={styles.patchDate}>ㅤ • 2025년 12월 10일</span> 모바일 UI 개선, 시세 갱신 주기 단축
+        </p>
+        <p>
+          <span className={styles.patchDate}>ㅤ • 2025년 12월 10일</span> 성장 지원, 모코코 챌린지 적용 로직 추가, 상급 재련 효율
+          페이지 추가
+        </p>
         <p>
           <span className={styles.patchDate}>ㅤ • 2025년 10월 30일</span> 일반재련 성능 개선, 3티어 하위 티어 선택 시 에러 사항
           수정

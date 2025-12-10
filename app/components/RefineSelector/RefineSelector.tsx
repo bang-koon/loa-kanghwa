@@ -1,9 +1,11 @@
 "use client";
 
+import useFilterStore from "../../lib/store";
+
 import React, { useState, MouseEvent } from "react";
 import styles from "./RefineSelector.module.scss";
 import { tierInfo } from "@/app/lib/refine/data";
-import CustomSelect from './CustomSelect';
+import CustomSelect from "./CustomSelect";
 
 const equipmentParts = ["투구", "견갑", "상의", "하의", "장갑", "무기"];
 
@@ -23,6 +25,13 @@ interface RefineSelectorProps {
 }
 
 const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSubTier, toggleFilter }: RefineSelectorProps) => {
+  const { selected } = useFilterStore();
+  const hasEquipment = selected.weapon || selected.armor;
+  const hasGrade =
+    selected.tier3_1 || selected.tier3_2 || selected.tier4_1 || selected.tier4_2 || selected.tier4_3 || selected.tier4_4;
+
+  const isFilterActive = selected.mokoko || (hasEquipment && hasGrade);
+
   const [isDragging, setIsDragging] = useState(false);
   const [dragMode, setDragMode] = useState<"add" | "subtract" | null>(null);
   const [startCell, setStartCell] = useState<Cell | null>(null);
@@ -31,7 +40,7 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
   const handleTierClick = (newTier: "T3" | "T4") => {
     setTier(newTier);
     if (newTier === "T3") {
-      setSubTier(tierInfo.T3[0].id);
+      setSubTier("t3_1525"); // Default and fixed to 1525 for now as per request
     } else {
       setSubTier(tierInfo.T4[0].id);
     }
@@ -43,7 +52,9 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
     setSelection({}); // Clear selection when sub-tier changes
   };
 
-  const gradesToRender = tierInfo[tier].find(t => t.id === subTier)?.grades || [];
+  const rawGrades = tierInfo[tier].find(t => t.id === subTier)?.grades || [];
+  // T3 1525인 경우 13강 이상만 표시 (Support Patch Requirement)
+  const gradesToRender = tier === "T3" && subTier === "t3_1525" ? rawGrades.filter(g => g >= 13) : rawGrades;
 
   const gridStyles = {
     gridTemplateColumns: `60px repeat(${gradesToRender.length}, 40px)`,
@@ -148,8 +159,8 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
         )}
       </div>
       <div className={styles.buttonContainer}>
-        <button className={styles.advancedRefineButton} onClick={toggleFilter}>
-          상급 재련
+        <button className={`${styles.advancedRefineButton} ${isFilterActive ? styles.active : ""}`} onClick={toggleFilter}>
+          상급 재련 / 모챌익
         </button>
       </div>
       <div className={styles.gridContainer}>

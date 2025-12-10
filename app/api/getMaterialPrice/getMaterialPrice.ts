@@ -2,7 +2,7 @@ import transformMaterialName from "@/app/lib/transformMaterialName";
 
 const fetchMaterialPrice = async () => {
   const url = `${process.env.MARKET_URL}`;
-  const data = await fetch(url, { next: { revalidate: 3600 } })
+  const data = await fetch(url, { next: { revalidate: 1800 } })
     .then(res => res.json())
     .catch(error => {
       console.error("Error in fetchMaterialPrice:", error);
@@ -29,9 +29,7 @@ const normalizePrices = (material: Record<string, number>) => {
     normalized[stone] = (normalized[stone] ?? 0) / 100;
   });
 
-  normalized["운명의 파편 주머니(소)"] = parseFloat(
-    ((normalized["운명의 파편 주머니(소)"] ?? 0) / 1000).toFixed(2)
-  );
+  normalized["운명의 파편 주머니(소)"] = parseFloat(((normalized["운명의 파편 주머니(소)"] ?? 0) / 1000).toFixed(2));
 
   return normalized;
 };
@@ -53,9 +51,7 @@ const calculateCheapestHonorShard = (material: Record<string, number>) => {
     },
   ];
 
-  const cheapestBag = shardBags.reduce((prev, curr) =>
-    prev.price < curr.price ? prev : curr
-  );
+  const cheapestBag = shardBags.reduce((prev, curr) => (prev.price < curr.price ? prev : curr));
 
   processed["명예의 파편"] = cheapestBag.price;
 

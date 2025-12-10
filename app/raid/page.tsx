@@ -8,9 +8,6 @@ export const metadata: Metadata = {
   description: "로스트아크 군단장, 카제로스 보상 정보",
 };
 
-export default async function RaidPage() {
-  const materialsPrice = await getMaterialPrice(); // HomeClient requires these props
-  const advancedRefineData = getOptimalRefineData(materialsPrice); // HomeClient requires these props
-
-  return <HomeClient materials={materialsPrice} advancedRefineData={advancedRefineData} activeView="reward" />;
+export default function RaidPage() {
+  return <HomeClient activeView="reward" />;
 }

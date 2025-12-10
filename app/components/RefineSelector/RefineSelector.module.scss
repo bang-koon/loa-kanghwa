@@ -37,9 +37,21 @@
     border-radius: 4px;
     font-size: 16px;
     transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: #f5f5f5;
+      border-color: #ccc;
+    }
+
     &.active {
       background-color: #333;
       color: white;
+      border-color: #333;
+
+      &:hover {
+        background-color: #222;
+        border-color: #222;
+      }
     }
   }
 }
@@ -169,13 +181,14 @@
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 
-  /* Normal state (like inactive tier button) */
+  /* Normal state */
   border: 1px solid #ddd;
   background-color: #fff;
   color: #444;
 
-  &:hover {
-    /* Hover state (like active tier button) */
+  &:hover,
+  &.active {
+    /* Hover & Active state */
     background-color: #333;
     color: white;
     border-color: #333;
