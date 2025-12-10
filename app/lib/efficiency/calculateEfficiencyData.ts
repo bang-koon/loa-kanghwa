@@ -1,6 +1,9 @@
 import calculateRefine from "@/app/lib/refine/refine";
 import { getRefineTable } from "@/app/lib/refine/data";
 import getOptimalRefineData from "@/app/lib/advancedRefine";
+import { RefineTierKey } from "@/app/lib/types";
+import calculator from "../refine/calculator";
+import { SupportMode } from "../supportSettings";
 
 // 재료 카테고리 정의
 export type CostCategory = "gold" | "shards" | "leapstones" | "fusion" | "breath" | "book" | "stones";
@@ -28,7 +31,8 @@ export interface EfficiencyDataItem {
   type: "normal" | "advanced";
   costs: CostBreakdown;
   materials: MaterialInfo[];
-  totalCost: number; // 모든 재료 포함한 총 비용
+  totalCost: number; // filteredCost is used in UI, totalCost kept for reference if needed, but not strictly required by UI types?
+  filteredCost: number; // UI expects this
 }
 
 export interface EfficiencyData {
@@ -49,107 +53,126 @@ const getMaterialCategory = (name: string): CostCategory => {
   return "stones"; // 기본값
 };
 
-// 재료 데이터를 비용 breakdown으로 변환
-const processMaterials = (
-  materials: Record<string, number>,
-  priceMap: Record<string, number>
-): { costs: CostBreakdown; materialList: MaterialInfo[] } => {
+// Helper function to calculate costs
+const calculateCostsByMaterials = (materials: MaterialInfo[]): CostBreakdown => {
   const costs: CostBreakdown = {
     gold: 0,
-    shards: 0,
-    leapstones: 0,
+    stones: 0,
+    shards: 0, // plural to match interface
+    leapstones: 0, // plural to match interface
     fusion: 0,
     breath: 0,
     book: 0,
-    stones: 0,
   };
 
-  const materialList: MaterialInfo[] = [];
-
-  for (const [name, amount] of Object.entries(materials)) {
-    if (amount <= 0) continue;
-
-    const category = getMaterialCategory(name);
-    const price = priceMap[name] || 0;
-
-    // 골드는 그대로 더하고, 나머지는 가격 * 수량
-    const cost = category === "gold" ? amount : price * amount;
-    costs[category] += cost;
-
-    materialList.push({
-      name,
-      amount: Math.round(amount * 100) / 100, // 소수점 2자리
-      price,
-      category,
-    });
+  for (const mat of materials) {
+    if (mat.category === "gold") costs.gold += mat.amount;
+    else if (mat.category === "stones") costs.stones += mat.price * mat.amount;
+    else if (mat.category === "shards") costs.shards += mat.price * mat.amount;
+    else if (mat.category === "leapstones") costs.leapstones += mat.price * mat.amount;
+    else if (mat.category === "fusion") costs.fusion += mat.price * mat.amount;
+    else if (mat.category === "breath") costs.breath += mat.price * mat.amount;
+    else if (mat.category === "book") costs.book += mat.price * mat.amount;
   }
-
-  return { costs, materialList };
+  return costs;
 };
 
-export function calculateEfficiencyData(priceMap: Record<string, number>): EfficiencyData {
-  const result: EfficiencyData = { weapon: [], armor: [] };
+export const calculateEfficiencyData = async (
+  priceMap: Record<string, number>,
+  supportMode: SupportMode = "permanent" // 기본값 설정
+): Promise<EfficiencyData> => {
   const categories = ["weapon", "armor"] as const;
-
-  // 상급 재련 최적화 데이터 (이미 10단계/20단계 전체 비용 계산됨)
-  const advancedRefineData = getOptimalRefineData(priceMap);
+  const efficiencyData: EfficiencyData = {
+    weapon: [],
+    armor: [],
+  };
 
   for (const cat of categories) {
     const items: EfficiencyDataItem[] = [];
 
-    // 1. 일반 재련: 15→16 ~ 22→23 (T4 1590)
-    for (let fromGrade = 15; fromGrade < 23; fromGrade++) {
+    // 1. 일반 재련: 13→14 ~ 22→23 (T4 1590) - 사용자 요청 13~23강
+    for (let fromGrade = 12; fromGrade < 23; fromGrade++) {
       const toGrade = fromGrade + 1;
-      const table = getRefineTable(cat, "t4_1590", toGrade, false, false);
+      // calculator now accepts supportMode
+      const result = calculator("t4_1590", cat, fromGrade, toGrade, priceMap, supportMode);
 
-      if (!table) {
-        console.warn(`Table not found for ${cat} grade ${toGrade}`);
-        continue;
-      }
-
-      const refineResult = calculateRefine(table, priceMap);
-      const { costs, materialList } = processMaterials(refineResult.materials, priceMap);
-
-      // 아이템 레벨 계산 (T4 기준: 11강 = 1640, 매 강화당 +5)
-      const itemLevel = 1640 + (toGrade - 11) * 5;
-
-      items.push({
-        id: `normal-${toGrade}`,
-        name: `+${toGrade}강`,
+      const item: EfficiencyDataItem = {
+        id: `normal_${cat}_${toGrade}`,
         type: "normal",
-        costs,
-        materials: materialList,
-        totalCost: Object.values(costs).reduce((sum, v) => sum + v, 0),
-      });
+        name: `+${toGrade}강`,
+        materials: Object.entries(result.materials).map(([name, amount]) => ({
+          name,
+          amount: Math.round(amount * 100) / 100, // 소수점 2자리
+          category: getMaterialCategory(name),
+          price: name === "골드" ? 1 : priceMap[name] || 0,
+        })),
+        costs: {
+          gold: 0,
+          stones: 0,
+          shards: 0,
+          leapstones: 0,
+          fusion: 0,
+          breath: 0,
+          book: 0,
+        },
+        filteredCost: 0,
+        totalCost: 0,
+      };
+
+      // 비용 계산
+      item.costs = calculateCostsByMaterials(item.materials);
+      item.totalCost = Object.values(item.costs).reduce((a, b) => a + b, 0); // Approx total
+
+      items.push(item);
     }
 
-    // 2. 상급 재련 (getOptimalRefineData 사용 - 이미 최적화 계산됨)
-    const advTiers = [
-      { key: "tier4_1", name: "상재 1~10", id: "adv-1-10" },
-      { key: "tier4_2", name: "상재 11~20", id: "adv-11-20" },
-      { key: "tier4_3", name: "상재 21~30", id: "adv-21-30" },
-      { key: "tier4_4", name: "상재 31~40", id: "adv-31-40" },
-    ] as const;
+    // 2. 상급 재련 (1~10, 11~20, 21~30, 31~40)
+    const advancedRanges: { name: string; key: RefineTierKey }[] = [
+      { name: "상급 1~10", key: "tier4_1" },
+      { name: "상급 11~20", key: "tier4_2" },
+      { name: "상급 21~30", key: "tier4_3" },
+      { name: "상급 31~40", key: "tier4_4" },
+    ];
 
-    for (const tier of advTiers) {
-      const tierResult = advancedRefineData[cat]?.[tier.key];
-      if (!tierResult) continue;
+    // Get advanced refine data with support mode
+    // Note: getOptimalRefineData returns ALL categories, so we access result[cat][range.key]
+    const advancedRefineData = getOptimalRefineData(priceMap, supportMode);
 
-      // advancedRefineData의 result는 { cost, materials } 형태
-      const { costs, materialList } = processMaterials(tierResult.materials, priceMap);
+    for (const range of advancedRanges) {
+      const result = advancedRefineData[cat][range.key];
 
-      items.push({
-        id: tier.id,
-        name: tier.name,
+      const item: EfficiencyDataItem = {
+        id: `advanced_${cat}_${range.key}`,
         type: "advanced",
-        costs,
-        materials: materialList,
-        totalCost: tierResult.cost, // 이미 계산된 총 비용 사용
-      });
+        name: range.name,
+        materials: Object.entries(result.materials).map(([name, amount]: [string, number]) => ({
+          name,
+          amount: Math.round(amount * 100) / 100, // 소수점 2자리
+          category: getMaterialCategory(name),
+          price: name === "골드" ? 1 : priceMap[name] || 0,
+        })),
+        costs: {
+          gold: 0,
+          stones: 0,
+          shards: 0,
+          leapstones: 0,
+          fusion: 0,
+          breath: 0,
+          book: 0,
+        },
+        filteredCost: 0,
+        totalCost: 0,
+      };
+
+      item.costs = calculateCostsByMaterials(item.materials);
+      item.totalCost = Object.values(item.costs).reduce((a, b) => a + b, 0);
+
+      items.push(item);
     }
 
-    result[cat] = items;
+    // sort and assign
+    efficiencyData[cat] = items.sort((a, b) => b.costs.gold - a.costs.gold);
   }
 
-  return result;
-}
+  return efficiencyData;
+};
