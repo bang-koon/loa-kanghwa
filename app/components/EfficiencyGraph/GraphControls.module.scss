@@ -19,6 +19,9 @@
   color: #555;
   margin-right: 12px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  height: 34px; /* Match button height approx (padding 8px*2 + line-height ~18px) */
 }
 
 .toggleButton {
