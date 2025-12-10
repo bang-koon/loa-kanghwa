@@ -10,7 +10,15 @@ export const metadata: Metadata = {
 
 export default async function RefinePage() {
   const materialsPrice = await getMaterialPrice();
-  const advancedRefineData = getOptimalRefineData(materialsPrice);
+  const permanentAdvancedRefineData = getOptimalRefineData(materialsPrice, "permanent");
+  const mokokoAdvancedRefineData = getOptimalRefineData(materialsPrice, "mokoko");
 
-  return <HomeClient materials={materialsPrice} advancedRefineData={advancedRefineData} activeView="calculator" />;
+  return (
+    <HomeClient
+      materials={materialsPrice}
+      permanentAdvancedRefineData={permanentAdvancedRefineData}
+      mokokoAdvancedRefineData={mokokoAdvancedRefineData}
+      activeView="calculator"
+    />
+  );
 }

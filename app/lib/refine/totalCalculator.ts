@@ -1,5 +1,6 @@
 import calculator from "./calculator";
 import { MaterialCost } from "../types";
+import { SupportMode } from "../supportSettings";
 
 // Finds contiguous ranges from a sorted set of numbers
 // e.g., {11, 12, 14, 15} -> [[11, 12], [14, 15]]
@@ -28,7 +29,8 @@ function parseRanges(grades: Set<number>): number[][] {
 export default function totalCalculator(
   selection: Record<string, Set<number>>,
   subTierId: string,
-  priceMap: Record<string, number>
+  priceMap: Record<string, number>,
+  supportMode: SupportMode
 ) {
   const result: {
     weapon: MaterialCost;
@@ -48,11 +50,11 @@ export default function totalCalculator(
 
     for (const range of ranges) {
       const [startGrade, endGrade] = range;
-      const cacheKey = `${itemType}-${subTierId}-${startGrade}-${endGrade}`;
+      const cacheKey = `${itemType}-${subTierId}-${startGrade}-${endGrade}-${supportMode}`;
 
       let partResult = memo[cacheKey];
       if (!partResult) {
-        partResult = calculator(subTierId, itemType, startGrade - 1, endGrade, priceMap);
+        partResult = calculator(subTierId, itemType, startGrade - 1, endGrade, priceMap, supportMode);
         memo[cacheKey] = partResult;
       }
 

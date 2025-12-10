@@ -17,6 +17,7 @@ const useFilterStore = create<FilterState>(set => ({
     tier4_4: false,
     onePart: false,
     fiveParts: true,
+    mokoko: false,
   },
   toggleSelected: item =>
     set(state => {

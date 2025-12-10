@@ -12,18 +12,32 @@ import FilterMobile from "@/app/components/Filter/FilterMobile";
 
 import { AdvancedRefine } from "@/app/lib/types";
 
+import useFilterStore from "../../lib/store";
+
 interface MainContentProps {
   materials: Record<string, number>;
-  advancedRefineData: AdvancedRefine;
+  permanentAdvancedRefineData: AdvancedRefine;
+  mokokoAdvancedRefineData: AdvancedRefine;
   activeView: "reward" | "calculator";
 }
 
-export default function HomeClient({ materials, advancedRefineData, activeView }: MainContentProps) {
+export default function HomeClient({
+  materials,
+  permanentAdvancedRefineData,
+  mokokoAdvancedRefineData,
+  activeView,
+}: MainContentProps) {
   const [owned, setOwned] = useState<Record<string, number>>({});
   const [refineSelection, setRefineSelection] = useState<Record<string, Set<number>>>({});
   const [tier, setTier] = useState<"T3" | "T4">("T4");
   const [subTier, setSubTier] = useState(tierInfo.T4[0].id);
   const [showFilter, setShowFilter] = useState(false);
+
+  // Filter Store에서 모코코 상태 가져오기
+  const { selected } = useFilterStore();
+  const isMokoko = selected.mokoko;
+  const supportMode = isMokoko ? "mokoko" : "permanent";
+  const currentAdvancedRefineData = isMokoko ? mokokoAdvancedRefineData : permanentAdvancedRefineData;
 
   const [calculationResult, setCalculationResult] = useState({
     weapon: { cost: 0, materials: {} },
@@ -36,7 +50,7 @@ export default function HomeClient({ materials, advancedRefineData, activeView }
 
   useEffect(() => {
     if (materials && Object.keys(refineSelection).length > 0) {
-      const res = totalCalculator(refineSelection, subTier, materials);
+      const res = totalCalculator(refineSelection, subTier, materials, supportMode);
       setCalculationResult(res);
     } else {
       setCalculationResult({
@@ -44,7 +58,7 @@ export default function HomeClient({ materials, advancedRefineData, activeView }
         armor: { cost: 0, materials: {} },
       });
     }
-  }, [refineSelection, subTier, materials]);
+  }, [refineSelection, subTier, materials, supportMode]);
 
   return (
     <div className={styles.homeClientContainer}>
@@ -63,7 +77,7 @@ export default function HomeClient({ materials, advancedRefineData, activeView }
           />
           <Board
             calculationResult={calculationResult}
-            advancedRefineData={advancedRefineData}
+            advancedRefineData={currentAdvancedRefineData}
             materialsPrice={materials}
             owned={owned}
             setOwned={setOwned}
