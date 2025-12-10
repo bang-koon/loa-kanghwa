@@ -71,7 +71,7 @@ const EfficiencyGraph = ({ title, data }: EfficiencyGraphProps) => {
                   })}
 
                   <div className={styles.totalRow}>
-                    <span>선택 비용</span>
+                    <span>비용</span>
                     <span>{Math.round(item.filteredCost).toLocaleString()}G</span>
                   </div>
                 </div>
