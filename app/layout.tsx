@@ -9,7 +9,7 @@ import Footer from "./components/Footer/Footer";
 export const metadata: Metadata = {
   title: "로아쿤 - 재련 계산기 & 레이드 보상 정보",
   description:
-    "로스트아크(로아) 재련 비용 계산기와 최신 레이드(발탄, 비아키스, 카멘 등) 보상 정보를 한눈에 확인하세요. 강화 비용, 재료, 골드 보상을 모두 제공합니다.",
+    "로스트아크(로아) 재련 비용 계산기와 최신 레이드(세르카, 카제로스, 아르모체 등) 보상 정보를 한눈에 확인하세요. 강화 비용, 재료, 골드 보상을 모두 제공합니다.",
   keywords: [
     "로스트아크",
     "로아",
@@ -32,6 +32,7 @@ export const metadata: Metadata = {
     "모르둠 보상",
     "아르모체 보상",
     "카제로스 보상",
+    "세르카 보상",
   ],
   openGraph: {
     title: "로아쿤 - 재련 계산기 & 레이드 보상 정보",

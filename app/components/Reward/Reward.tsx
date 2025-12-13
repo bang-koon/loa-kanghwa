@@ -22,7 +22,7 @@ interface Gate {
 interface Raid {
   id: number;
   name: string;
-  difficulty: "Normal" | "Hard" | null;
+  difficulty: "Normal" | "Hard" | "Nightmare" | null;
   image: string;
   itemLevel: string;
   gates: Gate[];
@@ -435,6 +435,27 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
         },
       ],
     },
+    {
+      id: 17,
+      name: "에키드나",
+      difficulty: "Normal",
+      image: "에키드나.webp",
+      itemLevel: "아이템 레벨 1620",
+      gates: [
+        {
+          gate: 1,
+          gold: 1900,
+          bonusGold: 310,
+          materials: [{ count: 3, image: "아그리스의_비늘.webp" }],
+        },
+        {
+          gate: 2,
+          gold: 4200,
+          bonusGold: 700,
+          materials: [{ count: 6, image: "아그리스의_비늘.webp" }],
+        },
+      ],
+    },
   ],
   "4t": [
     {
@@ -446,39 +467,19 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       gates: [
         {
           gate: 1,
-          gold: 2800,
-          bonusGold: 920,
+          gold: 2200,
+          bonusGold: 720,
           materials: [{ count: 10, image: "베히모스의_비늘.webp" }],
         },
         {
           gate: 2,
-          gold: 6000,
-          bonusGold: 1960,
+          gold: 5000,
+          bonusGold: 1630,
           materials: [{ count: 20, image: "베히모스의_비늘.webp" }],
         },
       ],
     },
-    {
-      id: 17,
-      name: "에키드나",
-      difficulty: "Normal",
-      image: "에키드나.webp",
-      itemLevel: "아이템 레벨 1620",
-      gates: [
-        {
-          gate: 1,
-          gold: 1150,
-          bonusGold: 500,
-          materials: [{ count: 3, image: "아그리스의_비늘.webp" }],
-        },
-        {
-          gate: 2,
-          gold: 2500,
-          bonusGold: 960,
-          materials: [{ count: 6, image: "아그리스의_비늘.webp" }],
-        },
-      ],
-    },
+
     {
       id: 18,
       name: "에키드나",
@@ -488,14 +489,14 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       gates: [
         {
           gate: 1,
-          gold: 2800,
-          bonusGold: 920,
+          gold: 2200,
+          bonusGold: 720,
           materials: [{ count: 3, image: "알키오네의_눈.webp" }],
         },
         {
           gate: 2,
-          gold: 6000,
-          bonusGold: 1960,
+          gold: 5000,
+          bonusGold: 1630,
           materials: [{ count: 6, image: "알키오네의_눈.webp" }],
         },
       ],
@@ -509,14 +510,14 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       gates: [
         {
           gate: 1,
-          gold: 4750,
-          bonusGold: 1030,
+          gold: 3500,
+          bonusGold: 750,
           materials: [{ count: 4, image: "업화의_쐐기돌.webp" }],
         },
         {
           gate: 2,
-          gold: 10750,
-          bonusGold: 2400,
+          gold: 8000,
+          bonusGold: 1780,
           materials: [{ count: 6, image: "업화의_쐐기돌.webp" }],
         },
       ],
@@ -530,14 +531,14 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       gates: [
         {
           gate: 1,
-          gold: 8000,
-          bonusGold: 3640,
+          gold: 5500,
+          bonusGold: 1820,
           materials: [{ count: 8, image: "업화의_쐐기돌.webp" }],
         },
         {
           gate: 2,
-          gold: 16500,
-          bonusGold: 5880,
+          gold: 12500,
+          bonusGold: 4150,
           materials: [{ count: 12, image: "업화의_쐐기돌.webp" }],
         },
       ],
@@ -551,14 +552,14 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       gates: [
         {
           gate: 1,
-          gold: 7250,
-          bonusGold: 3240,
+          gold: 5500,
+          bonusGold: 1820,
           materials: [{ count: 4, image: "카르마의_잔영.webp" }],
         },
         {
           gate: 2,
-          gold: 14250,
-          bonusGold: 4830,
+          gold: 11000,
+          bonusGold: 3720,
           materials: [{ count: 6, image: "카르마의_잔영.webp" }],
         },
       ],
@@ -572,14 +573,14 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       gates: [
         {
           gate: 1,
-          gold: 10000,
-          bonusGold: 4500,
+          gold: 7500,
+          bonusGold: 2400,
           materials: [{ count: 8, image: "카르마의_잔영.webp" }],
         },
         {
           gate: 2,
-          gold: 20500,
-          bonusGold: 7200,
+          gold: 15500,
+          bonusGold: 5100,
           materials: [{ count: 12, image: "카르마의_잔영.webp" }],
         },
       ],
@@ -593,20 +594,20 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       gates: [
         {
           gate: 1,
-          gold: 6000,
-          bonusGold: 2400,
+          gold: 4000,
+          bonusGold: 1300,
           materials: [{ count: 3, image: "낙뢰의_뿔.webp" }],
         },
         {
           gate: 2,
-          gold: 9500,
-          bonusGold: 3200,
+          gold: 7000,
+          bonusGold: 2350,
           materials: [{ count: 5, image: "낙뢰의_뿔.webp" }],
         },
         {
           gate: 3,
-          gold: 12500,
-          bonusGold: 4200,
+          gold: 10000,
+          bonusGold: 3360,
           materials: [{ count: 10, image: "낙뢰의_뿔.webp" }],
         },
       ],
@@ -620,20 +621,20 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       gates: [
         {
           gate: 1,
-          gold: 7000,
-          bonusGold: 2700,
+          gold: 5000,
+          bonusGold: 1650,
           materials: [{ count: 3, image: "우레의_뇌옥.webp" }],
         },
         {
           gate: 2,
-          gold: 11000,
-          bonusGold: 4100,
+          gold: 8000,
+          bonusGold: 2640,
           materials: [{ count: 5, image: "우레의_뇌옥.webp" }],
         },
         {
           gate: 3,
-          gold: 20000,
-          bonusGold: 5800,
+          gold: 14000,
+          bonusGold: 4060,
           materials: [{ count: 10, image: "우레의_뇌옥.webp" }],
         },
       ],
@@ -682,6 +683,39 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
         { gate: 2, gold: 35000, bonusGold: 11200, materials: [{ count: 2, image: "전설코어.png" }] },
       ],
     },
+    {
+      id: 29,
+      name: "세르카",
+      difficulty: "Normal",
+      image: "세르카.png",
+      itemLevel: "아이템 레벨 1710",
+      gates: [
+        { gate: 1, gold: 14000, bonusGold: 0, materials: [{ count: 2, image: "영웅코어.png" }] },
+        { gate: 2, gold: 21000, bonusGold: 0, materials: [{ count: 2, image: "영웅코어.png" }] },
+      ],
+    },
+    {
+      id: 30,
+      name: "세르카",
+      difficulty: "Hard",
+      image: "세르카.png",
+      itemLevel: "아이템 레벨 1730",
+      gates: [
+        { gate: 1, gold: 17500, bonusGold: 0, materials: [{ count: 2, image: "전설코어.png" }] },
+        { gate: 2, gold: 26500, bonusGold: 0, materials: [{ count: 2, image: "전설코어.png" }] },
+      ],
+    },
+    {
+      id: 31,
+      name: "세르카",
+      difficulty: "Nightmare",
+      image: "세르카.png",
+      itemLevel: "아이템 레벨 1740",
+      gates: [
+        { gate: 1, gold: 21000, bonusGold: 0, materials: [{ count: 3, image: "전설코어.png" }] },
+        { gate: 2, gold: 33000, bonusGold: 0, materials: [{ count: 3, image: "전설코어.png" }] },
+      ],
+    },
   ],
 };
 
@@ -692,7 +726,7 @@ const Reward = () => {
 
   const initialRaid = mockRaidData[activeTab][0];
   const [selectedRaidName, setSelectedRaidName] = useState<string>(initialRaid.name);
-  const [selectedDifficulty, setSelectedDifficulty] = useState<"Normal" | "Hard" | null>(initialRaid.difficulty);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<"Normal" | "Hard" | "Nightmare" | null>(initialRaid.difficulty);
 
   const handleTabClick = (tab: "3t" | "4t") => {
     setActiveTab(tab);
@@ -703,7 +737,7 @@ const Reward = () => {
 
   const handleRaidNameClick = (name: string) => {
     setSelectedRaidName(name);
-    const firstMatchingRaid = allRaids.find(raid => raid.name === name);
+    const firstMatchingRaid = mockRaidData[activeTab].find(raid => raid.name === name);
     setSelectedDifficulty(firstMatchingRaid?.difficulty ?? null);
   };
 
@@ -802,16 +836,16 @@ const Reward = () => {
 
   const availableDifficulties = useMemo(
     () =>
-      allRaids
+      mockRaidData[activeTab]
         .filter(raid => raid.name === selectedRaidName)
         .map(raid => raid.difficulty)
         .filter((value, index, self) => self.indexOf(value) === index),
-    [selectedRaidName]
+    [selectedRaidName, activeTab]
   );
 
   const raidToDisplay = useMemo(
-    () => allRaids.find(raid => raid.name === selectedRaidName && raid.difficulty === selectedDifficulty),
-    [selectedRaidName, selectedDifficulty]
+    () => mockRaidData[activeTab].find(raid => raid.name === selectedRaidName && raid.difficulty === selectedDifficulty),
+    [selectedRaidName, selectedDifficulty, activeTab]
   );
 
   return (
@@ -871,32 +905,34 @@ const Reward = () => {
             </div>
             {availableDifficulties.length > 1 && (
               <div className={styles.difficultyButtons}>
-                <button
-                  className={`${styles.difficultyButton} ${selectedDifficulty === "Normal" ? styles.active : ""}`}
-                  onClick={() => setSelectedDifficulty("Normal")}
-                >
-                  노말
-                </button>
-                <button
-                  className={`${styles.difficultyButton} ${selectedDifficulty === "Hard" ? styles.active : ""}`}
-                  onClick={() => setSelectedDifficulty("Hard")}
-                >
-                  하드
-                </button>
+                {["Normal", "Hard", "Nightmare"].map(diff => {
+                  const difficulty = diff as "Normal" | "Hard" | "Nightmare";
+                  if (availableDifficulties.includes(difficulty)) {
+                    return (
+                      <button
+                        key={diff}
+                        className={`${styles.difficultyButton} ${selectedDifficulty === difficulty ? styles.active : ""}`}
+                        onClick={() => setSelectedDifficulty(difficulty)}
+                      >
+                        {difficulty === "Normal" ? "노말" : difficulty === "Hard" ? "하드" : "나이트메어"}
+                      </button>
+                    );
+                  }
+                  return null;
+                })}
               </div>
             )}
           </div>
-          <div className={styles.tableContainer}>
-            {renderRaidTable(raidToDisplay)}
-          </div>
+          <div className={styles.tableContainer}>{renderRaidTable(raidToDisplay)}</div>
           <div className={styles.notice}>
             <div className={styles.noticeHeader}>
               <Image src="/reward/infoCircle.svg" alt="주의" width={14} height={14} />
               <span className={styles.noticeTitle}>Notice</span>
             </div>
             <div className={styles.noticeContent}>
-              <span>• 귀속 골드 포함입니다.</span>
-              <span> • 데이터 업데이트: 2025.08.20.</span>
+              <span> • 3티어(에키드나 노말까지) 100% 귀속 골드입니다.</span>
+              <span> • 4티어 싱글 모드는 50% 귀속 골드입니다.</span>
+              <span> • 데이터 업데이트: 2025.12.13.</span>
             </div>
           </div>
         </div>
