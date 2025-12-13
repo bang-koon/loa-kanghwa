@@ -38,6 +38,9 @@ export default async function Home() {
       <section className={styles.infoSection}>
         <h2>ㅤ최근 패치내역</h2>
         <p>
+          <span className={styles.patchDate}>ㅤ • 2025년 12월 13일</span> 레이드 보상 업데이트
+        </p>
+        <p>
           <span className={styles.patchDate}>ㅤ • 2025년 12월 10일</span> 모바일 UI 개선, 시세 갱신 주기 단축
         </p>
         <p>
