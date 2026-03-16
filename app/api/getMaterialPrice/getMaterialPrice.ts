@@ -1,14 +1,36 @@
 import transformMaterialName from "@/app/lib/transformMaterialName";
+import { unstable_cache } from "next/cache";
 
 const fetchMaterialPrice = async () => {
   const url = `${process.env.MARKET_URL}`;
-  const data = await fetch(url, { next: { revalidate: 1800 } })
-    .then(res => res.json())
-    .catch(error => {
-      console.error("Error in fetchMaterialPrice:", error);
-      throw new Error("Failed to fetch material price");
+  if (!url || url === "undefined") {
+    console.error("MARKET_URL is not defined in environment variables.");
+    throw new Error("MARKET_URL is not defined");
+  }
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        Accept: "application/json",
+      },
     });
-  return data;
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(
+        `Failed to fetch from ${url}. Status: ${response.status} ${response.statusText}, Body: ${errorText}`
+      );
+      throw new Error(`Failed to fetch material price: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error in fetchMaterialPrice:", error);
+    throw error;
+  }
 };
 
 const normalizePrices = (material: Record<string, number>) => {
@@ -29,7 +51,9 @@ const normalizePrices = (material: Record<string, number>) => {
     normalized[stone] = (normalized[stone] ?? 0) / 100;
   });
 
-  normalized["운명의 파편 주머니(소)"] = parseFloat(((normalized["운명의 파편 주머니(소)"] ?? 0) / 1000).toFixed(2));
+  normalized["운명의 파편 주머니(소)"] = parseFloat(
+    ((normalized["운명의 파편 주머니(소)"] ?? 0) / 1000).toFixed(2)
+  );
 
   return normalized;
 };
@@ -51,7 +75,9 @@ const calculateCheapestHonorShard = (material: Record<string, number>) => {
     },
   ];
 
-  const cheapestBag = shardBags.reduce((prev, curr) => (prev.price < curr.price ? prev : curr));
+  const cheapestBag = shardBags.reduce((prev, curr) =>
+    prev.price < curr.price ? prev : curr
+  );
 
   processed["명예의 파편"] = cheapestBag.price;
 
@@ -62,7 +88,18 @@ const calculateCheapestHonorShard = (material: Record<string, number>) => {
   return processed;
 };
 
-export const getMaterialPrice = async () => {
+const getTimestampAsNumber = () => {
+  const now = new Date();
+  const y = String(now.getFullYear()).slice(-2);
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  const ss = String(now.getSeconds()).padStart(2, '0');
+  return parseInt(`${y}${m}${d}${hh}${mm}${ss}`, 10);
+};
+
+const getMaterialPriceData = async (): Promise<Record<string, number>> => {
   const data = await fetchMaterialPrice().then(res => res.items);
   let material: Record<string, number> = { 골드: 1 };
   for (const item of data) {
@@ -72,10 +109,16 @@ export const getMaterialPrice = async () => {
   material = normalizePrices(material);
   material = calculateCheapestHonorShard(material);
 
-  return transformMaterialName(material);
+  const transformed = transformMaterialName(material);
+
+  return {
+    ...transformed,
+    createdAt: getTimestampAsNumber(),
+  };
 };
 
-// This code is based on or references code from loa-calc.
-// Original code is licensed under the MIT License.
-// Copyright (c) 2021 icepeng
-// https://github.com/icepeng/loa-calc
+export const getMaterialPrice = unstable_cache(
+  async () => getMaterialPriceData(),
+  ["material-prices"], 
+  { revalidate: 3600 } 
+);
