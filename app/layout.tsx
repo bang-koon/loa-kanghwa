@@ -33,6 +33,9 @@ export const metadata: Metadata = {
     "아르모체 보상",
     "카제로스 보상",
     "세르카 보상",
+    "지평의 성당 보상",
+    "지평의 성당 클골",
+
   ],
   openGraph: {
     title: "로아쿤 - 재련 계산기 & 레이드 보상 정보",
