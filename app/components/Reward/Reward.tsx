@@ -9,7 +9,8 @@ import styles from "./Reward.module.scss";
 // Type Definitions
 interface Material {
   count: number;
-  image: string;
+  image?: string;
+  text?: string;
 }
 
 interface Gate {
@@ -31,7 +32,7 @@ interface Raid {
 interface Totals {
   gold: number;
   bonusGold: number;
-  materials: { [key: string]: number };
+  materials: { [key: string]: { count: number; text?: string } };
 }
 
 const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
@@ -503,7 +504,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
     },
     {
       id: 19,
-      name: "에기르",
+      name: "1막: 에기르",
       difficulty: "Normal",
       image: "에기르.webp",
       itemLevel: "아이템 레벨 1660",
@@ -524,7 +525,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
     },
     {
       id: 20,
-      name: "에기르",
+      name: "1막: 에기르",
       difficulty: "Hard",
       image: "에기르.webp",
       itemLevel: "아이템 레벨 1680",
@@ -545,7 +546,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
     },
     {
       id: 21,
-      name: "아브(2막)",
+      name: "2막: 아브",
       difficulty: "Normal",
       image: "아브2막.webp",
       itemLevel: "아이템 레벨 1670",
@@ -566,7 +567,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
     },
     {
       id: 22,
-      name: "아브(2막)",
+      name: "2막: 아브",
       difficulty: "Hard",
       image: "아브(2막).webp",
       itemLevel: "아이템 레벨 1690",
@@ -587,7 +588,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
     },
     {
       id: 23,
-      name: "모르둠",
+      name: "3막: 모르둠",
       difficulty: "Normal",
       image: "모르둠.jpg",
       itemLevel: "아이템 레벨 1680",
@@ -614,7 +615,7 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
     },
     {
       id: 24,
-      name: "모르둠",
+      name: "3막: 모르둠",
       difficulty: "Hard",
       image: "모르둠.jpg",
       itemLevel: "아이템 레벨 1700",
@@ -641,46 +642,46 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
     },
     {
       id: 25,
-      name: "아르모체",
+      name: "4막: 아르모체",
       difficulty: "Normal",
       image: "아르모체.webp",
       itemLevel: "아이템 레벨 1700",
       gates: [
-        { gate: 1, gold: 12500, bonusGold: 4000, materials: [{ count: 1, image: "영웅코어.png" }] },
-        { gate: 2, gold: 20500, bonusGold: 6560, materials: [{ count: 1, image: "영웅코어.png" }] },
+        { gate: 1, gold: 12500, bonusGold: 4000, materials: [{ count: 1, text: "영웅 ~ 고대 코어" }] },
+        { gate: 2, gold: 20500, bonusGold: 6560, materials: [{ count: 1, text: "영웅 ~ 고대 코어" }] },
       ],
     },
     {
       id: 26,
-      name: "아르모체",
+      name: "4막: 아르모체",
       difficulty: "Hard",
       image: "아르모체.webp",
       itemLevel: "아이템 레벨 1720",
       gates: [
-        { gate: 1, gold: 15000, bonusGold: 4800, materials: [{ count: 1, image: "전설코어.png" }] },
-        { gate: 2, gold: 27000, bonusGold: 8640, materials: [{ count: 1, image: "전설코어.png" }] },
+        { gate: 1, gold: 15000, bonusGold: 4800, materials: [{ count: 1, text: "전설 ~ 고대 코어" }] },
+        { gate: 2, gold: 27000, bonusGold: 8640, materials: [{ count: 1, text: "전설 ~ 고대 코어" }] },
       ],
     },
     {
       id: 27,
-      name: "카제로스",
+      name: "종막: 카제로스",
       difficulty: "Normal",
       image: "카제로스.webp",
       itemLevel: "아이템 레벨 1710",
       gates: [
-        { gate: 1, gold: 14000, bonusGold: 4480, materials: [{ count: 2, image: "영웅코어.png" }] },
-        { gate: 2, gold: 26000, bonusGold: 8320, materials: [{ count: 2, image: "영웅코어.png" }] },
+        { gate: 1, gold: 14000, bonusGold: 4480, materials: [{ count: 2, text: "영웅 ~ 고대 코어" }] },
+        { gate: 2, gold: 26000, bonusGold: 8320, materials: [{ count: 2, text: "영웅 ~ 고대 코어" }] },
       ],
     },
     {
       id: 28,
-      name: "카제로스",
+      name: "종막: 카제로스",
       difficulty: "Hard",
       image: "카제로스.webp",
       itemLevel: "아이템 레벨 1730",
       gates: [
-        { gate: 1, gold: 17000, bonusGold: 5440, materials: [{ count: 2, image: "전설코어.png" }] },
-        { gate: 2, gold: 35000, bonusGold: 11200, materials: [{ count: 2, image: "전설코어.png" }] },
+        { gate: 1, gold: 17000, bonusGold: 5440, materials: [{ count: 2, text: "전설 ~ 고대 코어" }] },
+        { gate: 2, gold: 35000, bonusGold: 11200, materials: [{ count: 2, text: "전설 ~ 고대 코어" }] },
       ],
     },
     {
@@ -690,8 +691,22 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       image: "세르카.png",
       itemLevel: "아이템 레벨 1710",
       gates: [
-        { gate: 1, gold: 14000, bonusGold: 0, materials: [{ count: 2, image: "영웅코어.png" }] },
-        { gate: 2, gold: 21000, bonusGold: 0, materials: [{ count: 2, image: "영웅코어.png" }] },
+        {
+          gate: 1,
+          gold: 14000,
+          bonusGold: 4480,
+          materials: [
+            { count: 2, text: "영웅 ~ 고대 코어" },
+          ],
+        },
+        {
+          gate: 2,
+          gold: 21000,
+          bonusGold: 6720,
+          materials: [
+            { count: 2, text: "영웅 ~ 고대 코어" },
+          ],
+        },
       ],
     },
     {
@@ -701,8 +716,24 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       image: "세르카.png",
       itemLevel: "아이템 레벨 1730",
       gates: [
-        { gate: 1, gold: 17500, bonusGold: 0, materials: [{ count: 2, image: "전설코어.png" }] },
-        { gate: 2, gold: 26500, bonusGold: 0, materials: [{ count: 2, image: "전설코어.png" }] },
+        {
+          gate: 1,
+          gold: 17500,
+          bonusGold: 5600,
+          materials: [
+            { count: 2, text: "전설 ~ 고대 코어" },
+            { count: 10, image: "고통의_가시.webp" },
+          ],
+        },
+        {
+          gate: 2,
+          gold: 26500,
+          bonusGold: 8480,
+          materials: [
+            { count: 2, text: "전설 ~ 고대 코어" },
+            { count: 15, image: "고통의_가시.webp" },
+          ],
+        },
       ],
     },
     {
@@ -712,8 +743,24 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       image: "세르카.png",
       itemLevel: "아이템 레벨 1740",
       gates: [
-        { gate: 1, gold: 21000, bonusGold: 0, materials: [{ count: 3, image: "전설코어.png" }] },
-        { gate: 2, gold: 33000, bonusGold: 0, materials: [{ count: 3, image: "전설코어.png" }] },
+        {
+          gate: 1,
+          gold: 21000,
+          bonusGold: 6720,
+          materials: [
+            { count: 3, text: "전설 ~ 고대 코어" },
+            { count: 10, image: "고통의_가시.webp" },
+          ],
+        },
+        {
+          gate: 2,
+          gold: 33000,
+          bonusGold: 10560,
+          materials: [
+            { count: 3, text: "전설 ~ 고대 코어" },
+            { count: 15, image: "고통의_가시.webp" },
+          ],
+        },
       ],
     },
   ],
@@ -741,13 +788,42 @@ const Reward = () => {
     setSelectedDifficulty(firstMatchingRaid?.difficulty ?? null);
   };
 
+  const formatCoreText = (text: string) => {
+    if (!text) return text;
+    const colorMap: Record<string, string> = {
+      영웅: "#9E40CA",
+      전설: "#ffc941",
+      유물: "#CA6125",
+      고대: "#D1BD86",
+    };
+
+    // 등급 키워드를 기준으로 텍스트를 나눕니다.
+    const parts = text.split(/(영웅|전설|유물|고대)/g);
+
+    return parts.map((part, i) => {
+      const color = colorMap[part];
+      if (color) {
+        return (
+          <span key={i} style={{ color }}>
+            {part}
+          </span>
+        );
+      }
+      return part;
+    });
+  };
+
   const renderMaterials = (materials: Material[]) => {
     if (!materials || materials.length === 0) return "-";
     return (
       <div className={styles.materialsWrapper}>
         {materials.map((m, i) => (
           <div key={i} className={styles.materialItem}>
-            <div className={styles.materialIcon} style={{ backgroundImage: `url(/reward/${m.image})` }}></div>
+            {m.image ? (
+              <div className={styles.materialIcon} style={{ backgroundImage: `url(/reward/${m.image})` }}></div>
+            ) : (
+              <span className={styles.materialText}>{formatCoreText(m.text || "아이템")}</span>
+            )}
             <span>x {m.count.toLocaleString()}</span>
           </div>
         ))}
@@ -770,7 +846,11 @@ const Reward = () => {
         acc.bonusGold += gate.bonusGold || 0;
         if (gate.materials) {
           gate.materials.forEach((mat: Material) => {
-            acc.materials[mat.image] = (acc.materials[mat.image] || 0) + mat.count;
+            const key = mat.image || mat.text || "unknown";
+            if (!acc.materials[key]) {
+              acc.materials[key] = { count: 0, text: mat.text };
+            }
+            acc.materials[key].count += mat.count;
           });
         }
         return acc;
@@ -778,24 +858,23 @@ const Reward = () => {
       { gold: 0, bonusGold: 0, materials: {} }
     );
 
-    const totalMaterialsForRender: Material[] = Object.keys(totals.materials).map(image => ({
-      image,
-      count: totals.materials[image],
+    const totalMaterialsForRender: Material[] = Object.keys(totals.materials).map(key => ({
+      image: totals.materials[key].text ? undefined : key,
+      text: totals.materials[key].text,
+      count: totals.materials[key].count,
     }));
 
     return (
       <div className={styles.raidTable}>
         <div className={`${styles.row} ${styles.headerRow}`}>
-          <div className={styles.headerCol}>관문</div>
-          <div className={styles.headerCol}>기본 재료</div>
-          <div className={styles.headerCol}>더보기 재료</div>
-          <div className={styles.headerCol}>더보기 골드</div>
-          <div className={styles.headerCol}>골드</div>
+          <div className={`${styles.headerCol} ${styles.gateCol}`}>관문</div>
+          <div className={`${styles.headerCol} ${styles.materialCol}`}>보상</div>
+          <div className={`${styles.headerCol} ${styles.goldCol}`}>더보기 골드</div>
+          <div className={`${styles.headerCol} ${styles.goldCol}`}>골드</div>
         </div>
         {raid.gates.map((g: Gate, index: number) => (
           <div key={index} className={styles.row}>
             <div className={styles.gateCol}>{g.gate}</div>
-            <div className={styles.materialCol}>{renderMaterials(g.materials)}</div>
             <div className={styles.materialCol}>{renderMaterials(g.materials)}</div>
             <div className={styles.goldCol}>
               <div className={styles.goldContentWrapper}>
@@ -813,7 +892,6 @@ const Reward = () => {
         ))}
         <div className={`${styles.row}`}>
           <div className={styles.gateCol}>합계</div>
-          <div className={styles.materialCol}>{renderMaterials(totalMaterialsForRender)}</div>
           <div className={styles.materialCol}>{renderMaterials(totalMaterialsForRender)}</div>
           <div className={styles.goldCol}>
             <div className={styles.goldContentWrapper}>
