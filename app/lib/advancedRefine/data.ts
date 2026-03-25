@@ -4,15 +4,16 @@ export interface AdvancedRefineTable {
   book?:
     | "장인의 야금술 : 1단계"
     | "장인의 야금술 : 2단계"
+    | "장인의 야금술 : 3단계"
+    | "장인의 야금술 : 4단계"
     | "장인의 재봉술 : 1단계"
     | "장인의 재봉술 : 2단계"
+    | "장인의 재봉술 : 3단계"
+    | "장인의 재봉술 : 4단계"
     | undefined;
 }
 
-export const advancedRefineTable: Record<
-  "armor" | "weapon",
-  Record<string, AdvancedRefineTable>
-> = {
+export const advancedRefineTable: Record<"armor" | "weapon", Record<string, AdvancedRefineTable>> = {
   armor: {
     tier3_1: {
       amount: {
@@ -81,6 +82,7 @@ export const advancedRefineTable: Record<
       breath: {
         빙하: 20,
       },
+      book: "장인의 재봉술 : 3단계",
     },
     tier4_4: {
       amount: {
@@ -93,6 +95,7 @@ export const advancedRefineTable: Record<
       breath: {
         빙하: 24,
       },
+      book: "장인의 재봉술 : 4단계",
     },
   },
   weapon: {
@@ -163,6 +166,7 @@ export const advancedRefineTable: Record<
       breath: {
         용암: 20,
       },
+      book: "장인의 야금술 : 3단계",
     },
     tier4_4: {
       amount: {
@@ -175,6 +179,7 @@ export const advancedRefineTable: Record<
       breath: {
         용암: 24,
       },
+      book: "장인의 야금술 : 4단계",
     },
   },
-}
+};
