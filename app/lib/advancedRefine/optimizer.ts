@@ -109,7 +109,7 @@ const calculateCost = (
       if (isGold) multiplier = goldMultiplier;
       else if (isShard) multiplier = shardMultiplier;
 
-      const discountedAmount = Math.round(table.amount[mat] * multiplier);
+      const discountedAmount = Math.ceil(table.amount[mat] * multiplier);
       materials[mat] = (materials[mat] || 0) + discountedAmount;
     }
   }
@@ -120,7 +120,7 @@ const calculateCost = (
       if ("빙하" in table.breath || "용암" in table.breath) {
         // T4
         for (const breathName in table.breath) {
-          const quantity = Math.round(table.breath[breathName] * materialsMultiplier);
+          const quantity = Math.ceil(table.breath[breathName] * materialsMultiplier);
           materials[breathName] = (materials[breathName] || 0) + quantity;
         }
       } else {
@@ -130,7 +130,7 @@ const calculateCost = (
         const sortedBreaths = Object.entries(table.breath)
           .map(([name, amount]) => ({
             name,
-            amount: Math.round(amount * materialsMultiplier),
+            amount: Math.ceil(amount * materialsMultiplier),
             price: priceMap[name] || 0,
           }))
           .sort((a, b) => a.price * a.amount - b.price * b.amount);
@@ -384,13 +384,13 @@ export const findOptimalStrategy = (
   //   const isGold = mat === "골드";
   //   const isShard = mat.includes("파편");
   //   const multiplier = isGold ? gm : isShard ? sm : mm;
-  //   const qty = Math.round(table.amount[mat] * multiplier);
+  //   const qty = Math.ceil(table.amount[mat] * multiplier);
   //   const unitPrice = priceMap[mat] || (isGold ? 1 : 0);
   //   console.log(`  ${mat}: ${qty}개 × ${unitPrice}골드 = ${(qty * unitPrice).toFixed(0)}골드`);
   // }
   // if (table.breath) {
   //   for (const mat in table.breath) {
-  //     const qty = Math.round(table.breath[mat] * mm);
+  //     const qty = Math.ceil(table.breath[mat] * mm);
   //     const unitPrice = priceMap[mat] || 0;
   //     console.log(`  ${mat}(숨결): ${qty}개 × ${unitPrice}골드 = ${(qty * unitPrice).toFixed(0)}골드`);
   //   }
