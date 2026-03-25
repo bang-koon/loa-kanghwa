@@ -49,14 +49,14 @@ const GraphControls = ({ toggles, setToggles, isMokoko, setIsMokoko, isBoundBook
             모코코 챌린지
           </button>
         )}
-        {isBoundBook !== undefined && setIsBoundBook && (
+        {/* {isBoundBook !== undefined && setIsBoundBook && (
           <button
             className={`${styles.toggleButton} ${styles.boundBookButton} ${isBoundBook ? styles.active : ""}`}
             onClick={() => setIsBoundBook(!isBoundBook)}
           >
             귀속책
           </button>
-        )}
+        )} */}
       </div>
       <div className={styles.section}>
         {buttons.map(({ key, label }) => (
