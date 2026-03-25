@@ -33,11 +33,11 @@ const Header = () => {
             <Link href="/refine" className={`${styles.navLink} ${pathname === "/refine" ? styles.active : ""}`}>
               재련 계산기
             </Link>
+            <Link href="/efficiency" className={`${styles.navLink} ${pathname === "/efficiency" ? styles.active : ""}`}>
+              재련 효율
+            </Link>
             <Link href="/raid" className={`${styles.navLink} ${pathname === "/raid" ? styles.active : ""}`}>
               레이드 보상
-            </Link>
-            <Link href="/efficiency" className={`${styles.navLink} ${pathname === "/efficiency" ? styles.active : ""}`}>
-              상재 효율
             </Link>
           </div>
         )}
