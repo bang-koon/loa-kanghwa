@@ -12,6 +12,9 @@ export default function PatchNotesPage() {
     <PageLayout title="패치내역">
       <>
         <p>
+          <span className={styles.patchDate}>ㅤ • 2026년 03월 25일</span> 상재 데이터 수정
+        </p>
+        <p>
           <span className={styles.patchDate}>ㅤ • 2026년 03월 18일</span> 지평의 성당 추가 및 레이드 보상 정리
         </p>
         <p>

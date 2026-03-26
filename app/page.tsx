@@ -38,6 +38,9 @@ export default async function Home() {
       <section className={styles.infoSection}>
         <h2>ㅤ최근 패치내역</h2>
         <p>
+          <span className={styles.patchDate}>ㅤ • 2026년 03월 25일</span> 상재 데이터 수정
+        </p>
+        <p>
           <span className={styles.patchDate}>ㅤ • 2026년 03월 18일</span> 지평의 성당 추가 및 레이드 보상 정리
         </p>
         <p>
@@ -53,9 +56,6 @@ export default async function Home() {
         <p>
           <span className={styles.patchDate}>ㅤ • 2025년 10월 30일</span> 일반재련 성능 개선, 3티어 하위 티어 선택 시 에러 사항
           수정
-        </p>
-        <p>
-          <span className={styles.patchDate}>ㅤ • 2025년 10월 20일</span> 모바일 UI 수정
         </p>
         <Link href="/patch-notes" className={styles.moreLink}>
           더 많은 패치내역 보기
