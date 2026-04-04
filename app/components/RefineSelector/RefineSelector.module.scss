@@ -57,22 +57,7 @@
 }
 
 .selectWrapper {
-  position: relative;
   display: inline-block;
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #555;
-    pointer-events: none;
-  }
 }
 
 .subTierSelect {
@@ -198,7 +183,8 @@
 .customSelect {
   position: relative;
   display: inline-block;
-  width: 175px;
+  width: max-content;
+  max-width: min(100%, 320px);
   font-size: 14px;
   user-select: none;
 }
@@ -211,11 +197,12 @@
 }
 
 .selectedOption {
+  position: relative;
   height: 37px;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding: 8px 30px 8px 12px;
+  padding: 8px 28px 8px 10px;
   background-color: #fff;
   color: #444;
   border: 1px solid #ddd;
@@ -223,7 +210,8 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  white-space: nowrap;
 
   &.selectActive {
     animation: selectFlash 0.4s ease-out;
@@ -233,7 +221,7 @@
 .dropdownArrow {
   position: absolute;
   top: 50%;
-  right: 15px;
+  right: 10px;
   transform: translateY(-50%);
   width: 0;
   height: 0;
@@ -247,7 +235,9 @@
   position: absolute;
   top: 100%;
   left: 0;
-  right: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(100vw - 24px, 320px);
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
