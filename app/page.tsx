@@ -38,6 +38,9 @@ export default async function Home() {
       <section className={styles.infoSection}>
         <h2>ㅤ최근 패치내역</h2>
         <p>
+          <span className={styles.patchDate}>ㅤ • 2026년 04월 5일</span> 4티어 상위 고대 데이터 추가
+        </p>
+        <p>
           <span className={styles.patchDate}>ㅤ • 2026년 03월 25일</span> 상재 데이터 수정
         </p>
         <p>
@@ -50,13 +53,10 @@ export default async function Home() {
           <span className={styles.patchDate}>ㅤ • 2025년 12월 10일</span> 모바일 UI 개선, 시세 갱신 주기 단축
         </p>
         <p>
-          <span className={styles.patchDate}>ㅤ • 2025년 12월 10일</span> 성장 지원, 모코코 챌린지 적용 로직 추가, 상급 재련 효율
-          페이지 추가
+          <span className={styles.patchDate}>ㅤ • 2025년 12월 10일</span> 성장 지원, 모코코 챌린지 적용 로직 추가, 상급
+          재련 효율 페이지 추가
         </p>
-        <p>
-          <span className={styles.patchDate}>ㅤ • 2025년 10월 30일</span> 일반재련 성능 개선, 3티어 하위 티어 선택 시 에러 사항
-          수정
-        </p>
+
         <Link href="/patch-notes" className={styles.moreLink}>
           더 많은 패치내역 보기
         </Link>
