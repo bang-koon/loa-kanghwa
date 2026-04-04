@@ -27,7 +27,7 @@ export const getSupportEffect = (itemTierId: string, grade: number, mode: Suppor
   // 모코코 챌린지 익스프레스 (T4 전용)
   if (mode === "mokoko") {
     // T4 장비
-    if (itemTierId.includes("tier4") || itemTierId.includes("t4")) {
+    if (itemTierId.includes("tier4") || itemTierId === "t4_1590") {
       // 일반 재련
       if (grade <= 18) {
         effect.successRateMultiplier = 2.0; // 성공률 2배
@@ -82,7 +82,7 @@ export const getSupportEffect = (itemTierId: string, grade: number, mode: Suppor
     }
 
     // T4 장비
-    if (itemTierId.includes("tier4") || itemTierId.includes("t4")) {
+    if (itemTierId === "t4_1590") {
       // 18단계까지 골드 20% 감소
       if (grade <= 18) {
         effect.costMultiplier.gold = 0.8;
