@@ -45,6 +45,8 @@ const normalizePrices = (material: Record<string, number>) => {
     "정제된 파괴강석",
     "운명의 수호석",
     "운명의 파괴석",
+    "운명의 수호석 결정",
+    "운명의 파괴석 결정",
   ];
 
   stones.forEach(stone => {
@@ -119,6 +121,6 @@ const getMaterialPriceData = async (): Promise<Record<string, number>> => {
 
 export const getMaterialPrice = unstable_cache(
   async () => getMaterialPriceData(),
-  ["material-prices"], 
-  { revalidate: 3600 } 
+  ["material-prices"],
+  { revalidate: 3600 }
 );

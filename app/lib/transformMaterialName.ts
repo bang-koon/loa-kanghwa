@@ -49,6 +49,10 @@ const transformMaterialName = (materials: Record<string, number>) => {
     "야금술 : 업화 [19-20]": "야금술업화C",
     "명예의 파편": "파편",
     "운명의 파편 주머니(소)": "운명파편",
+    "운명의 수호석 결정": "운명의수호석결정",
+    "운명의 파괴석 결정": "운명의파괴석결정",
+    "위대한 운명의 돌파석": "위운돌",
+    "상급 아비도스 융화 재료": "상급아비도스",
   };
 
   const transformedMaterials: Record<string, number> = {};
@@ -114,6 +118,10 @@ export const reverseTransformMaterialName = (material: string) => {
     야금술업화C: "야금술 : 업화 [19-20]",
     파편: "명예의 파편",
     운명파편: "운명의 파편 주머니(소)",
+    상급아비도스: "상급 아비도스 융화 재료",
+    위운돌: "위대한 운명의 돌파석",
+    운명의수호석결정: "운명의 수호석 결정",
+    운명의파괴석결정: "운명의 파괴석 결정",
   };
 
   return nameMapping[material] || material;

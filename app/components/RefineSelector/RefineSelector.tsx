@@ -148,11 +148,11 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
             4티어
           </button>
         </div>
-        {tier === "T3" && (
+        {(tier === "T3" || tier === "T4") && (
           <div className={styles.selectWrapper}>
             <CustomSelect
               value={subTier}
-              options={tierInfo.T3.map(t => ({ value: t.id, label: t.name }))}
+              options={tierInfo[tier].map(t => ({ value: t.id, label: t.name }))}
               onChange={handleSubTierChange}
             />
           </div>
