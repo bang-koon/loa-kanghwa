@@ -46,7 +46,13 @@ const getMaterialCategory = (name: string): CostCategory => {
   if (name.includes("파편") || name.includes("운명파편")) return "shards";
   if (name.includes("돌") && (name.includes("명") || name.includes("운"))) return "leapstones"; // 찬명돌, 운돌 등
   if (name.includes("오레하") || name.includes("아비도스")) return "fusion";
-  if (name.includes("은총") || name.includes("축복") || name.includes("가호") || name.includes("빙하") || name.includes("용암"))
+  if (
+    name.includes("은총") ||
+    name.includes("축복") ||
+    name.includes("가호") ||
+    name.includes("빙하") ||
+    name.includes("용암")
+  )
     return "breath";
   if (name.includes("야금술") || name.includes("재봉술")) return "book";
   if (name.includes("수호") || name.includes("파괴")) return "stones";
@@ -113,7 +119,7 @@ const zeroBoundBookPrices = (priceMap: Record<string, number>): Record<string, n
     "장인의 재봉술 : 2단계",
   ];
 
-  [...normalRefineBooks, ...advancedRefineBooks].forEach(book => {
+  [...normalRefineBooks, ...advancedRefineBooks].forEach((book) => {
     modified[book] = 0;
   });
 
@@ -123,7 +129,7 @@ const zeroBoundBookPrices = (priceMap: Record<string, number>): Record<string, n
 export const calculateEfficiencyData = async (
   priceMap: Record<string, number>,
   supportMode: SupportMode = "permanent",
-  boundBook: boolean = false
+  boundBook: boolean = false,
 ): Promise<EfficiencyData> => {
   // Apply boundBook price modification if enabled
   const effectivePriceMap = boundBook ? zeroBoundBookPrices(priceMap) : priceMap;
@@ -138,7 +144,7 @@ export const calculateEfficiencyData = async (
     const items: EfficiencyDataItem[] = [];
 
     // 1. 일반 재련: 13→14 ~ 22→23 (T4 1590) - 사용자 요청 13~23강
-    for (let fromGrade = 12; fromGrade < 23; fromGrade++) {
+    for (let fromGrade = 12; fromGrade < 20; fromGrade++) {
       const toGrade = fromGrade + 1;
       // calculator now accepts supportMode
       const result = calculator("t4_1590", cat, fromGrade, toGrade, effectivePriceMap, supportMode);
