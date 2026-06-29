@@ -8,8 +8,6 @@ export const metadata: Metadata = {
   title: "로아 강화 계산기 - 일반, 상급 재련 최적화 계산기",
   description: "로아 재련 비용 계산과 최신 레이드 보상 정보를 한눈에!",
 };
-export const revalidate = 1800;
-
 export default async function RefinePage() {
   const materialsPrice = await getMaterialPrice();
   const boundBookPrice = zeroBoundBookPrices(materialsPrice);

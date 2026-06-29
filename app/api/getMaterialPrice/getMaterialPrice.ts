@@ -122,5 +122,5 @@ const getMaterialPriceData = async (): Promise<Record<string, number>> => {
 export const getMaterialPrice = unstable_cache(
   async () => getMaterialPriceData(),
   ["material-prices"],
-  { revalidate: 3600 }
+  { revalidate: 1800 }
 );
