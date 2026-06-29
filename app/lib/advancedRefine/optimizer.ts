@@ -304,7 +304,7 @@ const findOptimalRecursive = (
       } else {
         futureCostResult = findOptimalRecursive(
           currentExp + expGain,
-          ancestorCycle - effect.advancedRefineBeadGain,
+          ancestorCycle - 2,
           false,
           false,
           target,
