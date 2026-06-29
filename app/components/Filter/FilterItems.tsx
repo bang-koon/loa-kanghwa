@@ -141,7 +141,7 @@ const FilterItems = () => {
         </div>
       </div>
       <div className={styles.filterGroup}>
-        <h2 className={styles.filterTitle}>기타</h2>
+        {/* <h2 className={styles.filterTitle}>기타</h2>
         <div className={styles.filterItem}>
           <img
             src={selected.mokoko ? "/button/clicked.svg" : "/button/default.svg"}
@@ -152,7 +152,7 @@ const FilterItems = () => {
           <label htmlFor="mokoko" className={styles.label} onClick={() => toggleSelected("mokoko")}>
             모챌익
           </label>
-        </div>
+        </div> */}
         {/* <div className={styles.filterItem}>
           <img
             src={selected.boundBook ? "/button/clicked.svg" : "/button/default.svg"}

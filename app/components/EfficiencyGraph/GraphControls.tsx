@@ -41,14 +41,14 @@ const GraphControls = ({ toggles, setToggles, isMokoko, setIsMokoko, isBoundBook
     <div className={styles.controlsContainer}>
       {/* 모코코/귀속책 토글 그룹 */}
       <div className={styles.section}>
-        {isMokoko !== undefined && setIsMokoko && (
+        {/* {isMokoko !== undefined && setIsMokoko && (
           <button
             className={`${styles.toggleButton} ${styles.mokokoButton} ${isMokoko ? styles.active : ""}`}
             onClick={() => setIsMokoko(!isMokoko)}
           >
             모코코 챌린지
           </button>
-        )}
+        )} */}
         {/* {isBoundBook !== undefined && setIsBoundBook && (
           <button
             className={`${styles.toggleButton} ${styles.boundBookButton} ${isBoundBook ? styles.active : ""}`}
