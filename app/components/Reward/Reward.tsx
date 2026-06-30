@@ -7,20 +7,20 @@ import "swiper/css";
 import styles from "./Reward.module.scss";
 
 // Type Definitions
-interface Material {
+export interface Material {
   count: number;
   image?: string;
   text?: string;
 }
 
-interface Gate {
+export interface Gate {
   gate: number;
   gold: number;
   bonusGold: number;
   materials: Material[];
 }
 
-interface Raid {
+export interface Raid {
   id: number;
   name: string;
   difficulty: string | null;
@@ -35,7 +35,7 @@ interface Totals {
   materials: { [key: string]: { count: number; text?: string } };
 }
 
-const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
+export const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
   "3t": [
     {
       id: 1,
@@ -647,8 +647,8 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       image: "아르모체.webp",
       itemLevel: "아이템 레벨 1700",
       gates: [
-        { gate: 1, gold: 12500, bonusGold: 4000, materials: [{ count: 1, text: "영웅 ~ 고대 코어" }] },
-        { gate: 2, gold: 20500, bonusGold: 6560, materials: [{ count: 1, text: "영웅 ~ 고대 코어" }] },
+        { gate: 1, gold: 10000, bonusGold: 4000, materials: [{ count: 1, text: "영웅 ~ 고대 코어" }] },
+        { gate: 2, gold: 17000, bonusGold: 6560, materials: [{ count: 1, text: "영웅 ~ 고대 코어" }] },
       ],
     },
     {
@@ -658,8 +658,8 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       image: "아르모체.webp",
       itemLevel: "아이템 레벨 1720",
       gates: [
-        { gate: 1, gold: 15000, bonusGold: 4800, materials: [{ count: 1, text: "전설 ~ 고대 코어" }] },
-        { gate: 2, gold: 27000, bonusGold: 8640, materials: [{ count: 1, text: "전설 ~ 고대 코어" }] },
+        { gate: 1, gold: 13000, bonusGold: 4800, materials: [{ count: 1, text: "전설 ~ 고대 코어" }] },
+        { gate: 2, gold: 25000, bonusGold: 8640, materials: [{ count: 1, text: "전설 ~ 고대 코어" }] },
       ],
     },
     {
@@ -669,8 +669,8 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       image: "카제로스.webp",
       itemLevel: "아이템 레벨 1710",
       gates: [
-        { gate: 1, gold: 14000, bonusGold: 4480, materials: [{ count: 2, text: "영웅 ~ 고대 코어" }] },
-        { gate: 2, gold: 26000, bonusGold: 8320, materials: [{ count: 2, text: "영웅 ~ 고대 코어" }] },
+        { gate: 1, gold: 11000, bonusGold: 3520, materials: [{ count: 2, text: "영웅 ~ 고대 코어" }] },
+        { gate: 2, gold: 21000, bonusGold: 6720, materials: [{ count: 2, text: "영웅 ~ 고대 코어" }] },
       ],
     },
     {
@@ -680,8 +680,8 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       image: "카제로스.webp",
       itemLevel: "아이템 레벨 1730",
       gates: [
-        { gate: 1, gold: 17000, bonusGold: 5440, materials: [{ count: 2, text: "전설 ~ 고대 코어" }] },
-        { gate: 2, gold: 35000, bonusGold: 11200, materials: [{ count: 2, text: "전설 ~ 고대 코어" }] },
+        { gate: 1, gold: 16000, bonusGold: 5120, materials: [{ count: 2, text: "전설 ~ 고대 코어" }] },
+        { gate: 2, gold: 32000, bonusGold: 10240, materials: [{ count: 2, text: "전설 ~ 고대 코어" }] },
       ],
     },
     {
@@ -693,19 +693,15 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
       gates: [
         {
           gate: 1,
-          gold: 14000,
-          bonusGold: 4480,
-          materials: [
-            { count: 2, text: "영웅 ~ 고대 코어" },
-          ],
+          gold: 12000,
+          bonusGold: 3840,
+          materials: [{ count: 2, text: "영웅 ~ 고대 코어" }],
         },
         {
           gate: 2,
-          gold: 21000,
-          bonusGold: 6720,
-          materials: [
-            { count: 2, text: "영웅 ~ 고대 코어" },
-          ],
+          gold: 20000,
+          bonusGold: 6400,
+          materials: [{ count: 2, text: "영웅 ~ 고대 코어" }],
         },
       ],
     },
@@ -844,12 +840,78 @@ const mockRaidData: { "3t": Raid[]; "4t": Raid[] } = {
         },
       ],
     },
+    {
+      id: 35,
+      name: "벨가르딘",
+      difficulty: "노말",
+      image: "벨가르딘.png",
+      itemLevel: "아이템 레벨 1750",
+      gates: [
+        {
+          gate: 1,
+          gold: 20000,
+          bonusGold: 6400,
+          materials: [{ count: 3, text: "전설 ~ 고대 코어" }],
+        },
+        {
+          gate: 2,
+          gold: 30000,
+          bonusGold: 9600,
+          materials: [{ count: 3, text: "전설 ~ 고대 코어" }],
+        },
+      ],
+    },
+    {
+      id: 36,
+      name: "벨가르딘",
+      difficulty: "하드",
+      image: "벨가르딘.png",
+      itemLevel: "아이템 레벨 1770",
+      gates: [
+        {
+          gate: 1,
+          gold: 25000,
+          bonusGold: 8000,
+          materials: [{ count: 3, text: "전설 ~ 고대 코어" }],
+        },
+        {
+          gate: 2,
+          gold: 37000,
+          bonusGold: 11840,
+          materials: [{ count: 3, text: "전설 ~ 고대 코어" }],
+        },
+      ],
+    },
+    {
+      id: 37,
+      name: "벨가르딘",
+      difficulty: "나이트메어",
+      image: "벨가르딘.png",
+      itemLevel: "아이템 레벨 1780",
+      gates: [
+        {
+          gate: 1,
+          gold: 30000,
+          bonusGold: 9600,
+          materials: [{ count: 4, text: "전설 ~ 고대 코어" }],
+        },
+        {
+          gate: 2,
+          gold: 45000,
+          bonusGold: 14400,
+          materials: [{ count: 4, text: "전설 ~ 고대 코어" }],
+        },
+      ],
+    },
   ],
 };
 
 const allRaids = [...mockRaidData["3t"], ...mockRaidData["4t"]];
 
+import RaidTimeline from "./RaidTimeline";
+
 const Reward = () => {
+  const [viewMode, setViewMode] = useState<"timeline" | "classic">("timeline");
   const [activeTab, setActiveTab] = useState<"3t" | "4t">("4t");
 
   const initialRaid = mockRaidData[activeTab][0];
@@ -865,7 +927,7 @@ const Reward = () => {
 
   const handleRaidNameClick = (name: string) => {
     setSelectedRaidName(name);
-    const firstMatchingRaid = mockRaidData[activeTab].find(raid => raid.name === name);
+    const firstMatchingRaid = mockRaidData[activeTab].find((raid) => raid.name === name);
     setSelectedDifficulty(firstMatchingRaid?.difficulty ?? null);
   };
 
@@ -936,10 +998,10 @@ const Reward = () => {
         }
         return acc;
       },
-      { gold: 0, bonusGold: 0, materials: {} }
+      { gold: 0, bonusGold: 0, materials: {} },
     );
 
-    const totalMaterialsForRender: Material[] = Object.keys(totals.materials).map(key => ({
+    const totalMaterialsForRender: Material[] = Object.keys(totals.materials).map((key) => ({
       image: totals.materials[key].text ? undefined : key,
       text: totals.materials[key].text,
       count: totals.materials[key].count,
@@ -991,108 +1053,131 @@ const Reward = () => {
     );
   };
 
-  const raidNamesForCurrentTab = useMemo(() => [...new Set(mockRaidData[activeTab].map(raid => raid.name))], [activeTab]);
+  const raidNamesForCurrentTab = useMemo(
+    () => [...new Set(mockRaidData[activeTab].map((raid) => raid.name))],
+    [activeTab],
+  );
 
   const availableDifficulties = useMemo(
     () =>
       mockRaidData[activeTab]
-        .filter(raid => raid.name === selectedRaidName)
-        .map(raid => raid.difficulty)
+        .filter((raid) => raid.name === selectedRaidName)
+        .map((raid) => raid.difficulty)
         .filter((value, index, self) => self.indexOf(value) === index),
-    [selectedRaidName, activeTab]
+    [selectedRaidName, activeTab],
   );
 
   const raidToDisplay = useMemo(
-    () => mockRaidData[activeTab].find(raid => raid.name === selectedRaidName && raid.difficulty === selectedDifficulty),
-    [selectedRaidName, selectedDifficulty, activeTab]
+    () =>
+      mockRaidData[activeTab].find((raid) => raid.name === selectedRaidName && raid.difficulty === selectedDifficulty),
+    [selectedRaidName, selectedDifficulty, activeTab],
   );
 
   return (
-    <div className={styles.container}>
-      <div className={styles.tabContainer}>
-        <button className={`${styles.tab} ${activeTab === "3t" ? styles.active : ""}`} onClick={() => handleTabClick("3t")}>
-          3티어
-        </button>
-        <button className={`${styles.tab} ${activeTab === "4t" ? styles.active : ""}`} onClick={() => handleTabClick("4t")}>
-          4티어
-        </button>
-      </div>
-
-      <Swiper
-        key={activeTab}
-        modules={[Mousewheel, FreeMode]}
-        spaceBetween={8}
-        slidesPerView={"auto"}
-        freeMode={true}
-        mousewheel={{ sensitivity: 1.5 }}
-        className={styles.raidSelector}
-      >
-        {raidNamesForCurrentTab.map(name => {
-          const raidForName = allRaids.find(raid => raid.name === name);
-          return (
-            <SwiperSlide
-              key={name}
-              className={`${styles.raidSlide} ${selectedRaidName === name ? styles.selected : ""}`}
-              onClick={() => handleRaidNameClick(name)}
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
+      {viewMode === "timeline" ? (
+        <RaidTimeline onToggleView={() => setViewMode("classic")} />
+      ) : (
+        <div className={styles.container}>
+          <div className={styles.tabContainer}>
+            <button
+              className={styles.tab}
+              style={{ backgroundColor: "#ffffff", borderColor: "#dee2e6", color: "#495057", marginRight: "20px" }}
+              onClick={() => setViewMode("timeline")}
             >
-              <div
-                className={styles.raidImagePlaceholder}
-                style={{
-                  backgroundImage: raidForName ? `url(/raid/${raidForName.image})` : "none",
-                }}
-              ></div>
-              <span className={styles.raidNameInSlide}>{name}</span>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
+              간략히
+            </button>
+            <button
+              className={`${styles.tab} ${activeTab === "3t" ? styles.active : ""}`}
+              onClick={() => handleTabClick("3t")}
+            >
+              3티어
+            </button>
+            <button
+              className={`${styles.tab} ${activeTab === "4t" ? styles.active : ""}`}
+              onClick={() => handleTabClick("4t")}
+            >
+              4티어
+            </button>
+          </div>
 
-      {raidToDisplay && (
-        <div className={styles.raidContentBox}>
-          <div className={styles.raidHeader}>
-            <div className={styles.raidHeaderLeft}>
-              <div
-                className={styles.raidImage}
-                style={{
-                  backgroundImage: `url(/raid/${raidToDisplay.image})`,
-                }}
-              ></div>
-              <div className={styles.raidInfo}>
-                <span className={styles.raidName}>{selectedRaidName}</span>
-                <span className={styles.itemLevel}>{raidToDisplay.itemLevel}</span>
+          <Swiper
+            key={activeTab}
+            modules={[Mousewheel, FreeMode]}
+            spaceBetween={8}
+            slidesPerView={"auto"}
+            freeMode={true}
+            mousewheel={{ sensitivity: 1.5 }}
+            className={styles.raidSelector}
+          >
+            {raidNamesForCurrentTab.map((name) => {
+              const raidForName = allRaids.find((raid) => raid.name === name);
+              return (
+                <SwiperSlide
+                  key={name}
+                  className={`${styles.raidSlide} ${selectedRaidName === name ? styles.selected : ""}`}
+                  onClick={() => handleRaidNameClick(name)}
+                >
+                  <div
+                    className={styles.raidImagePlaceholder}
+                    style={{
+                      backgroundImage: raidForName ? `url(/raid/${raidForName.image})` : "none",
+                    }}
+                  ></div>
+                  <span className={styles.raidNameInSlide}>{name}</span>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+
+          {raidToDisplay && (
+            <div className={styles.raidContentBox}>
+              <div className={styles.raidHeader}>
+                <div className={styles.raidHeaderLeft}>
+                  <div
+                    className={styles.raidImage}
+                    style={{
+                      backgroundImage: `url(/raid/${raidToDisplay.image})`,
+                    }}
+                  ></div>
+                  <div className={styles.raidInfo}>
+                    <span className={styles.raidName}>{selectedRaidName}</span>
+                    <span className={styles.itemLevel}>{raidToDisplay.itemLevel}</span>
+                  </div>
+                </div>
+                {availableDifficulties.length > 1 && (
+                  <div className={styles.difficultyButtons}>
+                    {availableDifficulties.map((diff) => {
+                      if (diff) {
+                        return (
+                          <button
+                            key={diff}
+                            className={`${styles.difficultyButton} ${selectedDifficulty === diff ? styles.active : ""}`}
+                            onClick={() => setSelectedDifficulty(diff)}
+                          >
+                            {diff}
+                          </button>
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+                )}
+              </div>
+              <div className={styles.tableContainer}>{renderRaidTable(raidToDisplay)}</div>
+              <div className={styles.notice}>
+                <div className={styles.noticeHeader}>
+                  <Image src="/reward/infoCircle.svg" alt="주의" width={14} height={14} />
+                  <span className={styles.noticeTitle}>Notice</span>
+                </div>
+                <div className={styles.noticeContent}>
+                  <span> • 3티어(에키드나 노말까지) 100% 귀속 골드입니다.</span>
+                  <span> • 4티어 싱글 모드는 50% 귀속 골드입니다.</span>
+                  <span> • 데이터 업데이트: 2025.12.13.</span>
+                </div>
               </div>
             </div>
-            {availableDifficulties.length > 1 && (
-              <div className={styles.difficultyButtons}>
-                {availableDifficulties.map(diff => {
-                  if (diff) {
-                    return (
-                      <button
-                        key={diff}
-                        className={`${styles.difficultyButton} ${selectedDifficulty === diff ? styles.active : ""}`}
-                        onClick={() => setSelectedDifficulty(diff)}
-                      >
-                        {diff}
-                      </button>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-            )}
-          </div>
-          <div className={styles.tableContainer}>{renderRaidTable(raidToDisplay)}</div>
-          <div className={styles.notice}>
-            <div className={styles.noticeHeader}>
-              <Image src="/reward/infoCircle.svg" alt="주의" width={14} height={14} />
-              <span className={styles.noticeTitle}>Notice</span>
-            </div>
-            <div className={styles.noticeContent}>
-              <span> • 3티어(에키드나 노말까지) 100% 귀속 골드입니다.</span>
-              <span> • 4티어 싱글 모드는 50% 귀속 골드입니다.</span>
-              <span> • 데이터 업데이트: 2025.12.13.</span>
-            </div>
-          </div>
+          )}
         </div>
       )}
     </div>
