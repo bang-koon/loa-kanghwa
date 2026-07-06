@@ -105,7 +105,7 @@ const getMaterialPriceData = async (): Promise<Record<string, number>> => {
   const data = await fetchMaterialPrice().then(res => res.items);
   let material: Record<string, number> = { 골드: 1 };
   for (const item of data) {
-    material[item.Name] = item.RecentPrice;
+    material[item.Name] = item.CurrentMinPrice || item.RecentPrice;
   }
 
   material = normalizePrices(material);
