@@ -81,14 +81,16 @@ export default function RootLayout({
         ></script>
       </head>
       <body>
-        <ViewProvider>
-          <Header />
-          <GoogleTagManager gtmId={`${process.env.GA}`} />
-          <GoogleAnalytics gaId={`${process.env.GT}`} />
-          {children}
-          <SpeedInsights />
-          <Footer currentYear={currentYear} />
-        </ViewProvider>
+        <div className="layout-wrapper">
+          <ViewProvider>
+            <Header />
+            <GoogleTagManager gtmId={`${process.env.GA}`} />
+            <GoogleAnalytics gaId={`${process.env.GT}`} />
+            {children}
+            <SpeedInsights />
+            <Footer currentYear={currentYear} />
+          </ViewProvider>
+        </div>
       </body>
     </html>
   );
