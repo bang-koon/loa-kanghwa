@@ -4,18 +4,10 @@ body {
   width: 100%;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 .layout-wrapper {
   display: flex;
   flex-direction: column;
-  flex: 1;
   min-height: 100vh;
-  order: -1; /* 애드센스가 body에 삽입하는 광고보다 항상 먼저 배치 */
 }
 
 * {
