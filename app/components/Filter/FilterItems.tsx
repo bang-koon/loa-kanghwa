@@ -15,86 +15,88 @@ const FilterItems = () => {
             onClick={() => toggleSelected("weapon")}
             className={styles.icon}
           />
-          <label htmlFor="weapon" className={styles.label} onClick={() => toggleSelected("weapon")}>
+          <label className={styles.label} onClick={() => toggleSelected("weapon")}>
             무기
           </label>
         </div>
-        <div className={styles.filterItem}>
-          <img
-            src={selected.armor ? "/button/clicked.svg" : "/button/default.svg"}
-            alt="방어구"
-            onClick={() => toggleSelected("armor")}
-            className={styles.icon}
-          />
-          <label htmlFor="armor" className={styles.label} onClick={() => toggleSelected("armor")}>
-            방어구
-          </label>
-        </div>
-        <div className={styles.radioContainer}>
-          <img
-            src={selected.onePart ? "/button/clicked.svg" : "/button/default.svg"}
-            alt="한 부위"
-            className={`${styles.icon} ${!selected.armor && styles.disabled}`}
-            onClick={() => selected.armor && toggleSelected("onePart")}
-          />
-          <label htmlFor="onePart" className={`${styles.radioLabel} ${!selected.armor && styles.disabled}`}>
-            <input
-              type="radio"
-              id="onePart"
-              name="armorParts"
-              className={styles.radioInput}
-              checked={selected.onePart}
-              onChange={() => selected.armor && toggleSelected("onePart")}
-              disabled={!selected.armor}
+        <div className={styles.armorGroup}>
+          <div className={styles.filterItem}>
+            <img
+              src={selected.armor ? "/button/clicked.svg" : "/button/default.svg"}
+              alt="방어구"
+              onClick={() => toggleSelected("armor")}
+              className={styles.icon}
             />
-            <span>한 부위</span>
-          </label>
-        </div>
-        <div className={styles.radioContainer}>
-          <img
-            src={selected.fiveParts ? "/button/clicked.svg" : "/button/default.svg"}
-            className={`${styles.icon} ${!selected.armor && styles.disabled}`}
-            alt="다섯 부위"
-            onClick={() => selected.armor && toggleSelected("fiveParts")}
-          />
-          <label htmlFor="fiveParts" className={`${styles.radioLabel} ${!selected.armor && styles.disabled}`}>
-            <input
-              type="radio"
-              id="fiveParts"
-              name="armorParts"
-              className={styles.radioInput}
-              checked={selected.fiveParts}
-              onChange={() => selected.armor && toggleSelected("fiveParts")}
-              disabled={!selected.armor}
-            />
-            다섯 부위
-          </label>
+            <label className={styles.label} onClick={() => toggleSelected("armor")}>
+              방어구
+            </label>
+          </div>
+          <div className={styles.armorSubOptions}>
+            <div className={styles.radioContainer}>
+              <img
+                src={selected.onePart ? "/button/clicked.svg" : "/button/default.svg"}
+                alt="한 부위"
+                className={`${styles.icon} ${!selected.armor && styles.disabled}`}
+                onClick={() => selected.armor && toggleSelected("onePart")}
+              />
+              <label className={`${styles.radioLabel} ${!selected.armor && styles.disabled}`}>
+                <input
+                  type="radio"
+                  name="armorParts"
+                  className={styles.radioInput}
+                  checked={selected.onePart}
+                  onChange={() => selected.armor && toggleSelected("onePart")}
+                  disabled={!selected.armor}
+                />
+                <span>한 부위</span>
+              </label>
+            </div>
+            <div className={styles.radioContainer}>
+              <img
+                src={selected.fiveParts ? "/button/clicked.svg" : "/button/default.svg"}
+                className={`${styles.icon} ${!selected.armor && styles.disabled}`}
+                alt="다섯 부위"
+                onClick={() => selected.armor && toggleSelected("fiveParts")}
+              />
+              <label className={`${styles.radioLabel} ${!selected.armor && styles.disabled}`}>
+                <input
+                  type="radio"
+                  name="armorParts"
+                  className={styles.radioInput}
+                  checked={selected.fiveParts}
+                  onChange={() => selected.armor && toggleSelected("fiveParts")}
+                  disabled={!selected.armor}
+                />
+                다섯 부위
+              </label>
+            </div>
+          </div>
         </div>
       </div>
       <div className={styles.filterGroup}>
         <h2 className={styles.filterTitle}>등급</h2>
-        <div className={styles.filterItem}>
+        {/* <div className={styles.filterItem}>
           <img
             src={selected.tier3_1 ? "/button/clicked.svg" : "/button/default.svg"}
-            alt="3티어 1~10"
+            alt="3T 1~10"
             onClick={() => toggleSelected("tier3_1")}
             className={styles.icon}
           />
-          <label htmlFor="3_1" className={styles.label} onClick={() => toggleSelected("tier3_1")}>
+          <label className={styles.label} onClick={() => toggleSelected("tier3_1")}>
             3T 1~10
           </label>
         </div>
         <div className={styles.filterItem}>
           <img
             src={selected.tier3_2 ? "/button/clicked.svg" : "/button/default.svg"}
-            alt="3티어 11~20"
+            alt="3T 11~20"
             onClick={() => toggleSelected("tier3_2")}
             className={styles.icon}
           />
-          <label htmlFor="3_2" className={styles.label} onClick={() => toggleSelected("tier3_2")}>
+          <label className={styles.label} onClick={() => toggleSelected("tier3_2")}>
             3T 11~20
           </label>
-        </div>
+        </div> */}
         <div className={styles.filterItem}>
           <img
             src={selected.tier4_1 ? "/button/clicked.svg" : "/button/default.svg"}
@@ -102,7 +104,7 @@ const FilterItems = () => {
             onClick={() => toggleSelected("tier4_1")}
             className={styles.icon}
           />
-          <label htmlFor="4_1" className={styles.label} onClick={() => toggleSelected("tier4_1")}>
+          <label className={styles.label} onClick={() => toggleSelected("tier4_1")}>
             4T 1~10
           </label>
         </div>
@@ -113,7 +115,7 @@ const FilterItems = () => {
             onClick={() => toggleSelected("tier4_2")}
             className={styles.icon}
           />
-          <label htmlFor="4_2" className={styles.label} onClick={() => toggleSelected("tier4_2")}>
+          <label className={styles.label} onClick={() => toggleSelected("tier4_2")}>
             4T 11~20
           </label>
         </div>
@@ -124,46 +126,21 @@ const FilterItems = () => {
             onClick={() => toggleSelected("tier4_3")}
             className={styles.icon}
           />
-          <label htmlFor="4_3" className={styles.label} onClick={() => toggleSelected("tier4_3")}>
+          <label className={styles.label} onClick={() => toggleSelected("tier4_3")}>
             4T 21~30
           </label>
         </div>
         <div className={styles.filterItem}>
           <img
             src={selected.tier4_4 ? "/button/clicked.svg" : "/button/default.svg"}
-            alt="4T 21~30"
+            alt="4T 31~40"
             onClick={() => toggleSelected("tier4_4")}
             className={styles.icon}
           />
-          <label htmlFor="4_4" className={styles.label} onClick={() => toggleSelected("tier4_4")}>
+          <label className={styles.label} onClick={() => toggleSelected("tier4_4")}>
             4T 31~40
           </label>
         </div>
-      </div>
-      <div className={styles.filterGroup}>
-        {/* <h2 className={styles.filterTitle}>기타</h2>
-        <div className={styles.filterItem}>
-          <img
-            src={selected.mokoko ? "/button/clicked.svg" : "/button/default.svg"}
-            alt="모코코 챌린지"
-            onClick={() => toggleSelected("mokoko")}
-            className={styles.icon}
-          />
-          <label htmlFor="mokoko" className={styles.label} onClick={() => toggleSelected("mokoko")}>
-            모챌익
-          </label>
-        </div> */}
-        {/* <div className={styles.filterItem}>
-          <img
-            src={selected.boundBook ? "/button/clicked.svg" : "/button/default.svg"}
-            alt="귀속책"
-            onClick={() => toggleSelected("boundBook")}
-            className={styles.icon}
-          />
-          <label htmlFor="boundBook" className={styles.label} onClick={() => toggleSelected("boundBook")}>
-            귀속 책
-          </label>
-        </div> */}
       </div>
     </>
   );

@@ -2,10 +2,11 @@
 
 import useFilterStore from "../../lib/store";
 
-import React, { useState, MouseEvent } from "react";
+import React, { useState } from "react";
 import styles from "./RefineSelector.module.scss";
 import { tierInfo } from "@/app/lib/refine/data";
 import CustomSelect from "./CustomSelect";
+import FilterItems from "../Filter/FilterItems";
 
 const equipmentParts = ["투구", "견갑", "상의", "하의", "장갑", "무기"];
 
@@ -21,10 +22,9 @@ interface RefineSelectorProps {
   setTier: React.Dispatch<React.SetStateAction<"T3" | "T4">>;
   subTier: string;
   setSubTier: React.Dispatch<React.SetStateAction<string>>;
-  toggleFilter: () => void;
 }
 
-const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSubTier, toggleFilter }: RefineSelectorProps) => {
+const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSubTier }: RefineSelectorProps) => {
   const { selected } = useFilterStore();
   const hasEquipment = selected.weapon || selected.armor;
   const hasGrade =
@@ -36,6 +36,7 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
   const [dragMode, setDragMode] = useState<"add" | "subtract" | null>(null);
   const [startCell, setStartCell] = useState<Cell | null>(null);
   const [endCell, setEndCell] = useState<Cell | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleTierClick = (newTier: "T3" | "T4") => {
     setTier(newTier);
@@ -158,11 +159,6 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
           </div>
         )}
       </div>
-      <div className={styles.buttonContainer}>
-        <button className={`${styles.advancedRefineButton} ${isFilterActive ? styles.active : ""}`} onClick={toggleFilter}>
-          상급 재련 / 모챌익
-        </button>
-      </div>
       <div className={styles.gridContainer}>
         <div className={styles.grid} style={gridStyles}>
           <div className={styles.partCell}></div>
@@ -186,8 +182,23 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
           ))}
         </div>
       </div>
+      <div className={styles.advancedRefineSection}>
+        <button
+          className={`${styles.advancedRefineToggle} ${isFilterActive ? styles.active : ""} ${isFilterOpen ? styles.open : ""}`}
+          onClick={() => setIsFilterOpen(prev => !prev)}
+        >
+          <span>상급 재련</span>
+          <span className={`${styles.toggleArrow} ${isFilterOpen ? styles.open : ""}`}>▾</span>
+        </button>
+        <div className={`${styles.advancedRefineContentWrapper} ${isFilterOpen ? styles.open : ""}`}>
+          <div className={styles.advancedRefineContent}>
+            <FilterItems />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default RefineSelector;
+
