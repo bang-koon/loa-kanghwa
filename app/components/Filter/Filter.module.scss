@@ -1,40 +1,61 @@
+// ── 인라인 배치 (RefineSelector 하단에 통합) ──
 .filterContainer {
-  position: absolute;
-  left: 0;
-  width: 200px;
-  padding: 20px;
-  margin-left: 20px;
-  @media (max-width: 1015px) {
-    display: none;
-  }
+  width: 100%;
+  padding: 12px 0 4px;
 }
 
 .mainFilterTitle {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  display: none; // 접이식 버튼이 대신하므로 숨김
 }
 
 .filterGroup {
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 .filterTitle {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
+  color: #888;
 }
 
 .filterItem {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  margin-bottom: 10px;
-  color: #666;
-  font-size: 14px;
+  min-width: 70px;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 15px;
+
+  @media (max-width: 500px) {
+    display: flex;
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+.armorGroup {
+  display: block;
+  width: 100%;
+}
+
+.armorSubOptions {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 10px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+  border-left: 2px solid #ddd;
+  margin-left: 7px;
+
+  .radioContainer {
+    margin-left: 0;
+  }
 }
 
 .label {
-  margin-left: 7px;
+  margin-left: 6px;
   font-size: 14px;
   cursor: pointer;
 }
@@ -45,6 +66,7 @@
   cursor: pointer;
 }
 
+// ── 모바일 모달 (FilterMobile에서 사용) ──
 .filterBackground {
   position: fixed;
   top: 0;
@@ -57,6 +79,7 @@
   align-items: center;
   z-index: 1000;
 }
+
 .filterModal {
   position: relative;
   width: 220px;
@@ -70,6 +93,7 @@
   z-index: 1000;
 
   .mainFilterTitle {
+    display: block;
     font-size: 20px;
     margin-bottom: 15px;
   }
@@ -84,6 +108,8 @@
   }
 
   .filterItem {
+    display: flex;
+    margin-right: 0;
     margin-bottom: 15px;
     font-size: 16px;
   }
@@ -144,11 +170,13 @@
 }
 
 .radioContainer {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  margin-bottom: 10px;
+  min-width: 60px;
+  margin-right: 12px;
+  margin-bottom: 8px;
   margin-left: 21px;
-  color: #666;
+  color: #555;
   font-size: 14px;
 }
 
@@ -157,7 +185,7 @@
 }
 
 .radioLabel {
-  margin-left: 7px;
+  margin-left: 6px;
   font-size: 14px;
   cursor: pointer;
 }
