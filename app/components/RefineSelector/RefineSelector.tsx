@@ -8,7 +8,7 @@ import { tierInfo } from "@/app/lib/refine/data";
 import CustomSelect from "./CustomSelect";
 import FilterItems from "../Filter/FilterItems";
 
-const equipmentParts = ["투구", "견갑", "상의", "하의", "장갑", "무기"];
+// equipmentParts moved inside component
 
 interface Cell {
   part: string;
@@ -25,6 +25,7 @@ interface RefineSelectorProps {
 }
 
 const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSubTier }: RefineSelectorProps) => {
+  const equipmentParts = subTier === "t4_gauntlet" ? ["완갑"] : ["투구", "견갑", "상의", "하의", "장갑", "무기"];
   const { selected } = useFilterStore();
   const hasEquipment = selected.weapon || selected.armor;
   const hasGrade =
@@ -182,6 +183,19 @@ const RefineSelector = ({ selection, setSelection, tier, setTier, subTier, setSu
           ))}
         </div>
       </div>
+      {subTier === "t4_gauntlet" && (
+        <div className={styles.notice}>
+          <div className={styles.noticeHeader}>
+            <img src="/reward/infoCircle.svg" alt="주의" width={14} height={14} />
+            <span className={styles.noticeTitle}>완갑 해방 정보</span>
+          </div>
+          <div className={styles.noticeContent}>
+            <span> • 영웅 (10단계): 사령의 잔영 × 200 또는 죽음의 손 × 100</span>
+            <span> • 전설 (15단계): 사령의 잔영 × 240 또는 죽음의 손 × 120</span>
+            <span> • 유물 (20단계): 죽음의 손 × 150</span>
+          </div>
+        </div>
+      )}
       <div className={styles.advancedRefineSection}>
         <button
           className={`${styles.advancedRefineToggle} ${isFilterActive ? styles.active : ""} ${isFilterOpen ? styles.open : ""}`}

@@ -35,9 +35,11 @@ export default function totalCalculator(
   const result: {
     weapon: MaterialCost;
     armor: MaterialCost;
+    gauntlet: MaterialCost;
   } = {
     weapon: { cost: 0, materials: {} },
     armor: { cost: 0, materials: {} },
+    gauntlet: { cost: 0, materials: {} },
   };
 
   const memo: Record<string, { cost: number; materials: Record<string, number> }> = {};
@@ -45,8 +47,10 @@ export default function totalCalculator(
   for (const part in selection) {
     const grades = selection[part];
     const ranges = parseRanges(grades);
-    const itemType = part === "무기" ? "weapon" : "armor";
-    const category = itemType as "weapon" | "armor";
+    let itemType = "armor";
+    if (part === "무기") itemType = "weapon";
+    if (part === "완갑") itemType = "gauntlet";
+    const category = itemType as "weapon" | "armor" | "gauntlet";
 
     for (const range of ranges) {
       const [startGrade, endGrade] = range;

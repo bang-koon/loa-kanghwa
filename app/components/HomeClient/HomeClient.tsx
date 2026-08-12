@@ -8,8 +8,7 @@ import Board from "../Board/Board";
 import styles from "./HomeClient.module.scss";
 import { tierInfo } from "@/app/lib/refine/data";
 import { zeroBoundBookPrices } from "@/app/lib/utils";
-
-import { AdvancedRefine } from "@/app/lib/types";
+import { AdvancedRefine, CalculationResult } from "@/app/lib/types";
 
 import useFilterStore from "../../lib/store";
 
@@ -62,9 +61,10 @@ export default function HomeClient({
     return isBoundBook ? zeroBoundBookPrices(materials) : materials;
   }, [materials, isBoundBook]);
 
-  const [calculationResult, setCalculationResult] = useState({
+  const [calculationResult, setCalculationResult] = useState<CalculationResult>({
     weapon: { cost: 0, materials: {} },
     armor: { cost: 0, materials: {} },
+    gauntlet: { cost: 0, materials: {} },
   });
 
   useEffect(() => {
@@ -75,6 +75,7 @@ export default function HomeClient({
       setCalculationResult({
         weapon: { cost: 0, materials: {} },
         armor: { cost: 0, materials: {} },
+        gauntlet: { cost: 0, materials: {} },
       });
     }
   }, [refineSelection, subTier, effectivePriceMap, supportMode]);
