@@ -2143,6 +2143,35 @@ export const refineData: Record<
       },
     },
   },
+  gauntlet: {
+    t4_gauntlet: {
+      1: { baseProb: 0.15, amount: { 운명의파괴석결정: 600, 운명의수호석결정: 1800, 위운돌: 30, 상급아비도스: 22, 운명파편: 14500, 골드: 5200 }, breath: { ...t4ArmorBreathTable[0.1] } },
+      2: { baseProb: 0.15, amount: { 운명의파괴석결정: 620, 운명의수호석결정: 1860, 위운돌: 31, 상급아비도스: 23, 운명파편: 15000, 골드: 5400 }, breath: { ...t4ArmorBreathTable[0.1] } },
+      3: { baseProb: 0.15, amount: { 운명의파괴석결정: 640, 운명의수호석결정: 1925, 위운돌: 32, 상급아비도스: 24, 운명파편: 15630, 골드: 5610 }, breath: { ...t4ArmorBreathTable[0.1] } },
+      4: { baseProb: 0.15, amount: { 운명의파괴석결정: 660, 운명의수호석결정: 1990, 위운돌: 33, 상급아비도스: 25, 운명파편: 16280, 골드: 5830 }, breath: { ...t4ArmorBreathTable[0.1] } },
+      5: { baseProb: 0.15, amount: { 운명의파괴석결정: 680, 운명의수호석결정: 2055, 위운돌: 34, 상급아비도스: 26, 운명파편: 16960, 골드: 6060 }, breath: { ...t4ArmorBreathTable[0.1] } },
+      6: { baseProb: 0.10, amount: { 운명의파괴석결정: 700, 운명의수호석결정: 2125, 위운돌: 36, 상급아비도스: 27, 운명파편: 17670, 골드: 6300 }, breath: { ...t4ArmorBreathTable[0.1] } },
+      7: { baseProb: 0.10, amount: { 운명의파괴석결정: 720, 운명의수호석결정: 2195, 위운돌: 38, 상급아비도스: 28, 운명파편: 18410, 골드: 6550 }, breath: { ...t4ArmorBreathTable[0.1] } },
+      8: { baseProb: 0.10, amount: { 운명의파괴석결정: 745, 운명의수호석결정: 2270, 위운돌: 40, 상급아비도스: 29, 운명파편: 19180, 골드: 6810 }, breath: { ...t4ArmorBreathTable[0.1] } },
+      9: { baseProb: 0.10, amount: { 운명의파괴석결정: 770, 운명의수호석결정: 2345, 위운돌: 42, 상급아비도스: 30, 운명파편: 19980, 골드: 7080 }, breath: { ...t4ArmorBreathTable[0.1] } },
+      10: { baseProb: 0.10, amount: { 운명의파괴석결정: 795, 운명의수호석결정: 2425, 위운돌: 44, 상급아비도스: 31, 운명파편: 20810, 골드: 7360 }, breath: { ...t4ArmorBreathTable[0.1] } },
+      11: { baseProb: 0.05, amount: { 운명의파괴석결정: 820, 운명의수호석결정: 2505, 위운돌: 46, 상급아비도스: 32, 운명파편: 21680, 골드: 7650 }, breath: { ...t4ArmorBreathTable[0.05] } },
+      12: { baseProb: 0.05, amount: { 운명의파괴석결정: 845, 운명의수호석결정: 2590, 위운돌: 48, 상급아비도스: 33, 운명파편: 22590, 골드: 7950 }, breath: { ...t4ArmorBreathTable[0.05] } },
+      13: { baseProb: 0.05, amount: { 운명의파괴석결정: 870, 운명의수호석결정: 2680, 위운돌: 50, 상급아비도스: 34, 운명파편: 23530, 골드: 8260 }, breath: { ...t4ArmorBreathTable[0.05] } },
+      14: { baseProb: 0.05, amount: { 운명의파괴석결정: 900, 운명의수호석결정: 2770, 위운돌: 53, 상급아비도스: 36, 운명파편: 24510, 골드: 8590 }, breath: { ...t4ArmorBreathTable[0.05] } },
+      15: { baseProb: 0.05, amount: { 운명의파괴석결정: 930, 운명의수호석결정: 2865, 위운돌: 56, 상급아비도스: 38, 운명파편: 25530, 골드: 8930 }, breath: { ...t4ArmorBreathTable[0.05] } },
+      16: { baseProb: 0.03, amount: { 운명의파괴석결정: 960, 운명의수호석결정: 2965, 위운돌: 59, 상급아비도스: 40, 운명파편: 26600, 골드: 9280 }, breath: { ...t4ArmorBreathTable[0.03] } },
+      17: { baseProb: 0.03, amount: { 운명의파괴석결정: 990, 운명의수호석결정: 3065, 위운돌: 62, 상급아비도스: 42, 운명파편: 27710, 골드: 9650 }, breath: { ...t4ArmorBreathTable[0.03] } },
+      18: { baseProb: 0.03, amount: { 운명의파괴석결정: 1020, 운명의수호석결정: 3170, 위운돌: 65, 상급아비도스: 44, 운명파편: 28870, 골드: 10030 }, breath: { ...t4ArmorBreathTable[0.03] } },
+      19: { baseProb: 0.03, amount: { 운명의파괴석결정: 1055, 운명의수호석결정: 3280, 위운돌: 68, 상급아비도스: 46, 운명파편: 30080, 골드: 10430 }, breath: { ...t4ArmorBreathTable[0.03] } },
+      20: { baseProb: 0.03, amount: { 운명의파괴석결정: 1090, 운명의수호석결정: 3390, 위운돌: 72, 상급아비도스: 48, 운명파편: 31340, 골드: 10840 }, breath: { ...t4ArmorBreathTable[0.03] } },
+      21: { baseProb: 0.015, amount: { 운명의파괴석결정: 1125, 운명의수호석결정: 3505, 위운돌: 76, 상급아비도스: 50, 운명파편: 32650, 골드: 11270 }, breath: { ...t4ArmorBreathTable[0.015] } },
+      22: { baseProb: 0.015, amount: { 운명의파괴석결정: 1160, 운명의수호석결정: 3625, 위운돌: 80, 상급아비도스: 53, 운명파편: 34020, 골드: 11720 }, breath: { ...t4ArmorBreathTable[0.015] } },
+      23: { baseProb: 0.015, amount: { 운명의파괴석결정: 1200, 운명의수호석결정: 3750, 위운돌: 84, 상급아비도스: 56, 운명파편: 35440, 골드: 12180 }, breath: { ...t4ArmorBreathTable[0.015] } },
+      24: { baseProb: 0.015, amount: { 운명의파괴석결정: 1240, 운명의수호석결정: 3880, 위운돌: 89, 상급아비도스: 59, 운명파편: 36920, 골드: 12660 }, breath: { ...t4ArmorBreathTable[0.015] } },
+      25: { baseProb: 0.015, amount: { 운명의파괴석결정: 1280, 운명의수호석결정: 4015, 위운돌: 94, 상급아비도스: 62, 운명파편: 38470, 골드: 13160 }, breath: { ...t4ArmorBreathTable[0.015] } },
+    },
+  },
 };
 
 export const tierInfo = {
@@ -2174,6 +2203,11 @@ export const tierInfo = {
       name: "4티어 상위 고대",
       grades: Object.keys(refineData.weapon.t4_1730).map(Number),
     },
+    {
+      id: "t4_gauntlet",
+      name: "4티어 완갑",
+      grades: Object.keys(refineData.gauntlet.t4_gauntlet).map(Number),
+    },
   ],
 };
 
@@ -2184,7 +2218,11 @@ export function getTargetList(
   if (!itemType || !itemGrade) {
     return [];
   }
-  return Object.keys(refineData[itemType][itemGrade]).map(x => +x);
+  const itemTypeData = refineData[itemType];
+  if (!itemTypeData) return [];
+  const itemGradeData = itemTypeData[itemGrade];
+  if (!itemGradeData) return [];
+  return Object.keys(itemGradeData).map(x => +x);
 }
 
 export function getRefineTable(
@@ -2197,7 +2235,12 @@ export function getRefineTable(
   if (!itemType || !itemGrade || !refineTarget) {
     return undefined;
   }
-  const data = refineData[itemType][itemGrade][refineTarget];
+  const itemTypeData = refineData[itemType];
+  if (!itemTypeData) return undefined;
+  const itemGradeData = itemTypeData[itemGrade];
+  if (!itemGradeData) return undefined;
+  const data = itemGradeData[refineTarget];
+  if (!data) return undefined;
 
   let additionalProb = 0;
   let costReduction = 0;

@@ -29,7 +29,7 @@ export default async function Home() {
         <h2>ㅤ공지</h2>
         <p>ㅤ • 모든 경우의 수(숨결, 책 포함) 비교 후 최적 재련의 평균값을 도출합니다.</p>
         <p>ㅤ • DP 알고리즘으로 최적화되며 재료의 가격은 30분마다 갱신됩니다.</p>
-        <p>ㅤ • 구간별 재련 비용에 특화됐기에 단계별 강화 방법을 보고 싶다면 icepeng 을 추천합니다!</p>
+        <p>ㅤ • 구간별 재련 비용에 특화됐기에 단계별 상세한 강화 방법을 보고 싶다면 icepeng 을 추천합니다!</p>
         {/* <Link href="/notices" className={styles.moreLink}>
           더 많은 공지 보기
         </Link> */}
@@ -38,22 +38,13 @@ export default async function Home() {
       <section className={styles.infoSection}>
         <h2>ㅤ최근 패치내역</h2>
         <p>
+          <span className={styles.patchDate}>ㅤ • 2026년 08월 12일</span> 완갑 업데이트
+        </p>
+        <p>
           <span className={styles.patchDate}>ㅤ • 2026년 06월 29일</span> 상재 완화 패치 적용
         </p>
         <p>
           <span className={styles.patchDate}>ㅤ • 2026년 04월 5일</span> 4티어 상위 고대 데이터 추가
-        </p>
-        <p>
-          <span className={styles.patchDate}>ㅤ • 2026년 03월 25일</span> 상재 데이터 수정
-        </p>
-        <p>
-          <span className={styles.patchDate}>ㅤ • 2026년 03월 18일</span> 지평의 성당 추가 및 레이드 보상 정리
-        </p>
-        <p>
-          <span className={styles.patchDate}>ㅤ • 2025년 12월 13일</span> 레이드 보상 업데이트
-        </p>
-        <p>
-          <span className={styles.patchDate}>ㅤ • 2025년 12월 10일</span> 모바일 UI 개선, 시세 갱신 주기 단축
         </p>
         <Link href="/patch-notes" className={styles.moreLink}>
           더 많은 패치내역 보기

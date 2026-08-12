@@ -23,4 +23,5 @@ export interface AdvancedRefine {
 export interface CalculationResult {
   weapon: MaterialCost;
   armor: MaterialCost;
+  gauntlet?: MaterialCost;
 }

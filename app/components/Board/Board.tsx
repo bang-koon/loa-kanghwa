@@ -35,12 +35,18 @@ const Board = ({
 
   useEffect(() => {
     // 1. 일반 재련 데이터 (필터링되지 않음)
-    const { weapon, armor } = calculationResult;
-    let totalCost = weapon.cost + armor.cost;
+    const { weapon, armor, gauntlet } = calculationResult;
+    let totalCost = weapon.cost + armor.cost + (gauntlet?.cost || 0);
     const totalMaterials: Record<string, number> = { ...weapon.materials };
 
     for (const [material, quantity] of Object.entries(armor.materials)) {
       totalMaterials[material] = (totalMaterials[material] || 0) + quantity;
+    }
+    
+    if (gauntlet) {
+      for (const [material, quantity] of Object.entries(gauntlet.materials)) {
+        totalMaterials[material] = (totalMaterials[material] || 0) + quantity;
+      }
     }
 
     // 2. 상급 재련 데이터 (필터링됨)

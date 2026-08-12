@@ -12,6 +12,9 @@ export default function PatchNotesPage() {
     <PageLayout title="패치내역">
       <>
         <p>
+          <span className={styles.patchDate}>ㅤ • 2026년 08월 12일</span> 완갑 업데이트
+        </p>
+        <p>
           <span className={styles.patchDate}>ㅤ • 2026년 06월 29일</span> 상재 완화 패치 적용
         </p>
         <p>
