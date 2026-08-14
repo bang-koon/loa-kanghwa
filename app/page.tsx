@@ -7,7 +7,7 @@ export default async function Home() {
       <section className={styles.heroSection}>
         <div className={styles.heroTextWrapper}>
           <h1 className={styles.mainTitle}>loa-koon</h1>
-          <p className={styles.subTitle}>로스트아크 재련, 상재 계산기 & 레이드 보상 정보</p>
+          <p className={styles.subTitle}>로스트아크 재련, 상재, 완갑 재련 효율 및 레이드 보상 정보</p>
         </div>
         <section className={styles.selectionButtonsSection}>
           <div className={styles.selectionButtons}>
